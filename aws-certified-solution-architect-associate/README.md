@@ -3168,12 +3168,14 @@ the installation process?</p>
 <ul>
 <li>Similar to S3 bucket policies</li>
 <li>Cross Account Access - create queue account policy</li>
+<li>Publish S3 Event Notifications to SQS queue - create queue account policy with source bucket condition (json)</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<pre class=" language-javascript"><code class="prism  language-javascript"><span class="token punctuation">{</span>
+<pre class=" language-javascript"><code class="prism  language-javascript"><span class="token comment">// Cross Account Access</span>
+<span class="token punctuation">{</span>
    <span class="token string">"Version"</span><span class="token punctuation">:</span> <span class="token string">"2012-10-17"</span><span class="token punctuation">,</span>
    <span class="token string">"Id"</span><span class="token punctuation">:</span> <span class="token string">"Queue1_Policy_UUID"</span><span class="token punctuation">,</span>
    <span class="token string">"Statement"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
@@ -3189,10 +3191,9 @@ the installation process?</p>
       <span class="token string">"Resource"</span><span class="token punctuation">:</span> <span class="token string">"arn:aws:sqs:us-east-2:123456789012:queue1"</span>
    <span class="token punctuation">}</span><span class="token punctuation">]</span>
 <span class="token punctuation">}</span>
-</code></pre>
-<pre><code>  	- Publish S3 Event Notifications to SQS queue - create queue account policy with source bucket condition (json)
-</code></pre>
-<pre class=" language-javascript"><code class="prism  language-javascript"><span class="token punctuation">{</span>
+
+<span class="token comment">// Publish S3 Event Notifications to SQS queue</span>
+<span class="token punctuation">{</span>
    <span class="token string">"Version"</span><span class="token punctuation">:</span> <span class="token string">"2012-10-17"</span><span class="token punctuation">,</span>
    <span class="token string">"Statement"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
       <span class="token string">"Effect"</span><span class="token punctuation">:</span> <span class="token string">"Allow"</span><span class="token punctuation">,</span>
@@ -3207,6 +3208,7 @@ the installation process?</p>
 <span class="token punctuation">}</span>
 </code></pre>
 <ul>
+<li>Test</li>
 <li><img src="https://funnelgarden.com/wp-content/uploads/2020/01/AWS-SQS-Simple-Queue-Service-1024x379.png" alt="enter image description here" width="800" height="300"></li>
 </ul>
 </li>
