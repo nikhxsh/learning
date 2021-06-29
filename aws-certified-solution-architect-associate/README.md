@@ -3167,30 +3167,32 @@ the installation process?</p>
 <li><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-basic-examples-of-sqs-policies.html">Access policies</a>
 <ul>
 <li>Similar to S3 bucket policies</li>
-<li>Cross Account Access - create queue account policy<pre class=" language-json"><code class="prism  language-json"></code></pre>
-</li>
+<li>Cross Account Access - create queue account policy</li>
 </ul>
 </li>
 </ul>
-{<br>
-“Version”: “2012-10-17”,<br>
-“Id”: “Queue1_Policy_UUID”,<br>
-“Statement”: [{<br>
-“Sid”:“Queue1_AllActions”,<br>
-“Effect”: “Allow”,<br>
-“Principal”: {<br>
-“AWS”: [<br>
-“arn:aws:iam::111122223333:role/role1”,<br>
-“arn:aws:iam::111122223333:user/username1”<br>
-]<br>
-},<br>
-“Action”: “sqs:*”,<br>
-“Resource”: “arn:aws:sqs:us-east-2:123456789012:queue1”<br>
-}]<br>
-}<pre><code>
-   - Publish S3 Event Notifications to SQS queue - create queue account policy with source bucket condition (json)
+</li>
+</ul>
+<pre class=" language-javascript"><code class="prism  language-javascript"><span class="token punctuation">{</span>
+   <span class="token string">"Version"</span><span class="token punctuation">:</span> <span class="token string">"2012-10-17"</span><span class="token punctuation">,</span>
+   <span class="token string">"Id"</span><span class="token punctuation">:</span> <span class="token string">"Queue1_Policy_UUID"</span><span class="token punctuation">,</span>
+   <span class="token string">"Statement"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+      <span class="token string">"Sid"</span><span class="token punctuation">:</span><span class="token string">"Queue1_AllActions"</span><span class="token punctuation">,</span>
+      <span class="token string">"Effect"</span><span class="token punctuation">:</span> <span class="token string">"Allow"</span><span class="token punctuation">,</span>
+      <span class="token string">"Principal"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+         <span class="token string">"AWS"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+            <span class="token string">"arn:aws:iam::111122223333:role/role1"</span><span class="token punctuation">,</span>
+            <span class="token string">"arn:aws:iam::111122223333:user/username1"</span>
+         <span class="token punctuation">]</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token string">"Action"</span><span class="token punctuation">:</span> <span class="token string">"sqs:*"</span><span class="token punctuation">,</span>
+      <span class="token string">"Resource"</span><span class="token punctuation">:</span> <span class="token string">"arn:aws:sqs:us-east-2:123456789012:queue1"</span>
+   <span class="token punctuation">}</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
 </code></pre>
-</li>
+<pre><code>  	- Publish S3 Event Notifications to SQS queue - create queue account policy with source bucket condition (json)
+</code></pre>
+<ul>
 <li><img src="https://funnelgarden.com/wp-content/uploads/2020/01/AWS-SQS-Simple-Queue-Service-1024x379.png" alt="enter image description here" width="800" height="300"></li>
 </ul>
 </li>
