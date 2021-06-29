@@ -3192,6 +3192,20 @@ the installation process?</p>
 </code></pre>
 <pre><code>  	- Publish S3 Event Notifications to SQS queue - create queue account policy with source bucket condition (json)
 </code></pre>
+<pre class=" language-javascript"><code class="prism  language-javascript"><span class="token punctuation">{</span>
+   <span class="token string">"Version"</span><span class="token punctuation">:</span> <span class="token string">"2012-10-17"</span><span class="token punctuation">,</span>
+   <span class="token string">"Statement"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+      <span class="token string">"Effect"</span><span class="token punctuation">:</span> <span class="token string">"Allow"</span><span class="token punctuation">,</span>
+      <span class="token string">"Principal"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string">"AWS"</span><span class="token punctuation">:</span> <span class="token string">"*"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token string">"Action"</span><span class="token punctuation">:</span> <span class="token string">"sqs:SendMessage"</span><span class="token punctuation">,</span>
+      <span class="token string">"Resource"</span><span class="token punctuation">:</span> <span class="token string">"arn:aws:sqs:us-east-2:123456789012:queue1"</span>
+      <span class="token string">"Condition"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	      <span class="token string">"ArnLike"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">"aws:SourceArn"</span><span class="token punctuation">:</span><span class="token string">"arn:aws:s3:*:*:bucket1"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+	      <span class="token string">"StringEquals"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">"aws:SourceAcount"</span><span class="token punctuation">:</span><span class="token string">"&lt;Bucket-Owner-Account-Id&gt;"</span> <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <ul>
 <li><img src="https://funnelgarden.com/wp-content/uploads/2020/01/AWS-SQS-Simple-Queue-Service-1024x379.png" alt="enter image description here" width="800" height="300"></li>
 </ul>
