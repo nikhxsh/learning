@@ -3167,7 +3167,11 @@ the installation process?</p>
 <li><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-basic-examples-of-sqs-policies.html">Access policies</a>
 <ul>
 <li>Similar to S3 bucket policies</li>
-<li>Cross Account Access - create queue account policy<br>
+<li>Cross Account Access - create queue account policy<pre class=" language-json"><code class="prism  language-json"></code></pre>
+</li>
+</ul>
+</li>
+</ul>
 {<br>
 “Version”: “2012-10-17”,<br>
 “Id”: “Queue1_Policy_UUID”,<br>
@@ -3183,11 +3187,9 @@ the installation process?</p>
 “Action”: “sqs:*”,<br>
 “Resource”: “arn:aws:sqs:us-east-2:123456789012:queue1”<br>
 }]<br>
-}</li>
-<li>Publish S3 Event Notifications to SQS queue - create queue account policy with source bucket condition (json)</li>
-</ul>
-</li>
-</ul>
+}<pre><code>
+   - Publish S3 Event Notifications to SQS queue - create queue account policy with source bucket condition (json)
+</code></pre>
 </li>
 <li><img src="https://funnelgarden.com/wp-content/uploads/2020/01/AWS-SQS-Simple-Queue-Service-1024x379.png" alt="enter image description here" width="800" height="300"></li>
 </ul>
