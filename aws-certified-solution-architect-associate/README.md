@@ -3104,7 +3104,7 @@ the installation process?</p>
 <li>
 <p>As application workload increases Synchronous communications become problematic, in that case its better to break monolith and decouple your applications and scale them independently, in such case Asynchronous communication model as mentioned below is good choice</p>
 <ul>
-<li>SQS - Queue model</li>
+<li>SQS - queue model</li>
 <li>SNS - pub/sub model</li>
 <li>Kinesis - real-time streaming model</li>
 </ul>
@@ -3194,10 +3194,12 @@ the installation process?</p>
 <span class="token comment">// Publish S3 Event Notifications to SQS queue</span>
 <span class="token punctuation">{</span>
    <span class="token string">"Version"</span><span class="token punctuation">:</span> <span class="token string">"2012-10-17"</span><span class="token punctuation">,</span>
+   <span class="token string">"Id"</span><span class="token punctuation">:</span> <span class="token string">"example-ID"</span><span class="token punctuation">,</span>
    <span class="token string">"Statement"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+	  <span class="token string">"Sid"</span><span class="token punctuation">:</span> <span class="token string">"example-statement-ID"</span><span class="token punctuation">,</span>
       <span class="token string">"Effect"</span><span class="token punctuation">:</span> <span class="token string">"Allow"</span><span class="token punctuation">,</span>
       <span class="token string">"Principal"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string">"AWS"</span><span class="token punctuation">:</span> <span class="token string">"*"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      <span class="token string">"Action"</span><span class="token punctuation">:</span> <span class="token string">"sqs:SendMessage"</span><span class="token punctuation">,</span>
+      <span class="token string">"Action"</span><span class="token punctuation">:</span> <span class="token string">"SQS:SendMessage"</span><span class="token punctuation">,</span>
       <span class="token string">"Resource"</span><span class="token punctuation">:</span> <span class="token string">"arn:aws:sqs:us-east-2:123456789012:queue1"</span>
       <span class="token string">"Condition"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
 	      <span class="token string">"ArnLike"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">"aws:SourceArn"</span><span class="token punctuation">:</span><span class="token string">"arn:aws:s3:*:*:bucket1"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
@@ -3207,7 +3209,47 @@ the installation process?</p>
 <span class="token punctuation">}</span>
 </code></pre>
 <ul>
-<li>Test</li>
+<li><strong>Message visibility timeout</strong>
+<ul>
+<li>Once message read by consumer it will invisible to other consumer (for 30 secs)</li>
+<li>That means the message has 30 secs to get processed</li>
+<li>Else it will be available after visibility timeout expired</li>
+<li>If message is not processed within visibility timeout, it will process twice</li>
+<li>Consumer can call the <em>ChangeMessageVisibility</em> API to get more time so it will be no visible soon</li>
+</ul>
+</li>
+<li><strong>Dead Letter Queue (DLQ)</strong>
+<ul>
+<li>We can set a threshold of how many times a message can go back to the queue</li>
+<li>After the <em>MaximumReceives</em> threshold is exceed, the message goes to into the DLQ</li>
+<li>Helpful for debugging</li>
+<li>Good to set retention period of 14+ days</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-temporary-queues.html#request-reply-messaging-pattern">Request Response Pattern (virtual queues)</a>
+<ul>
+<li>Temporary queues help you save development time and deployment costs when using common message patterns such as <em>request-response</em></li>
+<li>Most common use case for temporary queues is the <em>request-response</em> messaging pattern</li>
+<li>Requester creates a <em>temporary queue</em> for receiving each response message</li>
+<li>Temporary Queue Client lets you create and delete multiple temporary queues without making any Amazon SQS API calls</li>
+</ul>
+</li>
+<li><strong>Delay Queues</strong>
+<ul>
+<li>Delay message up to 15 mins</li>
+<li>Default is 0 secs</li>
+<li>Can set default at queue level</li>
+<li>Can override default on send by using <em>DelaySeconds</em> parameter in message</li>
+</ul>
+</li>
+<li><strong>FIFO</strong>
+<ul>
+<li>Ordering of message is preserved</li>
+<li>Limited throughput (300 msg/s without batching, 3000 msg/s with batching)</li>
+<li>Exactly-once send capability</li>
+<li>Message are processed in order by consumer</li>
+</ul>
+</li>
 <li><img src="https://funnelgarden.com/wp-content/uploads/2020/01/AWS-SQS-Simple-Queue-Service-1024x379.png" alt="enter image description here" width="800" height="300"></li>
 </ul>
 </li>
