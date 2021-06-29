@@ -2887,32 +2887,6 @@ the installation process?</p>
 <blockquote>
 <p>Create a Golden AMI that contains the dependencies and launch the EC2 instances from that. (Golden AMI are a standard in making sure save the state after the installation or pulling dependencies so that future instances can boot up from that AMI quickly)</p>
 </blockquote>
-<h2 id="aws-development">AWS Development</h2>
-<ul>
-<li><a href="https://docs.aws.amazon.com/cli/latest/reference/s3/">https://docs.aws.amazon.com/cli/latest/reference/s3/</a></li>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_managed-policies.html">https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_managed-policies.html</a></li>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_examples.html">https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_examples.html</a></li>
-<li><a href="https://cloud.google.com/storage-transfer/docs/using-iam-permissions-and-roles">https://cloud.google.com/storage-transfer/docs/using-iam-permissions-and-roles</a></li>
-<li><a href="https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/id_roles_create_for-user.html">https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/id_roles_create_for-user.html</a></li>
-<li><a href="https://console.aws.amazon.com/iam">https://console.aws.amazon.com/iam</a></li>
-</ul>
-<hr>
-<p>Q: My EC2 Instance does not have the permissions to perform an API call PutObject on S3. What should I do?</p>
-<blockquote>
-<p>I should ask an administrator to attach a Policy to the IAM Role on my EC2 Instance that authorises it to do the API call (IAM roles are the right way to provide credentials and permissions to an EC2 instance)</p>
-</blockquote>
-<p>Q: I have an on-premise personal server that I’d like to use to perform AWS API calls</p>
-<blockquote>
-<p>I should run <code>aws configure</code> and put my credentials there. Invalidate them when I’m done (Even better would be to create a user specifically for that one on-premise server)</p>
-</blockquote>
-<p>Q: I need my colleagues help to debug my code. When he runs the application on his machine, it’s working fine, whereas I get API authorisation exceptions. What should I do?</p>
-<blockquote>
-<p>Compare his IAM policy and my IAM policy in the policy simulator to understand the differences</p>
-</blockquote>
-<p>Q: To get the instance id of my EC2 machine from the EC2 machine, the best thing is to…</p>
-<blockquote>
-<p>Query the meta data at <a href="http://169.254.169.254/latest/meta-data">http://169.254.169.254/latest/meta-data</a></p>
-</blockquote>
 <h2 id="cloudfront--aws-global-accelerator">CloudFront &amp; AWS Global Accelerator</h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">CloudFront</a>
@@ -3115,5 +3089,134 @@ the installation process?</p>
 </code></pre>
 <blockquote>
 <p>Only allows the S3 bucket content to be accessed from your CloudFront distribution origin identity</p>
+</blockquote>
+<h2 id="decoupling-applications">Decoupling applications</h2>
+<ul>
+<li>
+<p>Deploying multiple applications will need to communicate with each other and there are two types of patterns generally used for communication</p>
+</li>
+<li>
+<p>Synchronous communications (Application to Application)</p>
+</li>
+<li>
+<p>Asynchronous OR Event based communications (Application&gt; Queue &gt; Application)</p>
+</li>
+<li>
+<p>As application workload increases Synchronous communications become problematic, in that case its better to break monolith and decouple your applications and scale them independently, in such case Asynchronous communication model as mentioned below is good choice</p>
+<ul>
+<li>SQS - Queue model</li>
+<li>SNS - pub/sub model</li>
+<li>Kinesis - real-time streaming model</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html">Amazon SQS</a></p>
+<ul>
+<li>Offers a secure, durable, and available hosted queue that lets you integrate and decouple distributed software systems and components</li>
+<li>Supports both standard and FIFO queues</li>
+<li><strong>Feature</strong>
+<ul>
+<li>Unlimited throughput, unlimited number of messages in queue</li>
+<li>Default retention of messages 4 days, max 14 days</li>
+<li>Low latency (&lt; 10ms)</li>
+<li>256kb per message sent</li>
+<li>Can have duplicate messages (at least once delivery)</li>
+<li>Can have out of order messages (best effort ordering)</li>
+</ul>
+</li>
+<li><strong>Producer</strong>
+<ul>
+<li>Send message to SQS using the SDK (SendMessage API)</li>
+<li>The message is persisted in SQS until a consumer deletes it</li>
+<li>Order will be sent in message (like OrderId) and consumer will take care of ordering</li>
+</ul>
+</li>
+<li><strong>Consumer</strong>
+<ul>
+<li>Poll SQS for messages (receive up to 10 messages at a time)</li>
+<li>Process the message</li>
+<li>Consumers can be running on EC2 instances, servers or AWS Lambda</li>
+<li>Delete message using DeleteMessage API</li>
+<li><em>Multiple EC2 instance Consumers</em>
+<ul>
+<li>Receive and process messages in parallel</li>
+<li>At least one delivery</li>
+<li>Best effort message ordering</li>
+<li>Delete message after processing</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Scaling</strong>
+<ul>
+<li>We can scale consumers horizontally to improve throughput of processing</li>
+<li>ASG of EC2 can launch or terminate instance depending on number of messages in SQS</li>
+<li><img src="https://docs.aws.amazon.com/autoscaling/ec2/userguide/images/sqs-as-custom-metric-diagram.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><strong>Security</strong>
+<ul>
+<li><em>Encryption</em>
+<ul>
+<li>In-flight using HTTPS API</li>
+<li>At-rest using KMS keys</li>
+<li>Client-side encryption</li>
+</ul>
+</li>
+<li><em>Access controls</em> using IAM policies</li>
+<li><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-basic-examples-of-sqs-policies.html">Access policies</a>
+<ul>
+<li>Similar to S3 bucket policies</li>
+<li>Cross Account Access - create queue account policy<br>
+{<br>
+“Version”: “2012-10-17”,<br>
+“Id”: “Queue1_Policy_UUID”,<br>
+“Statement”: [{<br>
+“Sid”:“Queue1_AllActions”,<br>
+“Effect”: “Allow”,<br>
+“Principal”: {<br>
+“AWS”: [<br>
+“arn:aws:iam::111122223333:role/role1”,<br>
+“arn:aws:iam::111122223333:user/username1”<br>
+]<br>
+},<br>
+“Action”: “sqs:*”,<br>
+“Resource”: “arn:aws:sqs:us-east-2:123456789012:queue1”<br>
+}]<br>
+}</li>
+<li>Publish S3 Event Notifications to SQS queue - create queue account policy with source bucket condition (json)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><img src="https://funnelgarden.com/wp-content/uploads/2020/01/AWS-SQS-Simple-Queue-Service-1024x379.png" alt="enter image description here" width="800" height="300"></li>
+</ul>
+</li>
+</ul>
+<h2 id="aws-development">AWS Development</h2>
+<ul>
+<li><a href="https://docs.aws.amazon.com/cli/latest/reference/s3/">https://docs.aws.amazon.com/cli/latest/reference/s3/</a></li>
+<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_managed-policies.html">https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_managed-policies.html</a></li>
+<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_examples.html">https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_examples.html</a></li>
+<li><a href="https://cloud.google.com/storage-transfer/docs/using-iam-permissions-and-roles">https://cloud.google.com/storage-transfer/docs/using-iam-permissions-and-roles</a></li>
+<li><a href="https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/id_roles_create_for-user.html">https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/id_roles_create_for-user.html</a></li>
+<li><a href="https://console.aws.amazon.com/iam">https://console.aws.amazon.com/iam</a></li>
+</ul>
+<hr>
+<p>Q: My EC2 Instance does not have the permissions to perform an API call PutObject on S3. What should I do?</p>
+<blockquote>
+<p>I should ask an administrator to attach a Policy to the IAM Role on my EC2 Instance that authorises it to do the API call (IAM roles are the right way to provide credentials and permissions to an EC2 instance)</p>
+</blockquote>
+<p>Q: I have an on-premise personal server that I’d like to use to perform AWS API calls</p>
+<blockquote>
+<p>I should run <code>aws configure</code> and put my credentials there. Invalidate them when I’m done (Even better would be to create a user specifically for that one on-premise server)</p>
+</blockquote>
+<p>Q: I need my colleagues help to debug my code. When he runs the application on his machine, it’s working fine, whereas I get API authorisation exceptions. What should I do?</p>
+<blockquote>
+<p>Compare his IAM policy and my IAM policy in the policy simulator to understand the differences</p>
+</blockquote>
+<p>Q: To get the instance id of my EC2 machine from the EC2 machine, the best thing is to…</p>
+<blockquote>
+<p>Query the meta data at <a href="http://169.254.169.254/latest/meta-data">http://169.254.169.254/latest/meta-data</a></p>
 </blockquote>
 
