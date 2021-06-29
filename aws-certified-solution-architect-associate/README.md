@@ -2476,7 +2476,7 @@ failures, useful to speed up downloads</li>
 <li>AWS Storage options
 <ul>
 <li><img src="https://d2908q01vomqb2.cloudfront.net/cb4e5208b4cd87268b208e49452ed6e89a68e0b8/2018/03/20/aws-storage-soutions.jpg" alt="enter image description here"></li>
-<li><img src="https://miro.medium.com/max/1838/1*02FpTqeqNH6XzcrBUqjR_w.png" alt="enter image description here"></li>
+<li><img src="https://miro.medium.com/max/1838/1*02FpTqeqNH6XzcrBUqjR_w.png" alt="enter image description here" width="600" height="600"></li>
 </ul>
 </li>
 </ul>
