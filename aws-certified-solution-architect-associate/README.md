@@ -3190,7 +3190,7 @@ the installation process?</p>
    <span class="token punctuation">}</span><span class="token punctuation">]</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<pre><code>  	-	Publish S3 Event Notifications to SQS queue - create queue account policy with source bucket condition (json)
+<pre><code>  	- Publish S3 Event Notifications to SQS queue - create queue account policy with source bucket condition (json)
 </code></pre>
 <pre class=" language-javascript"><code class="prism  language-javascript"><span class="token punctuation">{</span>
    <span class="token string">"Version"</span><span class="token punctuation">:</span> <span class="token string">"2012-10-17"</span><span class="token punctuation">,</span>
