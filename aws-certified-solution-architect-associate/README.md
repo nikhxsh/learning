@@ -3190,8 +3190,7 @@ the installation process?</p>
       <span class="token string">"Action"</span><span class="token punctuation">:</span> <span class="token string">"sqs:*"</span><span class="token punctuation">,</span>
       <span class="token string">"Resource"</span><span class="token punctuation">:</span> <span class="token string">"arn:aws:sqs:us-east-2:123456789012:queue1"</span>
    <span class="token punctuation">}</span><span class="token punctuation">]</span>
-<span class="token punctuation">}</span>
-
+<span class="token punctuation">}</span>	
 <span class="token comment">// Publish S3 Event Notifications to SQS queue</span>
 <span class="token punctuation">{</span>
    <span class="token string">"Version"</span><span class="token punctuation">:</span> <span class="token string">"2012-10-17"</span><span class="token punctuation">,</span>
