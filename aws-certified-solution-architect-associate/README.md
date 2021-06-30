@@ -1299,173 +1299,124 @@ user-data</p>
 </ul>
 </li>
 <li>It can automatically scale to the vast majority of workloads</li>
-<li>You can setup internal(private) and external(public) ELBs<img src="https://res.cloudinary.com/hy4kyit2a/f_auto,fl_lossy,q_70/learn/modules/aws-optimization/route-traffic-with-amazon-elastic-load-balancing/images/5e6d6d4ec8ab0c7bb984cf7624178d5a_b-7-eef-6-f-4-fdb-5-4-e-01-a-89-d-88-d-7257-bf-924.png" alt="enter image description here" width="500" height="300"></li>
-<li><a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/introduction.html">Classic Load Balancer(CLB)</a>
+<li>You can setup internal (private) and external(public) ELBs</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://res.cloudinary.com/hy4kyit2a/f_auto,fl_lossy,q_70/learn/modules/aws-optimization/route-traffic-with-amazon-elastic-load-balancing/images/5e6d6d4ec8ab0c7bb984cf7624178d5a_b-7-eef-6-f-4-fdb-5-4-e-01-a-89-d-88-d-7257-bf-924.png" alt="enter image description here" width="500" height="300">	  	<br>
+- <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/introduction.html">Classic Load Balancer(CLB)</a><br>
+- Old generation, 2009, TCP (layer 4) HTTP &amp; HTTPS (layer 7)<br>
+- A Classic Load Balancer makes routing decisions at either the transport layer (TCP/SSL) or the application layer (HTTP/HTTPS)<br>
+- Classic Load Balancers currently require a fixed relationship between the load balancer port and the container instance port. E.g. it is possible to map the load balancer port 80 to the container instance port 3030 and the load balancer port 4040 to the container instance port 4040. However, it is not possible to map the load balancer port 80 to port 3030 on one container instance and port 4040 on another container instance.<br>
+- This static mapping requires that your cluster has at least as many container instances as the desired count of a single service that uses a Classic Load Balancer<br>
+<img src="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/images/load_balancer.png" alt="enter image description here"><br>
+- Features<br>
+- Health check are TCP or HTTP based<br>
+- Fixed hostname <a href="http://xxx.region.elb.amazonaws.com">xxx.region.elb.amazonaws.com</a><br>
+- Support for EC2-Classic<br>
+- Support for TCP and SSL listeners<br>
+- Support for sticky sessions using application-generated cookies<br>
+- <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html">Application Load Balancer (ALB)</a><br>
+- New generation, HTTP &amp; HTTPS (layer 7), support for HTTP/2 and WebSocket<br>
+- Makes routing decisions at the application layer (HTTP/HTTPS), supports path-based routing, and can route requests to one or more ports on each container instance in your cluster<br>
+- Support dynamic host port mapping. For example, if your task’s container definition specifies port 80 for an NGINX container port, and port 0 for the host port, then the host port is dynamically chosen from the ephemeral port range of the container instance (such as 32768 to 61000 on the latest Amazon ECS-optimized AMI)<br>
+- It monitors the health of its registered targets, and routes traffic only to the healthy targets<br>
+- <em>Listener</em><br>
+- Checks for connection requests from clients, using the protocol and port that you configure<br>
+- The rules that you define for a listener determine how the load balancer routes requests to its registered targets.<br>
+- <em>Target group</em><br>
+- Routes requests to one or more registered targets, such as EC2 instances, using the protocol and port number that you specify<br>
+- You can register a target with multiple target groups<br>
+- You can configure health checks on a per target group basis<br>
+- Target groups are<br>
+- EC2 instances (HTTP)<br>
+- ECS Tasks (HTTP)<br>
+- Lambda functions (HTTP request is translated into JSON event)<br>
+- IP address (must be private)<br>
+- Can route to multiple target groups<br>
+- Health check at Target group level<img src="https://www.bogotobogo.com/DevOps/AWS/images/NLB-ASG/ALB-Diagram.png" alt="enter image description here"><img src="https://i.pinimg.com/originals/53/77/ee/5377ee17410f880ec70c9f4bf3463bc3.png" alt="enter image description here"><br>
+- Features<br>
+- Fixed hostname <a href="http://xxx.region.elb.amazonaws.com">xxx.region.elb.amazonaws.com</a><br>
+- Load balancing to multiple HTTP applications across machines<br>
+- Load balancing to multiple applications on same machine (containers)<br>
+- Support route routing, based on different target groups<br>
+- Path in the URL (E.g. /users (Target 1) &amp; /posts (Target 2))<br>
+- Hostname in the URL (E.g. <a href="http://example.com">example.com</a> (Target 1) &amp; <a href="http://test.example.com">test.example.com</a> (Target 2))<br>
+- Query string or headers in the URL (E.g. ?id=1234 (Target 1) &amp; ?name=xyz (Target 2))<br>
+- Great fit for Microservices and container based application (Docker &amp; Amazon ECS)<br>
+- Access logs contain additional information and are stored in compressed format<br>
+- Has a port mapping feature to redirect to a dynamic port in ECS<br>
+- Application server don’t see the IP of client directly<br>
+- The true IP of client is inserted in header X-Forwarded-For<br>
+- We can also get Port (X-Forwarded-Port) and proto (X-Forwarded-Proto)<br>
+- In comparison, multiple CLB per application<br>
+- <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html">Network Load Balancer (NLB)</a><br>
+- New generation, 2017 - TCP, TLS (Secure TCP) &amp; UDP<br>
+- Makes routing decisions at the transport layer (TCP/SSL)<br>
+- After the it receives a connection, it selects a target from the target group for the default rule using a flow hash routing algorithm<br>
+- It attempts to open a TCP connection to the selected target on the port specified in the listener configuration<br>
+- It forwards the request without modifying the headers<br>
+- A <em>listener</em> checks for connection requests from clients, using the protocol and port that you configure, and forwards requests to a target group.<br>
+- Each <em>target group</em> routes requests to one or more registered targets, such as EC2 instances, using the TCP protocol and the port number that you specify<br>
+- You can add and remove targets from your load balancer as your needs change, without disrupting the overall flow of requests to your application<br>
+- It has <strong>one static IP per AZ</strong> and supports assigning Elastic IP (Helpful for IP whitelisting)<img src="https://exampleloadbalancer.com/assets/with_nlbtls.png" alt="enter image description here"><br>
+- Features<br>
+- Support dynamic host port mapping<br>
+- Used for extreme performance, TCP or UDP traffic<br>
+- Handle millions of requests per second<br>
+- Less latency ~100ms (vs 400ms for ALB)<br>
+- Has one static IP per AZ and supports assigning EIP which helpful for  IP whitelisting<br>
+- Not included in AWS free tier<br>
+- Has own SG which communicate with EC2 SG<br>
+- <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/introduction.html">Gateway Load Balancer</a><br>
+- Enable you to deploy, scale, and manage virtual appliances, such as firewalls, intrusion detection and prevention systems, and deep packet inspection systems<br>
+- Operates at the third layer of the Open Systems Interconnection (OSI) model, the network layer<br>
+- It listens for all IP packets across all ports and forwards traffic to the target group that’s specified in the listener rule<br>
+- It maintains stickiness of flows to a specific target appliance using 5-tuple (for TCP/UDP flows) or 3-tuple (for non-TCP/UDP flows)<br>
+- Uses Gateway Load Balancer endpoints to securely exchange traffic across VPC boundaries<br>
+- You deploy the Gateway Load Balancer in the same VPC as the virtual appliances<br>
+- Traffic to and from a Gateway Load Balancer endpoint is configured using route tables<br>
+- You must create the Gateway Load Balancer endpoint and the application servers in different subnets<img src="https://miro.medium.com/max/1121/1*qNMaVza5BzgrimG2fz0gNg.png" alt="enter image description here"><br>
+- <strong>Load balancer stickiness</strong><br>
+- Stickiness is that same client always get redirects to the same instance<br>
+- Works for CLB and ALB<br>
+- The cookie used for stickiness has an expiration date<br>
+- To make sure user doesn’t lose his session data<br>
+- May bring imbalance to the load balancing over to the backend EC2 instances<br>
+- Can enable at target group level<br>
+- <strong>Cross Zone Load Balancer</strong><br>
+- Each load balancer instance evenly distributes load across all registered instances in all AZ<br>
+- Without each load balancer distributes requests evenly across the registered instances in its AZ only<br>
+- CLB (disabled by default, no charges for inter AZ data if enabled)<br>
+- ALB (Always on, no charges for inter AZ data)<br>
+- NLB (disabled by default, pay charges for inter AZ data if enabled)<br>
+- <strong>SSL (Secure Socked Layer) Certificate</strong><br>
+- Allows traffic between clients and LB to be encrypted in transit<br>
+- Issued by public authority (Symantec, GoDaddy etc.)<br>
+- LB uses X.509 certificate<br>
+- You can manage certificates using ACM<br>
+- Client can use SNI (Server Name Indication) to specify the hostname they reach<br>
+- SNI solved problem if loading multiple SSL certificates onto one web server<br>
+- SNI works for ALB and NLB only<br>
+- CLB (support only one certificate, must use multiple CLB for multiple hostname with mu certificates)<br>
+- ALB (support multiple listeners with multiple SSL certificates, uses SNI to make it work)<br>
+- NLB (support multiple listeners with multiple SSL certificates, uses SNI to make it work)<br>
+- <strong>Connection draining</strong><br>
+- Time to complete “in-flight requests” while the instance is de-registering or unhealthy<br>
+- Stop sending request to instance while its de-registering<br>
+- Between 1 to 3600 secs, default is 300 secs<br>
+- Can’t be disabled (set value to 0)<br>
+- Set to a low value if your requests are short<br>
+- Connection draining is for CLB<br>
+- Deregistration delay is for ALB and NLB</p>
 <ul>
-<li>Old generation, 2009, TCP (layer 4) HTTP &amp; HTTPS (layer 7)</li>
-<li>A Classic Load Balancer makes routing decisions at either the transport layer (TCP/SSL) or the application layer (HTTP/HTTPS)</li>
-<li>Classic Load Balancers currently require a fixed relationship between the load balancer port and the container instance port. E.g. it is possible to map the load balancer port 80 to the container instance port 3030 and the load balancer port 4040 to the container instance port 4040. However, it is not possible to map the load balancer port 80 to port 3030 on one container instance and port 4040 on another container instance.</li>
-<li>This static mapping requires that your cluster has at least as many container instances as the desired count of a single service that uses a Classic Load Balancer<img src="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/images/load_balancer.png" alt="enter image description here"></li>
-<li>Features
-<ul>
-<li>Health check are TCP or HTTP based</li>
-<li>Fixed hostname <a href="http://xxx.region.elb.amazonaws.com">xxx.region.elb.amazonaws.com</a></li>
-<li>Support for EC2-Classic</li>
-<li>Support for TCP and SSL listeners</li>
-<li>Support for sticky sessions using application-generated cookies</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html">Application Load Balancer (ALB)</a>
-<ul>
-<li>New generation, HTTP &amp; HTTPS (layer 7), support for HTTP/2 and WebSocket</li>
-<li>Makes routing decisions at the application layer (HTTP/HTTPS), supports path-based routing, and can route requests to one or more ports on each container instance in your cluster</li>
-<li>Support dynamic host port mapping. For example, if your task’s container definition specifies port 80 for an NGINX container port, and port 0 for the host port, then the host port is dynamically chosen from the ephemeral port range of the container instance (such as 32768 to 61000 on the latest Amazon ECS-optimized AMI)</li>
-<li>It monitors the health of its registered targets, and routes traffic only to the healthy targets</li>
-<li><em>Listener</em>
-<ul>
-<li>Checks for connection requests from clients, using the protocol and port that you configure</li>
-<li>The rules that you define for a listener determine how the load balancer routes requests to its registered targets.</li>
-</ul>
-</li>
-<li><em>Target group</em>
-<ul>
-<li>Routes requests to one or more registered targets, such as EC2 instances, using the protocol and port number that you specify</li>
-<li>You can register a target with multiple target groups</li>
-<li>You can configure health checks on a per target group basis</li>
-<li>Target groups are
-<ul>
-<li>EC2 instances (HTTP)</li>
-<li>ECS Tasks (HTTP)</li>
-<li>Lambda functions (HTTP request is translated into JSON event)</li>
-<li>IP address (must be private)</li>
-</ul>
-</li>
-<li>Can route to multiple target groups</li>
-<li>Health check at Target group level<img src="https://www.bogotobogo.com/DevOps/AWS/images/NLB-ASG/ALB-Diagram.png" alt="enter image description here"><img src="https://i.pinimg.com/originals/53/77/ee/5377ee17410f880ec70c9f4bf3463bc3.png" alt="enter image description here"></li>
-</ul>
-</li>
-<li>Features
-<ul>
-<li>Fixed hostname <a href="http://xxx.region.elb.amazonaws.com">xxx.region.elb.amazonaws.com</a></li>
-<li>Load balancing to multiple HTTP applications across machines</li>
-<li>Load balancing to multiple applications on same machine (containers)</li>
-<li>Support route routing, based on different target groups
-<ul>
-<li>Path in the URL (E.g. /users (Target 1) &amp; /posts (Target 2))</li>
-<li>Hostname in the URL (E.g. <a href="http://example.com">example.com</a> (Target 1) &amp; <a href="http://test.example.com">test.example.com</a> (Target 2))</li>
-<li>Query string or headers in the URL (E.g. ?id=1234 (Target 1) &amp; ?name=xyz (Target 2))</li>
-</ul>
-</li>
-<li>Great fit for Microservices and container based application (Docker &amp; Amazon ECS)</li>
-<li>Access logs contain additional information and are stored in compressed format</li>
-<li>Has a port mapping feature to redirect to a dynamic port in ECS</li>
-<li>Application server don’t see the IP of client directly
-<ul>
-<li>The true IP of client is inserted in header X-Forwarded-For</li>
-<li>We can also get Port (X-Forwarded-Port) and proto (X-Forwarded-Proto)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>In comparison, multiple CLB per application</li>
-</ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html">Network Load Balancer (NLB)</a>
-<ul>
-<li>New generation, 2017 - TCP, TLS (Secure TCP) &amp; UDP</li>
-<li>Makes routing decisions at the transport layer (TCP/SSL)</li>
-<li>After the it receives a connection, it selects a target from the target group for the default rule using a flow hash routing algorithm</li>
-<li>It attempts to open a TCP connection to the selected target on the port specified in the listener configuration</li>
-<li>It forwards the request without modifying the headers</li>
-<li>A <em>listener</em> checks for connection requests from clients, using the protocol and port that you configure, and forwards requests to a target group.</li>
-<li>Each <em>target group</em> routes requests to one or more registered targets, such as EC2 instances, using the TCP protocol and the port number that you specify</li>
-<li>You can add and remove targets from your load balancer as your needs change, without disrupting the overall flow of requests to your application</li>
-<li>It has <strong>one static IP per AZ</strong> and supports assigning Elastic IP (Helpful for IP whitelisting)<img src="https://exampleloadbalancer.com/assets/with_nlbtls.png" alt="enter image description here"></li>
-<li>Features
-<ul>
-<li>Support dynamic host port mapping</li>
-<li>Used for extreme performance, TCP or UDP traffic</li>
-<li>Handle millions of requests per second</li>
-<li>Less latency ~100ms (vs 400ms for ALB)</li>
-<li>Has one static IP per AZ and supports assigning EIP which helpful for  IP whitelisting</li>
-<li>Not included in AWS free tier</li>
-<li>Has own SG which communicate with EC2 SG</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/introduction.html">Gateway Load Balancer</a>
-<ul>
-<li>Enable you to deploy, scale, and manage virtual appliances, such as firewalls, intrusion detection and prevention systems, and deep packet inspection systems</li>
-<li>Operates at the third layer of the Open Systems Interconnection (OSI) model, the network layer</li>
-<li>It listens for all IP packets across all ports and forwards traffic to the target group that’s specified in the listener rule</li>
-<li>It maintains stickiness of flows to a specific target appliance using 5-tuple (for TCP/UDP flows) or 3-tuple (for non-TCP/UDP flows)</li>
-<li>Uses Gateway Load Balancer endpoints to securely exchange traffic across VPC boundaries</li>
-<li>You deploy the Gateway Load Balancer in the same VPC as the virtual appliances</li>
-<li>Traffic to and from a Gateway Load Balancer endpoint is configured using route tables</li>
-<li>You must create the Gateway Load Balancer endpoint and the application servers in different subnets<img src="https://miro.medium.com/max/1121/1*qNMaVza5BzgrimG2fz0gNg.png" alt="enter image description here"></li>
-</ul>
-</li>
-<li><strong>Load balancer stickiness</strong>
-<ul>
-<li>Stickiness is that same client always get redirects to the same instance</li>
-<li>Works for CLB and ALB</li>
-<li>The cookie used for stickiness has an expiration date</li>
-<li>To make sure user doesn’t lose his session data</li>
-<li>May bring imbalance to the load balancing over to the backend EC2 instances</li>
-<li>Can enable at target group level</li>
-</ul>
-</li>
-<li><strong>Cross Zone Load Balancer</strong>
-<ul>
-<li>Each load balancer instance evenly distributes load across all registered instances in all AZ</li>
-<li>Without each load balancer distributes requests evenly across the registered instances in its AZ only
-<ul>
-<li>CLB (disabled by default, no charges for inter AZ data if enabled)</li>
-<li>ALB (Always on, no charges for inter AZ data)</li>
-<li>NLB (disabled by default, pay charges for inter AZ data if enabled)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong>SSL (Secure Socked Layer) Certificate</strong>
-<ul>
-<li>Allows traffic between clients and LB to be encrypted in transit</li>
-<li>Issued by public authority (Symantec, GoDaddy etc.)</li>
-<li>LB uses X.509 certificate</li>
-<li>You can manage certificates using ACM</li>
-<li>Client can use SNI (Server Name Indication) to specify the hostname they reach</li>
-<li>SNI solved problem if loading multiple SSL certificates onto one web server</li>
-<li>SNI works for ALB and NLB only
-<ul>
-<li>CLB (support only one certificate, must use multiple CLB for multiple hostname with mu certificates)</li>
-<li>ALB (support multiple listeners with multiple SSL certificates, uses SNI to make it work)</li>
-<li>NLB (support multiple listeners with multiple SSL certificates, uses SNI to make it work)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong>Connection draining</strong>
-<ul>
-<li>Time to complete “in-flight requests” while the instance is de-registering or unhealthy</li>
-<li>Stop sending request to instance while its de-registering</li>
-<li>Between 1 to 3600 secs, default is 300 secs</li>
-<li>Can’t be disabled (set value to 0)</li>
-<li>Set to a low value if your requests are short</li>
-<li>Connection draining is for CLB</li>
-<li>Deregistration delay is for ALB and NLB</li>
-</ul>
-</li>
-</ul>
-</li>
 <li><a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html">Auto scaling group</a>
 <ul>
 <li>Scale out (Add ec2 instance) to match increased load</li>
-<li>Scale in (remove ec2 instance) to match decreased load<img src="https://miro.medium.com/max/487/1*uS9J8btKCQaMOhnUXp62aA.jpeg" alt="enter image description here"></li>
+<li>Scale in (remove ec2 instance) to match decreased load<br>
+<img src="https://miro.medium.com/max/487/1*uS9J8btKCQaMOhnUXp62aA.jpeg" alt="enter image description here"></li>
 <li>Auto register new instance to a load balancer</li>
 <li>ASG is Free</li>
 <li>If having instance under ASG get terminated for whatever reason then ASG will automatically created new ones as a replacement</li>
@@ -1535,7 +1486,8 @@ user-data</p>
 </li>
 <li><a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroupLifecycle.html">Lifecycle Hooks</a>
 <ul>
-<li>Can perform extra steps (Extract info/ logging) before instance goes in service (Pending state) or before it get terminated (Terminating state)<img src="https://docs.aws.amazon.com/autoscaling/ec2/userguide/images/auto_scaling_lifecycle.png" alt="enter image description here"></li>
+<li>Can perform extra steps (Extract info/ logging) before instance goes in service (Pending state) or before it get terminated (Terminating state)<br>
+<img src="https://docs.aws.amazon.com/autoscaling/ec2/userguide/images/auto_scaling_lifecycle.png" alt="enter image description here"></li>
 <li>ASG
 <ul>
 <li>(Scale Out) &gt; Pending [ Lifecycle hooks &gt;&gt; Pending:wait &gt; Pending: Proceed] &gt; InService</li>
