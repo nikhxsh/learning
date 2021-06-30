@@ -1299,15 +1299,13 @@ user-data</p>
 </ul>
 </li>
 <li>It can automatically scale to the vast majority of workloads</li>
-<li>You can setup internal(private) and external(public) ELBs</li>
-<li><img src="https://res.cloudinary.com/hy4kyit2a/f_auto,fl_lossy,q_70/learn/modules/aws-optimization/route-traffic-with-amazon-elastic-load-balancing/images/5e6d6d4ec8ab0c7bb984cf7624178d5a_b-7-eef-6-f-4-fdb-5-4-e-01-a-89-d-88-d-7257-bf-924.png" alt="enter image description here" width="500" height="300"></li>
+<li>You can setup internal(private) and external(public) ELBs<img src="https://res.cloudinary.com/hy4kyit2a/f_auto,fl_lossy,q_70/learn/modules/aws-optimization/route-traffic-with-amazon-elastic-load-balancing/images/5e6d6d4ec8ab0c7bb984cf7624178d5a_b-7-eef-6-f-4-fdb-5-4-e-01-a-89-d-88-d-7257-bf-924.png" alt="enter image description here" width="500" height="300"></li>
 <li><a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/introduction.html">Classic Load Balancer(CLB)</a>
 <ul>
 <li>Old generation, 2009, TCP (layer 4) HTTP &amp; HTTPS (layer 7)</li>
 <li>A Classic Load Balancer makes routing decisions at either the transport layer (TCP/SSL) or the application layer (HTTP/HTTPS)</li>
 <li>Classic Load Balancers currently require a fixed relationship between the load balancer port and the container instance port. E.g. it is possible to map the load balancer port 80 to the container instance port 3030 and the load balancer port 4040 to the container instance port 4040. However, it is not possible to map the load balancer port 80 to port 3030 on one container instance and port 4040 on another container instance.</li>
-<li>This static mapping requires that your cluster has at least as many container instances as the desired count of a single service that uses a Classic Load Balancer</li>
-<li><img src="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/images/load_balancer.png" alt="enter image description here"></li>
+<li>This static mapping requires that your cluster has at least as many container instances as the desired count of a single service that uses a Classic Load Balancer<img src="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/images/load_balancer.png" alt="enter image description here"></li>
 <li>Features
 <ul>
 <li>Health check are TCP or HTTP based</li>
@@ -1345,9 +1343,7 @@ user-data</p>
 </ul>
 </li>
 <li>Can route to multiple target groups</li>
-<li>Health check at Target group level</li>
-<li><img src="https://www.bogotobogo.com/DevOps/AWS/images/NLB-ASG/ALB-Diagram.png" alt="enter image description here"></li>
-<li><img src="https://i.pinimg.com/originals/53/77/ee/5377ee17410f880ec70c9f4bf3463bc3.png" alt="enter image description here"></li>
+<li>Health check at Target group level<img src="https://www.bogotobogo.com/DevOps/AWS/images/NLB-ASG/ALB-Diagram.png" alt="enter image description here"><img src="https://i.pinimg.com/originals/53/77/ee/5377ee17410f880ec70c9f4bf3463bc3.png" alt="enter image description here"></li>
 </ul>
 </li>
 <li>Features
@@ -1386,8 +1382,7 @@ user-data</p>
 <li>A <em>listener</em> checks for connection requests from clients, using the protocol and port that you configure, and forwards requests to a target group.</li>
 <li>Each <em>target group</em> routes requests to one or more registered targets, such as EC2 instances, using the TCP protocol and the port number that you specify</li>
 <li>You can add and remove targets from your load balancer as your needs change, without disrupting the overall flow of requests to your application</li>
-<li>It has <strong>one static IP per AZ</strong> and supports assigning Elastic IP (Helpful for IP whitelisting)</li>
-<li><img src="https://exampleloadbalancer.com/assets/with_nlbtls.png" alt="enter image description here"></li>
+<li>It has <strong>one static IP per AZ</strong> and supports assigning Elastic IP (Helpful for IP whitelisting)<img src="https://exampleloadbalancer.com/assets/with_nlbtls.png" alt="enter image description here"></li>
 <li>Features
 <ul>
 <li>Support dynamic host port mapping</li>
@@ -1412,8 +1407,7 @@ user-data</p>
 <li>Uses Gateway Load Balancer endpoints to securely exchange traffic across VPC boundaries</li>
 <li>You deploy the Gateway Load Balancer in the same VPC as the virtual appliances</li>
 <li>Traffic to and from a Gateway Load Balancer endpoint is configured using route tables</li>
-<li>You must create the Gateway Load Balancer endpoint and the application servers in different subnets</li>
-<li><img src="https://miro.medium.com/max/1121/1*qNMaVza5BzgrimG2fz0gNg.png" alt="enter image description here"></li>
+<li>You must create the Gateway Load Balancer endpoint and the application servers in different subnets<img src="https://miro.medium.com/max/1121/1*qNMaVza5BzgrimG2fz0gNg.png" alt="enter image description here"></li>
 </ul>
 </li>
 <li><strong>Load balancer stickiness</strong>
@@ -1471,8 +1465,7 @@ user-data</p>
 <li><a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html">Auto scaling group</a>
 <ul>
 <li>Scale out (Add ec2 instance) to match increased load</li>
-<li>Scale in (remove ec2 instance) to match decreased load</li>
-<li><img src="https://miro.medium.com/max/487/1*uS9J8btKCQaMOhnUXp62aA.jpeg" alt="enter image description here"></li>
+<li>Scale in (remove ec2 instance) to match decreased load<img src="https://miro.medium.com/max/487/1*uS9J8btKCQaMOhnUXp62aA.jpeg" alt="enter image description here"></li>
 <li>Auto register new instance to a load balancer</li>
 <li>ASG is Free</li>
 <li>If having instance under ASG get terminated for whatever reason then ASG will automatically created new ones as a replacement</li>
@@ -1500,8 +1493,7 @@ user-data</p>
 <ul>
 <li>Scale in/out based on CloudWatch alarms</li>
 <li>Monitors metrics</li>
-<li>Based on can created policies</li>
-<li><img src="https://railsadventures.files.wordpress.com/2015/02/auto-scaling-on-aws-flow.png" alt="enter image description here"></li>
+<li>Based on can created policies<img src="https://miro.medium.com/max/1200/1*y5MJicq2QfakmlwXQhZ-ow.png" alt="enter image description here"></li>
 </ul>
 </li>
 <li>Scaling policies
@@ -1543,8 +1535,7 @@ user-data</p>
 </li>
 <li><a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroupLifecycle.html">Lifecycle Hooks</a>
 <ul>
-<li>Can perform extra steps (Extract info/ logging) before instance goes in service (Pending state) or before it get terminated (Terminating state)</li>
-<li><img src="https://docs.aws.amazon.com/autoscaling/ec2/userguide/images/auto_scaling_lifecycle.png" alt="enter image description here"></li>
+<li>Can perform extra steps (Extract info/ logging) before instance goes in service (Pending state) or before it get terminated (Terminating state)<img src="https://docs.aws.amazon.com/autoscaling/ec2/userguide/images/auto_scaling_lifecycle.png" alt="enter image description here"></li>
 <li>ASG
 <ul>
 <li>(Scale Out) &gt; Pending [ Lifecycle hooks &gt;&gt; Pending:wait &gt; Pending: Proceed] &gt; InService</li>
@@ -2388,8 +2379,7 @@ failures, useful to speed up downloads</li>
 <li>Supports S3 standard, S3 IA, S3 One Zone IA</li>
 <li>Access using IAM roles for each gateway</li>
 <li>Can be mounted on may servers</li>
-<li>Integrated with Active Directory for user Authentication</li>
-<li><img src="https://docs.aws.amazon.com/storagegateway/latest/userguide/images/file-gateway-concepts-diagram.png" alt="enter image description here"></li>
+<li>Integrated with Active Directory for user Authentication<img src="https://docs.aws.amazon.com/storagegateway/latest/userguide/images/file-gateway-concepts-diagram.png" alt="enter image description here"></li>
 </ul>
 </li>
 <li><strong>Amazon FSx File Gateway</strong>
@@ -2403,8 +2393,7 @@ failures, useful to speed up downloads</li>
 <li>Scale up to 10s of GB/s, millions of IOPS, 100s PB of data</li>
 <li>Can be accessed from your on-premise infra</li>
 <li>Can be configures to be Multi-AZ</li>
-<li>Data backed up S3 daily</li>
-<li><img src="https://res.infoq.com/news/2021/05/amazon-fsx-file-gateway/en/resources/1FSx-1619859707544.png" alt="enter image description here"></li>
+<li>Data backed up S3 daily<img src="https://res.infoq.com/news/2021/05/amazon-fsx-file-gateway/en/resources/1FSx-1619859707544.png" alt="enter image description here"></li>
 </ul>
 </li>
 <li><a href="https://aws.amazon.com/fsx/lustre/">FSx for Lustre</a>
@@ -2450,8 +2439,7 @@ failures, useful to speed up downloads</li>
 <li>Backup process using physical tapes</li>
 <li>With Tape gateway, company use same process but, in the cloud</li>
 <li>Virtual Tape Library (VTL) backed by S3 and Glacier</li>
-<li>Backup data using existing tape-based processes</li>
-<li><img src="https://d1.awsstatic.com/cloud-storage/tape-gateway-diagram.4b6ca2b4e3f97d4df7988544400ae91424503248.png" alt="enter image description here"></li>
+<li>Backup data using existing tape-based processes<img src="https://d1.awsstatic.com/cloud-storage/tape-gateway-diagram.4b6ca2b4e3f97d4df7988544400ae91424503248.png" alt="enter image description here"></li>
 </ul>
 </li>
 <li><a href="https://aws.amazon.com/storagegateway/volume/">Volume Gateway</a>
@@ -2459,8 +2447,7 @@ failures, useful to speed up downloads</li>
 <li>Block storage using iSCSI protocol backed by S3</li>
 <li>Backed by EBS snapshots to restore on-premises volumes</li>
 <li><em>Cached Volume</em>-  low latency access to most recent data</li>
-<li><em>Stored Volume</em> - entire dataset is on premise, schedule backups to S3</li>
-<li><img src="https://d1.awsstatic.com/cloud-storage/volume-gateway-diagram.eedd58ab3fb8a5dcae088622b5c1595dac21a04b.png" alt="enter image description here"></li>
+<li><em>Stored Volume</em> - entire dataset is on premise, schedule backups to S3<img src="https://d1.awsstatic.com/cloud-storage/volume-gateway-diagram.eedd58ab3fb8a5dcae088622b5c1595dac21a04b.png" alt="enter image description here"></li>
 </ul>
 </li>
 <li><em>On-premised data to the cloud &gt;&gt; Use Storage Gateway</em><br>
@@ -2468,11 +2455,7 @@ failures, useful to speed up downloads</li>
 - <em>Volume / Block Storage / iSCSI &gt;&gt; Volume Gateway (Backed by S3 with EBS snapshot)</em><br>
 - <em>VTL Tape/Backup with iSCSI &gt;&gt; Tape Gateway  (Backed by S3 and Glacier)</em><br>
 - <em>No on-premise virtualization&gt;&gt; Hardware appliances</em></li>
-<li>AWS transfer family
-<ul>
-<li><img src="https://d1.awsstatic.com/cloud-storage/aws-transfer-family-s3-efs-how-it-works-diagram.6ff1dc0d717f63d4207ce4670a729aabb85d0d70.png" alt="AWS Transfer Family | Amazon Web Services"></li>
-</ul>
-</li>
+<li>AWS transfer family<img src="https://d1.awsstatic.com/cloud-storage/aws-transfer-family-s3-efs-how-it-works-diagram.6ff1dc0d717f63d4207ce4670a729aabb85d0d70.png" alt="AWS Transfer Family | Amazon Web Services"></li>
 <li>AWS Storage options
 <ul>
 <li><img src="https://d2908q01vomqb2.cloudfront.net/cb4e5208b4cd87268b208e49452ed6e89a68e0b8/2018/03/20/aws-storage-soutions.jpg" alt="enter image description here"></li>
@@ -3142,8 +3125,7 @@ the installation process?</p>
 <li><strong>Scaling</strong>
 <ul>
 <li>We can scale consumers horizontally to improve throughput of processing</li>
-<li>ASG of EC2 can launch or terminate instance depending on number of messages in SQS</li>
-<li><img src="https://docs.aws.amazon.com/autoscaling/ec2/userguide/images/sqs-as-custom-metric-diagram.png" alt="enter image description here"></li>
+<li>ASG of EC2 can launch or terminate instance depending on number of messages in SQS<img src="https://docs.aws.amazon.com/autoscaling/ec2/userguide/images/sqs-as-custom-metric-diagram.png" alt="enter image description here"></li>
 </ul>
 </li>
 <li><strong>Security</strong>
@@ -3314,30 +3296,24 @@ the installation process?</p>
 </li>
 <li><strong>SNS + SQS Fan Out</strong>
 <ul>
-<li>Push once in SNS, receive in all SQL queues that are subscribers</li>
+<li>Push once in SNS, receive in all SQS queues that are subscribers</li>
 <li>Fully decoupled, no data loss</li>
 <li>Ability to add more SQS subscribers over time</li>
 <li>Make sure your SQS queue <strong>access policy</strong> allows for SNS to write</li>
-<li>Video transcoding fanout implementation in Lambda
-<ul>
-<li>Send same S3  events to many SQS queues / Lambda functions<img src="https://d2908q01vomqb2.cloudfront.net/1b6453892473a467d07372d45eb05abc2031647a/2017/07/25/messaging-fanout-for-serverless-with-sns-diagram2.png" alt="enter image description here"></li>
-</ul>
-</li>
+<li>Video transcoding fanout implementation in Lambda (Send same S3  events to many SQS queues / Lambda functions)<img src="https://d2908q01vomqb2.cloudfront.net/1b6453892473a467d07372d45eb05abc2031647a/2017/07/25/messaging-fanout-for-serverless-with-sns-diagram2.png" alt="enter image description here"></li>
 <li><strong>SNS FIFO</strong>
 <ul>
 <li>Ordering of messages in the topic</li>
 <li>Similar feature as SQS FIFO</li>
 <li><em>Can only have SQS FIFO as subscribers</em></li>
 <li>Limited throughput</li>
-<li>SNS FIFO + SQS FIFO - Fan out for scenario where you need <em>fan out + ordering + deduplication</em></li>
-<li><img src="https://d2908q01vomqb2.cloudfront.net/da4b9237bacccdf19c0760cab7aec4a8359010b0/2020/07/07/sns_fifo_two_subscriptions-1260x520.png" alt="enter image description here"></li>
+<li>SNS FIFO + SQS FIFO - Fan out for scenario where you need <em>fan out + ordering + deduplication</em><img src="https://d2908q01vomqb2.cloudfront.net/da4b9237bacccdf19c0760cab7aec4a8359010b0/2020/07/07/sns_fifo_two_subscriptions-1260x520.png" alt="enter image description here"></li>
 </ul>
 </li>
 <li><strong>Message Filtering</strong>
 <ul>
 <li>JSON policy used to filter messages sent to SNS topic’s subscriptions</li>
-<li>If subscription doesn’t have filter policy, it receive every message</li>
-<li><img src="https://event-driven-architecture.workshop.aws/4-sns/2-filtering/images/sns_arch_filtering.png?classes=border,shadow" alt="enter image description here"></li>
+<li>If subscription doesn’t have filter policy, it receive every message<img src="https://event-driven-architecture.workshop.aws/4-sns/2-filtering/images/sns_arch_filtering.png?classes=border,shadow" alt="enter image description here"></li>
 </ul>
 </li>
 </ul>
@@ -3356,7 +3332,7 @@ the installation process?</p>
 <li>Once data inserted in Kinesis, it can’t be deleted</li>
 <li>Data that shares same partition goes to the same shard</li>
 <li>Producers - AWS SDK, Kinesis Producer Library (KPL), Kinesis Agent</li>
-<li>Consumers - AWS Lambda, Kinesis Data Firehose etc</li>
+<li>Consumers - AWS Lambda, Kinesis Data Firehose etc.</li>
 <li>Feature
 <ul>
 <li>Streaming service for ingest at scale</li>
@@ -3467,8 +3443,7 @@ the installation process?</p>
 <li>Currently, Amazon MQ supports <a href="http://activemq.apache.org/">Apache ActiveMQ</a> and <a href="https://www.rabbitmq.com/">RabbitMQ</a> engine types</li>
 <li>Does not scale as much as SQS/SNS</li>
 <li>Runs on dedicated machine</li>
-<li>Has both <strong>queue feature and topic feature</strong></li>
-<li><img src="https://d1.awsstatic.com/product-marketing/Amazon-MQ/Amazon%20MQ%20HIW%20Diagram.78e380e8a97064c8f751c1569481a304644490b5.jpg" alt="enter image description here"></li>
+<li>Has both <strong>queue feature and topic feature</strong><img src="https://d1.awsstatic.com/product-marketing/Amazon-MQ/Amazon%20MQ%20HIW%20Diagram.78e380e8a97064c8f751c1569481a304644490b5.jpg" alt="enter image description here"></li>
 </ul>
 </li>
 </ul>
