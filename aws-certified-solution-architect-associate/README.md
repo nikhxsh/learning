@@ -3092,25 +3092,17 @@ the installation process?</p>
 </blockquote>
 <h2 id="decoupling-applications">Decoupling applications</h2>
 <ul>
-<li>
-<p>Deploying multiple applications will need to communicate with each other and there are two types of patterns generally used for communication</p>
-</li>
-<li>
-<p>Synchronous communications (Application to Application)</p>
-</li>
-<li>
-<p>Asynchronous OR Event based communications (Application&gt; Queue &gt; Application)</p>
-</li>
-<li>
-<p>As application workload increases Synchronous communications become problematic, in that case its better to break monolith and decouple your applications and scale them independently, in such case Asynchronous communication model as mentioned below is good choice</p>
+<li>Deploying multiple applications will need to communicate with each other and there are two types of patterns generally used for communication</li>
+<li>Synchronous communications (Application to Application)</li>
+<li>Asynchronous OR Event based communications (Application&gt; Queue &gt; Application)</li>
+<li>As application workload increases Synchronous communications become problematic, in that case its better to break monolith and decouple your applications and scale them independently, in such case Asynchronous communication model as mentioned below is good choice
 <ul>
 <li>SQS - queue model</li>
 <li>SNS - pub/sub model</li>
 <li>Kinesis - real-time streaming model</li>
 </ul>
 </li>
-<li>
-<p><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html">Amazon SQS</a></p>
+<li><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html">Amazon SQS</a>
 <ul>
 <li>Offers a secure, durable, and available hosted queue that lets you integrate and decouple distributed software systems and components</li>
 <li>Supports both standard and FIFO queues</li>
@@ -3163,7 +3155,7 @@ the installation process?</p>
 <li>Client-side encryption</li>
 </ul>
 </li>
-<li><em>Access controls</em> using IAM policies</li>
+<li><em>Access controls</em> - using IAM policies</li>
 <li><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-basic-examples-of-sqs-policies.html">Access policies</a>
 <ul>
 <li>Similar to S3 bucket policies</li>
@@ -3226,6 +3218,7 @@ the installation process?</p>
 <li>Good to set retention period of 14+ days</li>
 </ul>
 </li>
+<li><img src="https://funnelgarden.com/wp-content/uploads/2020/01/AWS-SQS-Simple-Queue-Service-1024x379.png" alt="enter image description here" width="800" height="300"></li>
 <li><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-temporary-queues.html#request-reply-messaging-pattern">Request Response Pattern (virtual queues)</a>
 <ul>
 <li>Temporary queues help you save development time and deployment costs when using common message patterns such as <em>request-response</em></li>
@@ -3250,10 +3243,280 @@ the installation process?</p>
 <li>Message are processed in order by consumer</li>
 </ul>
 </li>
-<li><img src="https://funnelgarden.com/wp-content/uploads/2020/01/AWS-SQS-Simple-Queue-Service-1024x379.png" alt="enter image description here" width="800" height="300"></li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html">Amazon SNS (Simple Notification Service)</a>
+<ul>
+<li>Sends one message to many receivers</li>
+<li>Pub/Sub model</li>
+<li>The <em>“event producer”</em> only sends message to one SNS topic</li>
+<li>Many <em>“event receivers”</em> (subscriptions) as we want to listen to the SNS topic notifications</li>
+<li>Each subscriber to the topic will get all the messages</li>
+<li>Up tp 10,000,000 subscriptions per topic</li>
+<li>100,000 topics limit</li>
+<li><strong>Subscribers can be</strong>
+<ul>
+<li>SQS</li>
+<li>HTTP/HTTPS</li>
+<li>Lambda</li>
+<li>Emails</li>
+<li>SMS messages</li>
+<li>Mobile notifications</li>
+</ul>
+</li>
+<li><strong>Integrates with</strong>
+<ul>
+<li>Many AWS services can send data directly to SNS for notifications</li>
+<li>CloudWatch sends alarm notifications to SNS</li>
+<li>Auto Scaling Groups notifications</li>
+<li>S3 bucket events</li>
+<li>CloudFormation (upon state change)</li>
+</ul>
+</li>
+<li><strong>How to publish?</strong>
+<ul>
+<li><em>Topic publish</em>
+<ul>
+<li>Create a topic</li>
+<li>Create a subscription(s)</li>
+<li>Publish to the topic</li>
+</ul>
+</li>
+<li><em>Direct publish (for mobile apps SDK)</em>
+<ul>
+<li>Create platform application</li>
+<li>Create platform endpoint</li>
+<li>Publish to the platform endpoint</li>
+<li>Works with Google GCM, Apple APNS, Amazon ADM etc.</li>
 </ul>
 </li>
 </ul>
+</li>
+<li><img src="https://d1.awsstatic.com/diagrams/Product-page-diagram-Amazon-SNS_event-driven-SNS-compute@2X_.4b9c0a75aa40bda9cdb12f0176930a12da2872bf.png" alt="enter image description here"></li>
+<li><strong>Security</strong>
+<ul>
+<li><em>Encryption</em>
+<ul>
+<li>In-flight using HTTPS API</li>
+<li>At-rest using KMS keys</li>
+<li>Client-side encryption</li>
+</ul>
+</li>
+<li><em>Access controls</em> - using IAM policies to regulate access to the SNS API</li>
+<li><em>Access policies</em>
+<ul>
+<li>Similar to S3 bucket policies</li>
+<li>Cross Account Access to SNS topic</li>
+<li>Allowing other service (e.g. S3) to write to an SNS topic</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>SNS + SQS Fan Out</strong>
+<ul>
+<li>Push once in SNS, receive in all SQL queues that are subscribers</li>
+<li>Fully decoupled, no data loss</li>
+<li>Ability to add more SQS subscribers over time</li>
+<li>Make sure your SQS queue <strong>access policy</strong> allows for SNS to write</li>
+<li>Video transcoding fanout implementation in Lambda
+<ul>
+<li>Send same S3  events to many SQS queues / Lambda functions<img src="https://d2908q01vomqb2.cloudfront.net/1b6453892473a467d07372d45eb05abc2031647a/2017/07/25/messaging-fanout-for-serverless-with-sns-diagram2.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><strong>SNS FIFO</strong>
+<ul>
+<li>Ordering of messages in the topic</li>
+<li>Similar feature as SQS FIFO</li>
+<li><em>Can only have SQS FIFO as subscribers</em></li>
+<li>Limited throughput</li>
+<li>SNS FIFO + SQS FIFO - Fan out for scenario where you need <em>fan out + ordering + deduplication</em></li>
+<li><img src="https://d2908q01vomqb2.cloudfront.net/da4b9237bacccdf19c0760cab7aec4a8359010b0/2020/07/07/sns_fifo_two_subscriptions-1260x520.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><strong>Message Filtering</strong>
+<ul>
+<li>JSON policy used to filter messages sent to SNS topic’s subscriptions</li>
+<li>If subscription doesn’t have filter policy, it receive every message</li>
+<li><img src="https://event-driven-architecture.workshop.aws/4-sns/2-filtering/images/sns_arch_filtering.png?classes=border,shadow" alt="enter image description here"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Amazon Kinesis
+<ul>
+<li>Collect, process and analyze streaming data in real-time</li>
+<li>Ingest real time data such as Application logs, Metrics, Website clickstreams, IoT telemetry data</li>
+<li><a href="https://docs.aws.amazon.com/streams/latest/dev/introduction.html">Kinesis Data Streams</a>
+<ul>
+<li>Collect and process large <a href="https://aws.amazon.com/streaming-data/">streams</a> of data records in real time</li>
+<li>A typical Kinesis Data Streams application reads data from a <em>data stream</em> as data records</li>
+<li>Streams are made up of Shards</li>
+<li>Each shard allows for 1MB/s incoming and 2MB/s outgoing of data</li>
+<li>Producer sends data as Records into the stream</li>
+<li>Once data inserted in Kinesis, it can’t be deleted</li>
+<li>Data that shares same partition goes to the same shard</li>
+<li>Producers - AWS SDK, Kinesis Producer Library (KPL), Kinesis Agent</li>
+<li>Consumers - AWS Lambda, Kinesis Data Firehose etc</li>
+<li>Feature
+<ul>
+<li>Streaming service for ingest at scale</li>
+<li>Billing per shard provisioned, can have as many shard as you want</li>
+<li>Real time (~ 200 ms)</li>
+<li>Manage scaling (Shard splitting/merging)</li>
+<li>Retention between 1 day (default) to 365 days</li>
+<li>Support replay capability</li>
+</ul>
+</li>
+<li><img src="https://i.pinimg.com/originals/6d/aa/21/6daa21bd6c878525a5f4c82e5a79d8ff.jpg" alt="enter image description here"></li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html">Kinesis Data Firehose</a>
+<ul>
+<li>Service for delivering real-time <a href="http://aws.amazon.com/streaming-data/">streaming data</a> to destinations such as S3, Amazon Redshift, Amazon Elasticsearch Service etc.</li>
+<li>Feature
+<ul>
+<li>Fully managed</li>
+<li>Load data streams into S3/RedShift/3rd Party/Custom HTTP</li>
+<li>Pay for data going through Firehose</li>
+<li>Near real time (60 sec latency OR minimum 32MB data at a time)</li>
+<li>Automatic scaling</li>
+<li>No data storage</li>
+<li>Support many data formats, conversions, transformations, compression</li>
+<li>Support custom data transformations using AWS Lambda</li>
+<li>Can send failed or all data to backup S3 bucket</li>
+<li>Doesn’t support replay capability</li>
+</ul>
+</li>
+<li><img src="https://i.pinimg.com/originals/83/68/c6/8368c679d78d6d1aeab7750a3da7ce59.jpg" alt="enter image description here"></li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/what-is.html">Kinesis Data Analytics</a>
+<ul>
+<li>Analyze data streams with SQL or Apache Flink</li>
+<li>Feature
+<ul>
+<li>Fully managed, no servers to provision</li>
+<li>Automatic scaling</li>
+<li>Real-time analytics</li>
+<li>Pay for actual consumption rate</li>
+<li>Can create streams out of the real time queries</li>
+</ul>
+</li>
+<li>Use Cases
+<ul>
+<li>Time-series analytics</li>
+<li>Real-time dashboards</li>
+<li>Real-time metrics</li>
+</ul>
+</li>
+<li><img src="https://d2908q01vomqb2.cloudfront.net/b6692ea5df920cad691c20319a6fffd7a4a766b8/2017/10/05/preprocessing-data-kinesis-1.gif" alt="enter image description here"></li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/what-is-kinesis-video.html">Kinesis Video Streams</a>
+<ul>
+<li>Use to stream live video from devices to the AWS Cloud, or build applications for real-time video processing</li>
+<li>Capture, process and store video streams</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Data ordering for Kinesis vs SQS FIFO</strong>
+<ul>
+<li><em>Kinesis</em>
+<ul>
+<li>Send data using Partition Key</li>
+<li>Same key will always go to the same shard (due to hashing)</li>
+</ul>
+</li>
+<li><em>SQS FIFO</em>
+<ul>
+<li>No ordering</li>
+<li>If you don’t use Group ID, messages are consumed in the order they send, with only one consumer</li>
+</ul>
+</li>
+<li>Lets assume 100 records, 5 kinesis shard, 1 SQS FIFO
+<ul>
+<li><em>Kinesis data streams</em>
+<ul>
+<li>20 records per shard</li>
+<li>Will have their data ordered within each shard</li>
+<li>Maximum amount of consumer in parallel is 5</li>
+<li>Can receive up to 5MB/s (1MB/s * Total Shards) of data</li>
+</ul>
+</li>
+<li><em>SQS FIFO</em>
+<ul>
+<li>Will have 100 group ID</li>
+<li>So can have 100 Consumers (due to 100 group ID)</li>
+<li>Can have up to 300 messages per second (or 3000 if using batching)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><img src="https://miro.medium.com/max/1714/1*GPXkMjBqByYN3eD30FhsHw.png" alt="enter image description here"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.html">Amazon MQ</a>
+<ul>
+<li>Managed message broker service that makes it easy to migrate to a message broker in the cloud</li>
+<li>SQS, SNS are <em>cloud native</em> services, and they’re using proprietary protocols from AWS</li>
+<li>Traditional applications running from on-premise may use open protocols such as MQTT, AMQP, OpenWire etc.</li>
+<li>When migrating to the cloud, instead of re-engineering the application to use SQL, SNS we can use MQ</li>
+<li>Currently, Amazon MQ supports <a href="http://activemq.apache.org/">Apache ActiveMQ</a> and <a href="https://www.rabbitmq.com/">RabbitMQ</a> engine types</li>
+<li>Does not scale as much as SQS/SNS</li>
+<li>Runs on dedicated machine</li>
+<li>Has both <strong>queue feature and topic feature</strong></li>
+<li><img src="https://d1.awsstatic.com/product-marketing/Amazon-MQ/Amazon%20MQ%20HIW%20Diagram.78e380e8a97064c8f751c1569481a304644490b5.jpg" alt="enter image description here"></li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>Q: You are preparing for the biggest day of sale of the year, where your traffic will increase by 100x. You have already setup SQS standard queue. What should you do?</p>
+<blockquote>
+<p>Do nothing, SQS scales automatically</p>
+</blockquote>
+<p>Q: You would like messages to be processed by SQS consumers only after 5 minutes of being published to SQS. What should you do?</p>
+<blockquote>
+<p>Increase the DelaySeconds parameter (Delay queues let you postpone the delivery of new messages to a queue for a number of seconds. If you create a delay queue, any messages that you send to the queue remain invisible to consumers for the duration of the delay period. The default (minimum) delay for a queue is 0 seconds. The maximum is 15 minutes)</p>
+</blockquote>
+<p>Q: Your consumers poll 10 messages at a time and finish processing them in 1 minute. You notice that your messages are processed twice, as other consumers also receive the messages. What should you do?</p>
+<blockquote>
+<p>Increase the VisibilityTimeout (Immediately after a message is received, it remains in the queue. To prevent other consumers from processing the message again, Amazon SQS sets a visibility timeout, a period of time during which Amazon SQS prevents other consumers from receiving and processing the message. Increasing the timeout gives more time to the consumer to process that message and will prevent duplicate readings of the message)</p>
+</blockquote>
+<p>Q: You’d like your messages to be processed exactly once and in order. Which do you need?</p>
+<blockquote>
+<p>FIFO (First-In-First-Out) queues are designed to enhance messaging between applications when the order of operations and events is critical, or where duplicates can’t be tolerated. FIFO queues also provide exactly-once processing but have a limited number of transactions per second (TPS).</p>
+</blockquote>
+<p>Q: You’d like to send a message to 3 different applications all using SQS. You should</p>
+<blockquote>
+<p>Use SNS + SQS Fan Out pattern (This is a common pattern as only one message is sent to SNS and then “fan out” to multiple SQS queues)</p>
+</blockquote>
+<p>Q: You have a Kinesis stream usually receiving 5MB/s of data and sending out 8 MB/s of data. You have provisioned 6 shards. Some days, your traffic spikes up to 2 times and you get a throughput exception. You should</p>
+<blockquote>
+<p>Add more shards (Each shard allows for 1MB/s incoming and 2MB/s outgoing of data)</p>
+</blockquote>
+<p>Q: You are sending a clickstream for your users navigating your website, all the way to Kinesis. It seems that the users data is not ordered in Kinesis, and the data for one individual user is spread across many shards. How to fix that problem?</p>
+<blockquote>
+<p>You should use a partition key that represents the identity of the user (By providing a partition key we ensure the data is ordered for our users)</p>
+</blockquote>
+<p>Q: We’d like to perform real time analytics on streams of data. The most appropriate product will be</p>
+<blockquote>
+<p>Kinesis (Kinesis Analytics is the product to use, with Kinesis Streams as the underlying source of data)</p>
+</blockquote>
+<p>Q: We’d like for our big data to be loaded near real time to S3 or Redshift. We’d like to convert the data along the way. What should we use?</p>
+<blockquote>
+<p>Kinesis Streams + Kinesis Firehose (This is a perfect combo of technology for loading data near real-time in S3 and Redshift)</p>
+</blockquote>
+<p>Q: You want to send email notifications to your users. You should use</p>
+<blockquote>
+<p>SNS</p>
+</blockquote>
+<p>Q: You have many microservices running on-premise and they currently communicate using a message broker that supports the MQTT protocol. You would like to migrate these applications and the message broker to the cloud without changing the application logic. Which technology allows you to get a managed message broker that supports the MQTT protocol?</p>
+<blockquote>
+<p>Amazon MQ (Supports JMS, NMS, AMQP, STOMP, MQTT, and WebSocket)</p>
+</blockquote>
 <h2 id="aws-development">AWS Development</h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/cli/latest/reference/s3/">https://docs.aws.amazon.com/cli/latest/reference/s3/</a></li>
@@ -3266,13 +3529,13 @@ the installation process?</p>
 <hr>
 <p>Q: My EC2 Instance does not have the permissions to perform an API call PutObject on S3. What should I do?</p>
 <blockquote>
-<p>I should ask an administrator to attach a Policy to the IAM Role on my EC2 Instance that authorises it to do the API call (IAM roles are the right way to provide credentials and permissions to an EC2 instance)</p>
+<p>I should ask an administrator to attach a Policy to the IAM Role on my EC2 Instance that authorizes it to do the API call (IAM roles are the right way to provide credentials and permissions to an EC2 instance)</p>
 </blockquote>
 <p>Q: I have an on-premise personal server that I’d like to use to perform AWS API calls</p>
 <blockquote>
 <p>I should run <code>aws configure</code> and put my credentials there. Invalidate them when I’m done (Even better would be to create a user specifically for that one on-premise server)</p>
 </blockquote>
-<p>Q: I need my colleagues help to debug my code. When he runs the application on his machine, it’s working fine, whereas I get API authorisation exceptions. What should I do?</p>
+<p>Q: I need my colleagues help to debug my code. When he runs the application on his machine, it’s working fine, whereas I get API authorization exceptions. What should I do?</p>
 <blockquote>
 <p>Compare his IAM policy and my IAM policy in the policy simulator to understand the differences</p>
 </blockquote>
