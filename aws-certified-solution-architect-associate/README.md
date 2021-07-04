@@ -3559,7 +3559,7 @@ the installation process?</p>
 <li>Your containers are defined in a task definition that you use to run individual tasks or tasks within a service</li>
 <li>You must provision &amp; maintain the infrastructure (EC2 instances)</li>
 <li>ECS will take care of starting/stopping containers</li>
-<li>Has integration with ALB <img src="https://raw.githubusercontent.com/nikxsh/aws/master/aws-certified-solution-architect-associate/aws-ecs-cluster.jpg" alt="enter image description here"></li>
+<li>Has integration with ALB <img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-ecs-cluster.png" alt="enter image description here"></li>
 <li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">ECS Tasks</a>
 <ul>
 <li>To prepare your application to run on Amazon ECS, you create a task definition.</li>
