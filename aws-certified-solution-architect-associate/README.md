@@ -3600,8 +3600,7 @@ the installation process?</p>
 <li><em>EC2 launch type</em>
 <ul>
 <li>Can be used to run your containerized applications on Amazon EC2 instances that you register to your Amazon ECS cluster and manage yourself</li>
-<li>EC2 agents will be running on all container instances, through agents all instances get registered in ECS cluster so that in can be useful to start/stop ECS tasks</li>
-<li><img src="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/overview-standard.png" alt="enter image description here"></li>
+<li>EC2 agents will be running on all container instances, through agents all instances get registered in ECS cluster so that in can be useful to start/stop ECS tasks<img src="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/overview-standard.png" alt="enter image description here"></li>
 <li>Load Balancing
 <ul>
 <li>We get dynamic port mapping</li>
