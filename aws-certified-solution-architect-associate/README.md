@@ -3496,6 +3496,210 @@ the installation process?</p>
 <blockquote>
 <p>Amazon MQ (Supports JMS, NMS, AMQP, STOMP, MQTT, and WebSocket)</p>
 </blockquote>
+<h2 id="container-on-aws">Container on AWS</h2>
+<ul>
+<li><strong>Docker</strong></li>
+<li>Is a software platform that allows you to build, test, and deploy applications quickly</li>
+<li>With Docker, you can manage your infrastructure in the same ways you manage your applications</li>
+<li>Provides the ability to package and run an application in a loosely isolated environment called a container, that can be run on any OS</li>
+<li>The isolation and security allow you to run many containers simultaneously on a given host</li>
+<li>Containers are lightweight and contain everything needed to run the application, so you do not need to rely on what is currently installed on the host</li>
+<li><strong>Uses a client-server architecture</strong> <img src="https://docs.docker.com/engine/images/architecture.svg" alt="enter image description here">
+<ul>
+<li>Docker <em>client</em> talks to the Docker <em>daemon</em>, which does the heavy lifting of building, running, and distributing your Docker containers</li>
+<li>The Docker client and daemon <em>can</em> run on the same system, or you can connect a Docker client to a remote Docker daemon</li>
+<li>The Docker client and daemon communicate using a REST API, over UNIX sockets or a network interface</li>
+<li>Another Docker client is Docker Compose, that lets you work with applications consisting of a set of containers</li>
+<li><strong>daemon</strong>
+<ul>
+<li>daemon (<code>dockerd</code>) listens for Docker API requests and manages Docker objects such as images, containers, networks, and volumes</li>
+<li>Can also communicate with other daemons to manage Docker services</li>
+</ul>
+</li>
+<li><strong>client</strong>
+<ul>
+<li>client (<code>docker</code>) is the primary way that many Docker users interact with Docker</li>
+<li>When you use commands such as <code>docker run</code>, the client sends these commands to <code>dockerd</code>, which carries them out</li>
+<li>The <code>docker</code> command uses the Docker API. The Docker client can communicate with more than one daemon</li>
+</ul>
+</li>
+<li><strong>registries</strong>
+<ul>
+<li>Stores Docker images</li>
+<li>Docker Hub is a public registry that anyone can use, and Docker is configured to look for images on Docker Hub by default and you can even run your own private registry</li>
+</ul>
+</li>
+<li><strong>objects</strong>
+<ul>
+<li><em>Images</em>
+<ul>
+<li>Read-only template with instructions for creating a Docker container</li>
+<li>Often, an image is <em>based on</em> another image, with some additional customization. For example, you may build an image which is based on the <code>ubuntu</code> image, but installs the Apache web server and your application, as well as the configuration details needed to make your application run</li>
+<li>To build your own image, you create a <em>Dockerfile</em> with a simple syntax for defining the steps needed to create the image and run it</li>
+<li>Each instruction in a Dockerfile creates a layer in the image. When you change the Dockerfile and rebuild the image, only those layers which have changed are rebuilt</li>
+</ul>
+</li>
+<li><em>Containers</em>
+<ul>
+<li>Runnable instance of an image</li>
+<li>Can create, start, stop, move, or delete a container using the Docker API or CLI</li>
+<li>Can connect a container to one or more networks, attach storage to it, or even create a new image based on its current state</li>
+<li>By default, a container is relatively well isolated from other containers and its host machine</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Docker Container Management On AWS
+<ul>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html">ECS (Elastic Container Service) </a>
+<ul>
+<li>Enables you to launch and stop your container-based applications by using simple API calls</li>
+<li>Your containers are defined in a task definition that you use to run individual tasks or tasks within a service</li>
+<li>You must provision &amp; maintain the infrastructure (EC2 instances)</li>
+<li>ECS will take care of starting/stopping containers</li>
+<li>Has integration with ALB <img src="https://miro.medium.com/max/1030/1*95YQJMMJD9jeBk4_i0woxA.png" alt="enter image description here" width="800" height="400"></li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">ECS Tasks</a>
+<ul>
+<li>To prepare your application to run on Amazon ECS, you create a task definition.</li>
+<li>The task definition is a text file, in JSON format, that describes one or more containers, up to a maximum of ten, that form your application</li>
+<li>Task definitions specify various parameters for your application such as
+<ul>
+<li>Which containers to use</li>
+<li>Which launch type to use</li>
+<li>Which ports should be opened for your application</li>
+<li>What data volumes should be used with the containers in the task</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html">IAM Roles for ECS Tasks</a>
+<ul>
+<li>All ECS task may perform operations on other services so they need to have IAM roles</li>
+<li>ECS agent need role <em>EC2 Instance Profile (only used by ECS agent)</em> to do
+<ul>
+<li>API calls to ECS service</li>
+<li>Send contained logs to CloudWatch Logs</li>
+<li>Pull Docker image from ECR</li>
+<li>Reference to Secret Manager or Parameter Store</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html">ECS Task Role</a>
+<ul>
+<li>Attached to Tasks to each task can have specific role</li>
+<li>Use different roles for different ECS services you run</li>
+<li>Defined in Task Definition</li>
+<li>E.g. ECS Task 1 has “IAM Role 1” to access S3 bucket then only that task can access S3 bucket</li>
+<li><img src="https://image.slidesharecdn.com/1715-1745securingyourcontainersonaws-170503044946/95/securing-your-containers-on-aws-25-638.jpg?cb=1493788400" alt="enter image description here"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Launch Types - can be specified when running a standalone task or creating a service to determine the infrastructure on which your tasks and services are hosted
+<ul>
+<li><em>EC2 launch type</em>
+<ul>
+<li>Can be used to run your containerized applications on Amazon EC2 instances that you register to your Amazon ECS cluster and manage yourself</li>
+<li>EC2 agents will be running on all container instances, through agents all instances get registered in ECS cluster so that in can be useful to start/stop ECS tasks</li>
+<li><img src="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/overview-standard.png" alt="enter image description here"></li>
+<li>Load Balancing
+<ul>
+<li>We get dynamic port mapping</li>
+<li>The ALB supports finding the right port on your EC2 instances</li>
+<li>You must allow on the EC2 instance’s SG “any port” coming from the ALB SG</li>
+<li><img src="https://i.pinimg.com/originals/f7/d5/43/f7d54362a8270c2c144bd84e47175d09.jpg" alt="enter image description here"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><em>Fargate launch type</em>
+<ul>
+<li>Fargate service will launch a Task and not need to create EC2 instances beforehand</li>
+<li>We have ENI to connect to each Fargate Tasks which also get launched within our VPC to bind these task to network IP</li>
+<li>As ENI is distinct IP we should have enough private address within our VPC</li>
+<li><img src="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/overview-fargate.png" alt="enter image description here"></li>
+<li>Load Balancing
+<ul>
+<li>Each task has a unique IP</li>
+<li>Ensure that ENI’s SG is allows on the “task port” the SG of ALB</li>
+<li><img src="https://i.pinimg.com/originals/d4/e6/4f/d4e64ff853f15bc039a5187223198d15.jpg" alt="enter image description here"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html">ECS Data Volumes</a>
+<ul>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/efs-volumes.html">EFS volumes</a>
+<ul>
+<li>Works for both EC2 tasks and Fargate tasks</li>
+<li>Ability to mount EFS volumes onto tasks</li>
+<li>Task launched in any AZ will be able to share the same data in the EFS volume</li>
+<li>Fargate + EFS = serverless + data storage without managing servers</li>
+<li>Use cases
+<ul>
+<li>Persistent Multi-AZ shared storage for your containers</li>
+<li>To export file system data across your fleet of container instances. That way, your tasks have access to the same persistent storage, no matter the instance on which they land</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-volumes.html">Docker volumes</a>
+<ul>
+<li>When using Docker volumes, the built-in <code>local</code> driver or a third-party volume driver can be used</li>
+<li>Docker volumes are managed by Docker and a directory is created in <code>/var/lib/docker/volumes</code> on the container instance that contains the volume data</li>
+<li>Use cases
+<ul>
+<li>To provide persistent data volumes for use with containers</li>
+<li>To share a defined data volume at different locations on different containers on the same container instance</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/bind-mounts.html">Bind mounts</a>
+<ul>
+<li>A file or directory on the host, such as AWS Fargate, is mounted into a container</li>
+<li>Bind mounts are tied to the lifecycle of the container</li>
+<li>Once all containers using a bind mount are stopped, for example when a task is stopped, the data is removed</li>
+<li>Use cases
+<ul>
+<li>To provide an empty data volume to mount in one or more containers</li>
+<li>To share a data volume from a source container with other containers in the same task</li>
+<li>To expose a path and its contents from a Dockerfile to one or more containers</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ECS Task invoked by <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html">Event Bridge</a>
+<ul>
+<li>EventBridge delivers a stream of real-time data from your applications, software as a service (SaaS) applications, and AWS services to targets such as AWS Lambda functions, HTTP invocation endpoints using API destinations, or event buses in other AWS accounts</li>
+<li>EventBridge receives an <em><a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-events.html">event</a></em>, an indicator of a change in environment, and applies a <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rules.html">rule</a> to route the event to a <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html">target</a></li>
+<li>Rules match events to targets based on either the structure of the event, called an <em><a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html">event pattern</a></em>, or on a schedule</li>
+<li>E.g. We can invoke ECS task upon object is uploaded using EventBridge Rule and triggered event by the rule<img src="https://i.pinimg.com/originals/0f/46/44/0f4644ef4790af0720e506b6c1dda849.jpg" alt="enter image description here"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/eks/latest/userguide/fargate.html">Fargate</a>
+<ul>
+<li>Serverless container platform</li>
+<li>launch Docker containers on AWS</li>
+<li>You no longer have to provision, configure, or scale groups of virtual machines to run containers (No EC2 instances to manage), that why serverless</li>
+<li>AWS just runs containers for you based on the CPU/RAM you need<img src="https://d1.awsstatic.com/re19/FargateonEKS/Product-Page-Diagram_Fargate@2x.a20fb2b15c2aebeda3a44dbbb0b10b82fb89aa6a.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li>EKS
+<ul>
+<li>Managed Kubernetes</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <h2 id="aws-development">AWS Development</h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/cli/latest/reference/s3/">https://docs.aws.amazon.com/cli/latest/reference/s3/</a></li>
