@@ -3559,7 +3559,7 @@ the installation process?</p>
 <li>Your containers are defined in a task definition that you use to run individual tasks or tasks within a service</li>
 <li>You must provision &amp; maintain the infrastructure (EC2 instances)</li>
 <li>ECS will take care of starting/stopping containers</li>
-<li>Has integration with ALB <img src="https://miro.medium.com/max/1030/1*95YQJMMJD9jeBk4_i0woxA.png" alt="enter image description here" width="800" height="400"></li>
+<li>Has integration with ALB <img src="https://i.pinimg.com/originals/36/dd/e8/36dde8c5857e70e2cec995b926e168fa.jpg" alt="enter image description here"></li>
 <li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">ECS Tasks</a>
 <ul>
 <li>To prepare your application to run on Amazon ECS, you create a task definition.</li>
@@ -3675,6 +3675,13 @@ the installation process?</p>
 <li>EventBridge receives an <em><a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-events.html">event</a></em>, an indicator of a change in environment, and applies a <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rules.html">rule</a> to route the event to a <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html">target</a></li>
 <li>Rules match events to targets based on either the structure of the event, called an <em><a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html">event pattern</a></em>, or on a schedule</li>
 <li>E.g. We can invoke ECS task upon object is uploaded, using EventBridge Rule and events<img src="https://i.pinimg.com/originals/0f/46/44/0f4644ef4790af0720e506b6c1dda849.jpg" alt="enter image description here"></li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html">Automatic Scaling</a>
+<ul>
+<li>Is the ability to increase or decrease the desired count of tasks in your Amazon ECS service automatically</li>
+<li>Amazon ECS publishes CloudWatch metrics with your service’s average CPU and memory usage</li>
+<li>You can use these and other CloudWatch metrics to scale out your service (add more tasks) to deal with high demand at peak times, and to scale in your service (run fewer tasks) to reduce costs during periods of low utilization <img src="https://s3.amazonaws.com/chrisb/concept_diagram.jpg" alt="enter image description here"></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -3682,7 +3689,7 @@ the installation process?</p>
 <li><a href="https://docs.aws.amazon.com/eks/latest/userguide/fargate.html">Fargate</a>
 <ul>
 <li>Serverless container platform</li>
-<li>launch Docker containers on AWS</li>
+<li>Launch Docker containers on AWS</li>
 <li>You no longer have to provision, configure, or scale groups of virtual machines to run containers (No EC2 instances to manage), that why serverless</li>
 <li>AWS just runs containers for you based on the CPU/RAM you need<img src="https://d1.awsstatic.com/re19/FargateonEKS/Product-Page-Diagram_Fargate@2x.a20fb2b15c2aebeda3a44dbbb0b10b82fb89aa6a.png" alt="enter image description here"></li>
 </ul>
