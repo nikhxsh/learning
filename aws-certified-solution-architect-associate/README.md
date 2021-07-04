@@ -3588,8 +3588,7 @@ the installation process?</p>
 <li>Attached to Tasks to each task can have specific role</li>
 <li>Use different roles for different ECS services you run</li>
 <li>Defined in Task Definition</li>
-<li>E.g. ECS Task 1 has “IAM Role 1” to access S3 bucket then only that task can access S3 bucket</li>
-<li><img src="https://image.slidesharecdn.com/1715-1745securingyourcontainersonaws-170503044946/95/securing-your-containers-on-aws-25-638.jpg?cb=1493788400" alt="enter image description here"></li>
+<li>E.g. ECS Task 1 has “IAM Role 1” to access S3 bucket then only that task can access S3 bucket<img src="https://image.slidesharecdn.com/1715-1745securingyourcontainersonaws-170503044946/95/securing-your-containers-on-aws-25-638.jpg?cb=1493788400" alt="enter image description here"></li>
 </ul>
 </li>
 </ul>
@@ -3607,8 +3606,7 @@ the installation process?</p>
 <ul>
 <li>We get dynamic port mapping</li>
 <li>The ALB supports finding the right port on your EC2 instances</li>
-<li>You must allow on the EC2 instance’s SG “any port” coming from the ALB SG</li>
-<li><img src="https://i.pinimg.com/originals/f7/d5/43/f7d54362a8270c2c144bd84e47175d09.jpg" alt="enter image description here"></li>
+<li>You must allow on the EC2 instance’s SG “any port” coming from the ALB SG<img src="https://i.pinimg.com/originals/f7/d5/43/f7d54362a8270c2c144bd84e47175d09.jpg" alt="enter image description here"></li>
 </ul>
 </li>
 </ul>
@@ -3617,13 +3615,11 @@ the installation process?</p>
 <ul>
 <li>Fargate service will launch a Task and not need to create EC2 instances beforehand</li>
 <li>We have ENI to connect to each Fargate Tasks which also get launched within our VPC to bind these task to network IP</li>
-<li>As ENI is distinct IP we should have enough private address within our VPC</li>
-<li><img src="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/overview-fargate.png" alt="enter image description here"></li>
+<li>As ENI is distinct IP we should have enough private address within our VPC<img src="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/overview-fargate.png" alt="enter image description here"></li>
 <li>Load Balancing
 <ul>
 <li>Each task has a unique IP</li>
-<li>Ensure that ENI’s SG is allows on the “task port” the SG of ALB</li>
-<li><img src="https://i.pinimg.com/originals/d4/e6/4f/d4e64ff853f15bc039a5187223198d15.jpg" alt="enter image description here"></li>
+<li>Ensure that ENI’s SG is allows on the “task port” the SG of ALB <img src="https://i.pinimg.com/originals/d4/e6/4f/d4e64ff853f15bc039a5187223198d15.jpg" alt="enter image description here"></li>
 </ul>
 </li>
 </ul>
@@ -3679,7 +3675,7 @@ the installation process?</p>
 <li>EventBridge delivers a stream of real-time data from your applications, software as a service (SaaS) applications, and AWS services to targets such as AWS Lambda functions, HTTP invocation endpoints using API destinations, or event buses in other AWS accounts</li>
 <li>EventBridge receives an <em><a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-events.html">event</a></em>, an indicator of a change in environment, and applies a <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rules.html">rule</a> to route the event to a <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html">target</a></li>
 <li>Rules match events to targets based on either the structure of the event, called an <em><a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html">event pattern</a></em>, or on a schedule</li>
-<li>E.g. We can invoke ECS task upon object is uploaded using EventBridge Rule and triggered event by the rule<img src="https://i.pinimg.com/originals/0f/46/44/0f4644ef4790af0720e506b6c1dda849.jpg" alt="enter image description here"></li>
+<li>E.g. We can invoke ECS task upon object is uploaded, using EventBridge Rule and events<img src="https://i.pinimg.com/originals/0f/46/44/0f4644ef4790af0720e506b6c1dda849.jpg" alt="enter image description here"></li>
 </ul>
 </li>
 </ul>
