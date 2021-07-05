@@ -3675,11 +3675,33 @@ the installation process?</p>
 <li>EventBridge receives an <em><a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-events.html">event</a></em>, an indicator of a change in environment, and applies a <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rules.html">rule</a> to route the event to a <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html">target</a></li>
 <li>Rules match events to targets based on either the structure of the event, called an <em><a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html">event pattern</a></em>, or on a schedule</li>
 <li>E.g. We can invoke ECS task upon object is uploaded, using EventBridge Rule and events<img src="https://i.pinimg.com/originals/0f/46/44/0f4644ef4790af0720e506b6c1dda849.jpg" alt="enter image description here"></li>
-<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html">Automatic Scaling</a>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html">ECS Scaling</a>
 <ul>
 <li>Is the ability to increase or decrease the desired count of tasks in your Amazon ECS service automatically</li>
+<li>Service Scaling
+<ul>
 <li>Amazon ECS publishes CloudWatch metrics with your service’s average CPU and memory usage</li>
 <li>You can use these and other CloudWatch metrics to scale out your service (add more tasks) to deal with high demand at peak times, and to scale in your service (run fewer tasks) to reduce costs during periods of low utilization <img src="https://s3.amazonaws.com/chrisb/concept_diagram.jpg" alt="enter image description here"></li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-capacity-providers.html">Scale ECS Capacity Providers (Optional)</a>
+<ul>
+<li>Each cluster can have one or more capacity providers and an optional default capacity provider strategy</li>
+<li>The capacity provider strategy determines how the tasks are spread across the cluster’s capacity providers</li>
+<li>Optional and for <strong>EC2 type only</strong></li>
+<li>It will launch additional EC2 instances to cluster</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ECS Rolling Updates
+<ul>
+<li>When the <em>rolling update</em> (<code>ECS</code>) deployment type is used for your service, when a new service deployment is started the Amazon ECS service scheduler replaces the currently running tasks with new tasks</li>
+<li>The <em>rolling update</em> is controlled by the deployment configuration</li>
+<li>The deployment configuration consists of the <code>minimumHealthyPercent</code> and <code>maximumPercent</code> values which are defined when the service is created, but can also be updated on an existing service</li>
+<li>The <code>minimumHealthyPercent</code> represents the lower limit on the number of tasks that should be running for a service during a deployment or when a container instance is draining, as a percent of the desired number of tasks for the service</li>
+<li>The <code>maximumPercent</code> represents the upper limit on the number of tasks that should be running for a service during a deployment or when a container instance is draining, as a percent of the desired number of tasks for a service</li>
+<li>When updating service from v1 to v2, we can control how many tasks can be started and stopped, and in which order<img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-ecs-service-rolling-updates.png" alt="enter image description here"></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -3694,9 +3716,32 @@ the installation process?</p>
 <li>AWS just runs containers for you based on the CPU/RAM you need<img src="https://d1.awsstatic.com/re19/FargateonEKS/Product-Page-Diagram_Fargate@2x.a20fb2b15c2aebeda3a44dbbb0b10b82fb89aa6a.png" alt="enter image description here"></li>
 </ul>
 </li>
-<li>EKS
+<li><a href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html">EKS (Elastic Kubernetes Service)</a>
 <ul>
 <li>Managed Kubernetes</li>
+<li>It is a way to launch managed Kubernetes cluster on AWS</li>
+<li><a href="https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/">Kubernetes</a>, also known as K8s, is an open-source system for automating deployment, scaling, and management of containerized applications</li>
+<li>Alternative to ECS, similar goal but different API (Kubernetes is open source)</li>
+<li>EKS supports EC2 if you want to deploy worker nodes or Fargate to deploy serverless containers</li>
+<li>Cloud-agnostic i.e. can be used on any cloud <img src="https://d1.awsstatic.com/partner-network/QuickStart/datasheets/amazon-eks-on-aws-architecture-diagram.64cf0e40c45ade8107daf6a3ef5e2e05134d9a4b.png" alt="enter image description here"></li>
+<li>Use Cases
+<ul>
+<li>Organization already using Kubernetes</li>
+<li>Organization wants to migrate to AWS using Kubernetes</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html">ECR (Elastic Container Registry)</a>
+<ul>
+<li>An AWS managed container image registry service that is secure, scalable, and reliable</li>
+<li>Supports private container image repositories with resource-based permissions using AWS IAM</li>
+<li><em>ECR registry</em> is provided to each AWS account; you can create image repositories in your registry and store images in them</li>
+<li><em>Authorization token</em> - Your client must authenticate to Amazon ECR registries as an AWS user before it can push and pull images</li>
+<li>An Amazon <em>ECR image repository</em> contains your Docker images, Open Container Initiative (OCI) images, and OCI compatible artifacts</li>
+<li>You can control access to your repositories and the images within them with <em>repository policies</em></li>
+<li>You can push and pull <em>container images</em> to your repositories</li>
+<li>Supports image vulnerability scanning, version, tag, image lifecycle <img src="https://d1.awsstatic.com/diagrams/product-page-diagrams/Product-Page-Diagram_Amazon-ECR.bf2e7a03447ed3aba97a70e5f4aead46a5e04547.png" alt="enter image description here"></li>
 </ul>
 </li>
 </ul>
