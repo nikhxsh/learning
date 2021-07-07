@@ -3747,6 +3747,133 @@ the installation process?</p>
 </ul>
 </li>
 </ul>
+<h2 id="serverless-in-aws">Serverless in AWS</h2>
+<ul>
+<li>A <a href="https://aws.amazon.com/lambda/serverless-architectures-learn-more/">serverless architecture</a> is a way to build and run applications and services without having to manage infrastructure</li>
+<li>Application still runs on servers, but all the server management is done by AWS</li>
+<li>Just deploy code (Function as Service FaaS)</li>
+<li>Use cases
+<ul>
+<li>Build web applications and mobile backends in a faster, more agile way</li>
+<li>Can use cloud services like AWS Lambda, Amazon API Gateway, and Amazon DynamoDB to implement serverless architectural patterns that reduce the operational complexity of running and managing applications <img src="https://docs.aws.amazon.com/whitepapers/latest/microservices-on-aws/images/image4.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li>Serverless in AWS
+<ul>
+<li>Lambda</li>
+<li>DynamoDB</li>
+<li>Cognito</li>
+<li>API Gateway</li>
+<li>S3</li>
+<li>SNS &amp; SQS</li>
+<li>Kinesis Data Firehouse (Getting scaled based on throughput)</li>
+<li>Aurora Serverless</li>
+<li>Step Functions</li>
+<li>Fargate (Serverless function in ECS)</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda</a>
+<ul>
+<li>Virtual Functions - service that lets you run code without provisioning or managing servers</li>
+<li>Runs on demand - runs your function only when needed</li>
+<li>You pay only for per request &amp; compute time</li>
+<li>Performs all of the administration of the compute resources, like
+<ul>
+<li>Server and operating system maintenance</li>
+<li>Capacity provisioning</li>
+<li>Automatic scaling</li>
+<li>Code monitoring and logging</li>
+</ul>
+</li>
+<li>Can invoke your Lambda functions using
+<ul>
+<li>Lambda API</li>
+<li>In response to events from other AWS services</li>
+</ul>
+</li>
+<li>Language Support
+<ul>
+<li>Node.js, Python, Java, C#, Golang, PowerShell, Ruby &amp; Custom Runtime API (community supported e.g. Rust)</li>
+<li>Lambda Container Image
+<ul>
+<li>Must be implement the Lambda Runtime API</li>
+<li>ECS / Fargate is preferred for running arbitrary Docker images</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Examples</li>
+<li><img src="https://blog.kakaocdn.net/dn/cLsDbd/btqZrfTcmN3/IZZdwYV5ssrNPb7KMeDXQK/img.png" alt="Serverless thumbnail creation"></li>
+<li><img src="https://d2908q01vomqb2.cloudfront.net/fc074d501302eb2b93e2554793fcaf50b3bf7291/2018/05/13/architecture_v2small2.png" alt="Serverless CRON Job"></li>
+<li><a href="https://aws.amazon.com/lambda/pricing/">Pricing</a>
+<ul>
+<li>Pay per calls
+<ul>
+<li>Free usage tier includes 1M free requests per month</li>
+<li>$0.20 per 1 million requests thereafter ($0.0000002/request)</li>
+</ul>
+</li>
+<li>Pay per duration
+<ul>
+<li>Free usage tier includes 400,000 GB-seconds of compute time per month</li>
+<li>== 400,000 secs if function is 1GB RAM</li>
+<li>== 3,200,000 secs if function is 128 MB RAM</li>
+<li>After that $1 for 600,000 GB-secs</li>
+</ul>
+</li>
+<li>Very cheap to run AWS lambda</li>
+</ul>
+</li>
+<li>Limits (per region)
+<ul>
+<li>Execution limit
+<ul>
+<li>Memory 128MB - 10 GB (64MB increments)</li>
+<li>Max execution time 900 sec (15 mins)</li>
+<li>Max size for environment variables 4KB</li>
+<li>Disk capacity in the function container is 512 MB</li>
+<li>Concurrent execution 1000 (can be increase)</li>
+</ul>
+</li>
+<li>Deployment limit
+<ul>
+<li>Max deployment size is 50 MB (Compressed)</li>
+<li>Max size of uncompressed deployment (Code + Dependencies) is 250 MB</li>
+<li>Can use the /tmp directory to load other files at startup</li>
+<li>Max size for environment variables 4KB</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Lambda@Edge
+<ul>
+<li>Deploy Lambda function alongside your CloudFront CDN to
+<ul>
+<li>Build more responsive applications</li>
+<li>Customized CDN content</li>
+<li>Lambda deployed globally</li>
+<li>Pay only for what you use</li>
+</ul>
+</li>
+<li>You can use it to change CloudFront requests and responses<img src="https://docs.aws.amazon.com/lambda/latest/dg/images/cloudfront-events-that-trigger-lambda-functions.png" alt="enter image description here"></li>
+<li>Allows you to change Viewer request/response and Origin request/response</li>
+<li>Use cases
+<ul>
+<li>Website security and privacy</li>
+<li>Dynamic web application at the edge</li>
+<li>Search engine optimization (SEO)</li>
+<li>Intelligently Route Across origin and Data Centers</li>
+<li>Bot Mitigation at the edge</li>
+<li>Real-time Image Transformation</li>
+<li>User Authentication and Authorization</li>
+<li>User tracking and Analytics</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <h2 id="aws-development">AWS Development</h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/cli/latest/reference/s3/">https://docs.aws.amazon.com/cli/latest/reference/s3/</a></li>
