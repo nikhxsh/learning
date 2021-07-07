@@ -3802,8 +3802,13 @@ the installation process?</p>
 </li>
 </ul>
 </li>
-<li>Examples<img src="https://blog.kakaocdn.net/dn/cLsDbd/btqZrfTcmN3/IZZdwYV5ssrNPb7KMeDXQK/img.png" alt="Serverless thumbnail creation"><br>
+<li>Examples
+<ul>
+<li>Serverless thumbnail creation<img src="https://blog.kakaocdn.net/dn/cLsDbd/btqZrfTcmN3/IZZdwYV5ssrNPb7KMeDXQK/img.png" alt="Serverless thumbnail creation"></li>
+<li>Serverless CRON Job<br>
 <img src="https://d2908q01vomqb2.cloudfront.net/fc074d501302eb2b93e2554793fcaf50b3bf7291/2018/05/13/architecture_v2small2.png" alt="Serverless CRON Job"></li>
+</ul>
+</li>
 <li><a href="https://aws.amazon.com/lambda/pricing/">Pricing</a>
 <ul>
 <li>Pay per calls
