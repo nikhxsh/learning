@@ -1361,7 +1361,8 @@ user-data</p>
 </li>
 </ul>
 </li>
-<li><a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/introduction.html">Gateway Load Balancer</a></li>
+<li><a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/introduction.html">Gateway Load Balancer</a>
+<ul>
 <li>Enable you to deploy, scale, and manage virtual appliances, such as firewalls, intrusion detection and prevention systems, and deep packet inspection systems</li>
 <li>Operates at the third layer of the Open Systems Interconnection (OSI) model, the network layer</li>
 <li>It listens for all IP packets across all ports and forwards traffic to the target group that’s specified in the listener rule</li>
@@ -1370,6 +1371,8 @@ user-data</p>
 <li>You deploy the Gateway Load Balancer in the same VPC as the virtual appliances</li>
 <li>Traffic to and from a Gateway Load Balancer endpoint is configured using route tables</li>
 <li>You must create the Gateway Load Balancer endpoint and the application servers in different subnets<img src="https://miro.medium.com/max/1121/1*qNMaVza5BzgrimG2fz0gNg.png" alt="enter image description here"></li>
+</ul>
+</li>
 <li><strong>Load balancer stickiness</strong>
 <ul>
 <li>Stickiness is that same client always get redirects to the same instance</li>
