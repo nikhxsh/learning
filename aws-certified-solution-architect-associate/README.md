@@ -1423,7 +1423,8 @@ user-data</p>
 <li><a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html">Auto scaling group</a>
 <ul>
 <li>Scale out (Add ec2 instance) to match increased load</li>
-<li>Scale in (remove ec2 instance) to match decreased load<img src="https://miro.medium.com/max/487/1*uS9J8btKCQaMOhnUXp62aA.jpeg" alt="enter image description here"></li>
+<li>Scale in (remove ec2 instance) to match decreased load</li>
+<li><img src="https://miro.medium.com/max/487/1*uS9J8btKCQaMOhnUXp62aA.jpeg" alt="enter image description here"></li>
 <li>Auto register new instance to a load balancer</li>
 <li>ASG is Free</li>
 <li>If having instance under ASG get terminated for whatever reason then ASG will automatically created new ones as a replacement</li>
@@ -1486,7 +1487,8 @@ user-data</p>
 </li>
 <li><a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroupLifecycle.html">Lifecycle Hooks</a>
 <ul>
-<li>Can perform extra steps (Extract info/ logging) before instance goes in service (Pending state) or before it get terminated (Terminating state)<img src="https://docs.aws.amazon.com/autoscaling/ec2/userguide/images/auto_scaling_lifecycle.png" alt="enter image description here"></li>
+<li>Can perform extra steps (Extract info/ logging) before instance goes in service (Pending state) or before it get terminated (Terminating state)</li>
+<li><img src="https://docs.aws.amazon.com/autoscaling/ec2/userguide/images/auto_scaling_lifecycle.png" alt="enter image description here"></li>
 <li>ASG
 <ul>
 <li>(Scale Out) &gt; Pending [ Lifecycle hooks &gt;&gt; Pending:wait &gt; Pending: Proceed] &gt; InService</li>
@@ -2204,10 +2206,9 @@ failures, useful to speed up downloads</li>
 <li>Unstable connection</li>
 </ul>
 </li>
-<li>If data migration takes more than a week to transfer over the network</li>
+<li>If data migration takes more than a week to transfer over the network<img src="https://d2908q01vomqb2.cloudfront.net/e1822db470e60d090affd0956d743cb0e7cdf113/2020/12/08/AWS-Snow-Family-data-migration-workflow.png" alt="enter image description here"></li>
 </ul>
 </li>
-<li><img src="https://d2908q01vomqb2.cloudfront.net/e1822db470e60d090affd0956d743cb0e7cdf113/2020/12/08/AWS-Snow-Family-data-migration-workflow.png" alt="enter image description here"></li>
 <li><a href="https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snowcone-what-is-snowcone.html">Snowcone</a>
 <ul>
 <li>Small portable computing anywhere, rugged &amp; secure, withstand harsh enviroments</li>
