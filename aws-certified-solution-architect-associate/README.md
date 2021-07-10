@@ -3288,7 +3288,8 @@ the installation process?</p>
 <li>Support many data formats, conversions, transformations, compression</li>
 <li>Support custom data transformations using AWS Lambda</li>
 <li>Can send failed or all data to backup S3 bucket</li>
-<li>Doesn’t support replay capability<img src="https://i.pinimg.com/originals/83/68/c6/8368c679d78d6d1aeab7750a3da7ce59.jpg" alt="enter image description here"></li>
+<li>Doesn’t support replay capability</li>
+<li><img src="https://i.pinimg.com/originals/83/68/c6/8368c679d78d6d1aeab7750a3da7ce59.jpg" alt="enter image description here"></li>
 </ul>
 </li>
 </ul>
@@ -3412,19 +3413,19 @@ the installation process?</p>
 <p>Amazon MQ (Supports JMS, NMS, AMQP, STOMP, MQTT, and WebSocket)</p>
 </blockquote>
 <h2 id="container-on-aws">Container on AWS</h2>
+<h3 id="docker">Docker</h3>
 <ul>
-<li><strong>Docker</strong></li>
 <li>Is a software platform that allows you to build, test, and deploy applications quickly</li>
 <li>With Docker, you can manage your infrastructure in the same ways you manage your applications</li>
 <li>Provides the ability to package and run an application in a loosely isolated environment called a container, that can be run on any OS</li>
 <li>The isolation and security allow you to run many containers simultaneously on a given host</li>
 <li>Containers are lightweight and contain everything needed to run the application, so you do not need to rely on what is currently installed on the host</li>
-<li><strong>Uses a client-server architecture</strong> <img src="https://docs.docker.com/engine/images/architecture.svg" alt="enter image description here">
-<ul>
+<li><strong>Uses a client-server architecture</strong> <img src="https://docs.docker.com/engine/images/architecture.svg" alt="enter image description here"></li>
 <li>Docker <em>client</em> talks to the Docker <em>daemon</em>, which does the heavy lifting of building, running, and distributing your Docker containers</li>
 <li>The Docker client and daemon <em>can</em> run on the same system, or you can connect a Docker client to a remote Docker daemon</li>
 <li>The Docker client and daemon communicate using a REST API, over UNIX sockets or a network interface</li>
-<li>Another Docker client is Docker Compose, that lets you work with applications consisting of a set of containers</li>
+<li>Another Docker client is Docker Compose, that lets you work with applications consisting of a set of containers
+<ul>
 <li><strong>daemon</strong>
 <ul>
 <li>daemon (<code>dockerd</code>) listens for Docker API requests and manages Docker objects such as images, containers, networks, and volumes</li>
@@ -3466,9 +3467,8 @@ the installation process?</p>
 </li>
 </ul>
 </li>
-<li>Docker Container Management On AWS
-<ul>
-<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html">ECS (Elastic Container Service) </a>
+</ul>
+<h3 id="ecs-elastic-container-service-"><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html">ECS (Elastic Container Service) </a></h3>
 <ul>
 <li>Enables you to launch and stop your container-based applications by using simple API calls</li>
 <li>Your containers are defined in a task definition that you use to run individual tasks or tasks within a service</li>
@@ -3528,7 +3528,7 @@ the installation process?</p>
 <li><em>Fargate launch type</em>
 <ul>
 <li>Fargate service will launch a Task and not need to create EC2 instances beforehand</li>
-<li>We have ENI to connect to each Fargate Tasks which also get launched within our VPC to bind these task to network IP</li>
+<li>Has ENI to connect to each Fargate Tasks which also get launched within our VPC to bind these task to network IP</li>
 <li>As ENI is distinct IP we should have enough private address within our VPC<img src="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/overview-fargate.png" alt="enter image description here"></li>
 <li>Load Balancing
 <ul>
@@ -3621,8 +3621,6 @@ the installation process?</p>
 </li>
 </ul>
 </li>
-</ul>
-</li>
 <li><a href="https://docs.aws.amazon.com/eks/latest/userguide/fargate.html">Fargate</a>
 <ul>
 <li>Serverless container platform</li>
@@ -3660,8 +3658,6 @@ the installation process?</p>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
 <h2 id="serverless-in-aws">Serverless in AWS</h2>
 <ul>
 <li>A <a href="https://aws.amazon.com/lambda/serverless-architectures-learn-more/">serverless architecture</a> is a way to build and run applications and services without having to manage infrastructure</li>
@@ -3687,7 +3683,8 @@ the installation process?</p>
 <li>Fargate (Serverless function in ECS)</li>
 </ul>
 </li>
-<li><a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda</a>
+</ul>
+<h3 id="aws-lambda"><a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda</a></h3>
 <ul>
 <li>Virtual Functions - service that lets you run code without provisioning or managing servers</li>
 <li>Runs on demand - runs your function only when needed</li>
@@ -3791,8 +3788,7 @@ the installation process?</p>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html">DynamoDB</a>
+<h3 id="dynamodb"><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html">DynamoDB</a></h3>
 <ul>
 <li>Fully managed NoSQL database service</li>
 <li><strong>Features</strong>
@@ -3946,9 +3942,7 @@ the installation process?</p>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html">DynamoDB</a></li>
-</ul>
+<h3 id="section"><a href=""></a></h3>
 <h2 id="aws-development">AWS Development</h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/cli/latest/reference/s3/">https://docs.aws.amazon.com/cli/latest/reference/s3/</a></li>
