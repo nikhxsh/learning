@@ -4105,7 +4105,7 @@ the installation process?</p>
 <ul>
 <li>Replicate your DynamoDB tables automatically across your choice of AWS Region</li>
 <li>Eliminate the difficult work of replicating data between Regions and resolving update conflicts</li>
-<li>There are no upfront costs or commitments for using global tables, and you pay only for the resources provisioned<img src="https://d1.awsstatic.com/product-marketing/DynamoDB/DynamoDB_Global-Tables-01.dad2508b80e8b7c544fe1a94a2abd3f770b789da.png" alt="enter image description here"></li>
+<li>There are no upfront costs or commitments for using global tables, and you pay only for the resources provisioned<img src="https://d1.awsstatic.com/product-marketing/DynamoDB/DynamoDB_Global-Tables-01.dad2508b80e8b7c544fe1a94a2abd3f770b789da.png" alt="enter image description here" width="600" height="400"></li>
 </ul>
 </li>
 </ul>
