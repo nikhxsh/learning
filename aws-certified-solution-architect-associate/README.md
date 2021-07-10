@@ -3164,7 +3164,7 @@ the installation process?</p>
 <li>Many <em>“event receivers”</em> (subscriptions) as we want to listen to the SNS topic notifications</li>
 <li>Each subscriber to the topic will get all the messages</li>
 <li>Up tp 10,000,000 subscriptions per topic</li>
-<li>100,000 topics limit</li>
+<li>100,000 topics limit<img src="https://d1.awsstatic.com/diagrams/Product-page-diagram-Amazon-SNS_event-driven-SNS-compute@2X_.4b9c0a75aa40bda9cdb12f0176930a12da2872bf.png" alt="enter image description here"></li>
 <li><strong>Subscribers can be</strong>
 <ul>
 <li>SQS</li>
@@ -3203,7 +3203,6 @@ the installation process?</p>
 </li>
 </ul>
 </li>
-<li><img src="https://d1.awsstatic.com/diagrams/Product-page-diagram-Amazon-SNS_event-driven-SNS-compute@2X_.4b9c0a75aa40bda9cdb12f0176930a12da2872bf.png" alt="enter image description here"></li>
 <li><strong>Security</strong>
 <ul>
 <li><em>Encryption</em>
@@ -3262,7 +3261,7 @@ the installation process?</p>
 <li>Once data inserted in Kinesis, it can’t be deleted</li>
 <li>Data that shares same partition goes to the same shard</li>
 <li>Producers - AWS SDK, Kinesis Producer Library (KPL), Kinesis Agent</li>
-<li>Consumers - AWS Lambda, Kinesis Data Firehose etc.</li>
+<li>Consumers - AWS Lambda, Kinesis Data Firehose etc.<img src="https://i.pinimg.com/originals/6d/aa/21/6daa21bd6c878525a5f4c82e5a79d8ff.jpg" alt="enter image description here"></li>
 <li>Feature
 <ul>
 <li>Streaming service for ingest at scale</li>
@@ -3273,7 +3272,6 @@ the installation process?</p>
 <li>Support replay capability</li>
 </ul>
 </li>
-<li><img src="https://i.pinimg.com/originals/6d/aa/21/6daa21bd6c878525a5f4c82e5a79d8ff.jpg" alt="enter image description here"></li>
 </ul>
 </li>
 <li><a href="https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html">Kinesis Data Firehose</a>
@@ -3290,10 +3288,9 @@ the installation process?</p>
 <li>Support many data formats, conversions, transformations, compression</li>
 <li>Support custom data transformations using AWS Lambda</li>
 <li>Can send failed or all data to backup S3 bucket</li>
-<li>Doesn’t support replay capability</li>
+<li>Doesn’t support replay capability<img src="https://i.pinimg.com/originals/83/68/c6/8368c679d78d6d1aeab7750a3da7ce59.jpg" alt="enter image description here"></li>
 </ul>
 </li>
-<li><img src="https://i.pinimg.com/originals/83/68/c6/8368c679d78d6d1aeab7750a3da7ce59.jpg" alt="enter image description here"></li>
 </ul>
 </li>
 <li><a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/what-is.html">Kinesis Data Analytics</a>
@@ -3312,10 +3309,9 @@ the installation process?</p>
 <ul>
 <li>Time-series analytics</li>
 <li>Real-time dashboards</li>
-<li>Real-time metrics</li>
+<li>Real-time metrics<img src="https://d2908q01vomqb2.cloudfront.net/b6692ea5df920cad691c20319a6fffd7a4a766b8/2017/10/05/preprocessing-data-kinesis-1.gif" alt="enter image description here"></li>
 </ul>
 </li>
-<li><img src="https://d2908q01vomqb2.cloudfront.net/b6692ea5df920cad691c20319a6fffd7a4a766b8/2017/10/05/preprocessing-data-kinesis-1.gif" alt="enter image description here"></li>
 </ul>
 </li>
 <li><a href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/what-is-kinesis-video.html">Kinesis Video Streams</a>
@@ -3353,12 +3349,11 @@ the installation process?</p>
 <ul>
 <li>Will have 100 group ID</li>
 <li>So can have 100 Consumers (due to 100 group ID)</li>
-<li>Can have up to 300 messages per second (or 3000 if using batching)</li>
+<li>Can have up to 300 messages per second (or 3000 if using batching)<img src="https://miro.medium.com/max/1714/1*GPXkMjBqByYN3eD30FhsHw.png" alt="enter image description here"></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><img src="https://miro.medium.com/max/1714/1*GPXkMjBqByYN3eD30FhsHw.png" alt="enter image description here"></li>
 </ul>
 <h3 id="amazon-mq"><a href="https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.html">Amazon MQ</a></h3>
 <ul>
