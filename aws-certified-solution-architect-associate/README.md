@@ -3621,15 +3621,15 @@ the installation process?</p>
 </li>
 </ul>
 </li>
-<li><a href="https://docs.aws.amazon.com/eks/latest/userguide/fargate.html">Fargate</a>
+</ul>
+<h3 id="fargate"><a href="https://docs.aws.amazon.com/eks/latest/userguide/fargate.html">Fargate</a></h3>
 <ul>
 <li>Serverless container platform</li>
 <li>Launch Docker containers on AWS</li>
 <li>You no longer have to provision, configure, or scale groups of virtual machines to run containers (No EC2 instances to manage), that why serverless</li>
 <li>AWS just runs containers for you based on the CPU/RAM you need<img src="https://d1.awsstatic.com/re19/FargateonEKS/Product-Page-Diagram_Fargate@2x.a20fb2b15c2aebeda3a44dbbb0b10b82fb89aa6a.png" alt="enter image description here"></li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html">EKS (Elastic Kubernetes Service)</a>
+<h3 id="eks-elastic-kubernetes-service"><a href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html">EKS (Elastic Kubernetes Service)</a></h3>
 <ul>
 <li>Managed Kubernetes</li>
 <li>It is a way to launch managed Kubernetes cluster on AWS</li>
@@ -3644,8 +3644,7 @@ the installation process?</p>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html">ECR (Elastic Container Registry)</a>
+<h3 id="ecr-elastic-container-registry"><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html">ECR (Elastic Container Registry)</a></h3>
 <ul>
 <li>An AWS managed container image registry service that is secure, scalable, and reliable</li>
 <li>Supports private container image repositories with resource-based permissions using AWS IAM</li>
@@ -3655,8 +3654,6 @@ the installation process?</p>
 <li>You can control access to your repositories and the images within them with <em>repository policies</em></li>
 <li>You can push and pull <em>container images</em> to your repositories</li>
 <li>Supports image vulnerability scanning, version, tag, image lifecycle <img src="https://d1.awsstatic.com/diagrams/product-page-diagrams/Product-Page-Diagram_Amazon-ECR.bf2e7a03447ed3aba97a70e5f4aead46a5e04547.png" alt="enter image description here"></li>
-</ul>
-</li>
 </ul>
 <h2 id="serverless-in-aws">Serverless in AWS</h2>
 <ul>
