@@ -31,7 +31,7 @@
 <li><a href="#instances">Instances</a></li>
 <li><a href="#ami-amazon-machine-image">AMI (Amazon Machine Image)</a></li>
 <li><a href="#networking">Networking</a></li>
-<li>[Infrastructure security]](#infrastructure-security)</li>
+<li><a href="#infrastructure-security">Infrastructure security</a></li>
 <li><a href="#ec2-storage">EC2 Storage</a></li>
 <li><a href="#notes">Notes</a></li>
 <li><a href="#dev">Dev</a></li>
