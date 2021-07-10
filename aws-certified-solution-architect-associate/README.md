@@ -15,75 +15,75 @@
 <li><a href="#aws-outposts">AWS Outposts</a></li>
 </ul>
 </li>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">IAM (Identity and Access Management)</a>](#-iam–identity-and-access-management—https—docsawsamazoncom-iam-latest-userguide-introductionhtml-)
+<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">IAM (Identity and Access Management)</a>
 <ul>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html">Users</a>](#-users–https—docsawsamazoncom-iam-latest-userguide-id-usershtml-)</li>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups.html">Groups</a>](#-groups–https—docsawsamazoncom-iam-latest-userguide-id-groupshtml-)</li>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">Policies</a>](#-policies–https—docsawsamazoncom-iam-latest-userguide-access-policieshtml-)</li>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">Roles</a>](#-roles–https—docsawsamazoncom-iam-latest-userguide-id-roleshtml-)</li>
+<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html">Users</a></li>
+<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups.html">Groups</a></li>
+<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">Policies</a></li>
+<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">Roles</a></li>
 <li><a href="#tools">Tools</a></li>
 <li><a href="#best-practices">Best practices</a></li>
 </ul>
 </li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html">EC2 (Elastic Compute Cloud)</a>](#-ec2–elastic-compute-cloud—https—docsawsamazoncom-awsec2-latest-userguide-conceptshtml-)
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html">EC2 (Elastic Compute Cloud)</a>
 <ul>
 <li><a href="#features">Features</a></li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html">Instances</a>](#-instances–https—docsawsamazoncom-awsec2-latest-userguide-instanceshtml-)</li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instances-and-amis.html">AMI (Amazon Machine Image)</a>](#-ami–amazon-machine-image—https—docsawsamazoncom-awsec2-latest-userguide-ec2-instances-and-amishtml-)</li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-networking.html">Networking</a>](#-networking–https—docsawsamazoncom-awsec2-latest-userguide-ec2-networkinghtml-)</li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/infrastructure-security.html">Infrastructure security</a>](#-infrastructure-security–https—docsawsamazoncom-awsec2-latest-userguide-infrastructure-securityhtml-)</li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Storage.html">EC2 Storage</a>](#-ec2-storage–https—docsawsamazoncom-awsec2-latest-userguide-storagehtml-)</li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html">Instances</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instances-and-amis.html">AMI (Amazon Machine Image)</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-networking.html">Networking</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/infrastructure-security.html">Infrastructure security</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Storage.html">EC2 Storage</a></li>
 <li><a href="#notes">Notes</a></li>
 <li><a href="#dev">Dev</a></li>
 </ul>
 </li>
 <li><a href="#scalability-and-high-availability">Scalability and High Availability</a>
 <ul>
-<li><a href="#--scalability--"><strong>Scalability</strong></a></li>
+<li><a href="#--scalability--">Scalability</a></li>
 <li><a href="#high-availability">High Availability</a></li>
-<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html">Load Balancer</a>](#-load-balancer–https—docsawsamazoncom-amazonecs-latest-developerguide-service-load-balancinghtml-)</li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html">Load Balancer</a></li>
 </ul>
 </li>
 <li><a href="#aws-storage-services">AWS Storage Services</a>
 <ul>
-<li><a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html">Relative Database Service</a>](#-relative-database-service–https—docsawsamazoncom-amazonrds-latest-userguide-welcomehtml-)</li>
-<li><a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">Aurora</a>](#-aurora–https—docsawsamazoncom-amazonrds-latest-aurorauserguide-chap-auroraoverviewhtml-)</li>
-<li><a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-use-cases.html">ElastiCache</a>](#-elasticache–https—docsawsamazoncom-amazonelasticache-latest-red-ug-elasticache-use-caseshtml-)</li>
-<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html">AWS S3 (Simple Storage Service)</a>](#-aws-s3–simple-storage-service—https—docsawsamazoncom-amazons3-latest-userguide-welcomehtml-)</li>
-<li><a href="https://docs.aws.amazon.com/snowball/">AWS Snow Family</a>](#-aws-snow-family–https—docsawsamazoncom-snowball–)</li>
-<li><a href="https://aws.amazon.com/storagegateway/file/s3/">Amazon S3 File Gateway</a>](#-amazon-s3-file-gateway–https—awsamazoncom-storagegateway-file-s3–)</li>
+<li><a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html">Relative Database Service</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">Aurora</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-use-cases.html">ElastiCache</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html">AWS S3 (Simple Storage Service)</a></li>
+<li><a href="https://docs.aws.amazon.com/snowball/">AWS Snow Family</a></li>
+<li><a href="https://aws.amazon.com/storagegateway/file/s3/">Amazon S3 File Gateway</a></li>
 </ul>
 </li>
 <li><a href="#route-53">Route 53</a></li>
 <li><a href="#case-studies">Case Studies</a></li>
 <li><a href="#cloudfront---aws-global-accelerator">CloudFront &amp; AWS Global Accelerator</a>
 <ul>
-<li><a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">CloudFront</a>](#-cloudfront–https—docsawsamazoncom-amazoncloudfront-latest-developerguide-introductionhtml-)</li>
-<li><a href="https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html">AWS Global Accelerator</a>](#-aws-global-accelerator–https—docsawsamazoncom-global-accelerator-latest-dg-what-is-global-acceleratorhtml-)</li>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">CloudFront</a></li>
+<li><a href="https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html">AWS Global Accelerator</a></li>
 </ul>
 </li>
 <li><a href="#decoupling-applications">Decoupling applications</a>
 <ul>
-<li><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html">Amazon SQS</a>](#-amazon-sqs–https—docsawsamazoncom-awssimplequeueservice-latest-sqsdeveloperguide-welcomehtml-)</li>
-<li><a href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html">Amazon SNS (Simple Notification Service)</a>](#-amazon-sns–simple-notification-service—https—docsawsamazoncom-sns-latest-dg-welcomehtml-)</li>
+<li><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html">Amazon SQS</a></li>
+<li><a href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html">Amazon SNS (Simple Notification Service)</a></li>
 <li><a href="#amazon-kinesis">Amazon Kinesis</a></li>
 <li><a href="#data-ordering-for-kinesis-vs-sqs-fifo">Data ordering for Kinesis vs SQS FIFO</a></li>
-<li><a href="https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.html">Amazon MQ</a>](#-amazon-mq–https—docsawsamazoncom-amazon-mq-latest-developer-guide-welcomehtml-)</li>
+<li><a href="https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.html">Amazon MQ</a></li>
 </ul>
 </li>
 <li><a href="#container-on-aws">Container on AWS</a>
 <ul>
 <li><a href="#docker">Docker</a></li>
-<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html">ECS (Elastic Container Service) </a>](#-ecs–elastic-container-service----https—docsawsamazoncom-amazonecs-latest-developerguide-welcomehtml-)</li>
-<li>[<a href="https://docs.aws.amazon.com/eks/latest/userguide/fargate.html">Fargate</a>](#-fargate–https—docsawsamazoncom-eks-latest-userguide-fargatehtml-)</li>
-<li><a href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html">EKS (Elastic Kubernetes Service)</a>](#-eks–elastic-kubernetes-service—https—docsawsamazoncom-eks-latest-userguide-what-is-ekshtml-)</li>
-<li><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html">ECR (Elastic Container Registry)</a>](#-ecr–elastic-container-registry—https—docsawsamazoncom-amazonecr-latest-userguide-what-is-ecrhtml-)</li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html">ECS (Elastic Container Service) </a></li>
+<li>[<a href="https://docs.aws.amazon.com/eks/latest/userguide/fargate.html">Fargate</a></li>
+<li><a href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html">EKS (Elastic Kubernetes Service)</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html">ECR (Elastic Container Registry)</a></li>
 </ul>
 </li>
 <li><a href="#serverless-in-aws">Serverless in AWS</a>
 <ul>
-<li><a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda</a>](#-aws-lambda–https—docsawsamazoncom-lambda-latest-dg-welcomehtml-)</li>
-<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html">DynamoDB</a>](#-dynamodb–https—docsawsamazoncom-amazondynamodb-latest-developerguide-introductionhtml-)</li>
+<li><a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda</a></li>
+<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html">DynamoDB</a></li>
 <li><a href=""></a>](#----)</li>
 </ul>
 </li>
