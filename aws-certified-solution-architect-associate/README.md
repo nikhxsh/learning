@@ -1420,16 +1420,16 @@ user-data</p>
 <li>Deregistration delay is for ALB and NLB</li>
 </ul>
 </li>
-<li><a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html">Auto scaling group</a></li>
+<li><a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html">Auto scaling group</a>
+<ul>
 <li>Scale out (Add ec2 instance) to match increased load</li>
-<li>Scale in (remove ec2 instance) to match decreased load</li>
-<li><img src="https://miro.medium.com/max/487/1*uS9J8btKCQaMOhnUXp62aA.jpeg" alt="enter image description here"></li>
+<li>Scale in (remove ec2 instance) to match decreased load<img src="https://miro.medium.com/max/487/1*uS9J8btKCQaMOhnUXp62aA.jpeg" alt="enter image description here"></li>
 <li>Auto register new instance to a load balancer</li>
 <li>ASG is Free</li>
 <li>If having instance under ASG get terminated for whatever reason then ASG will automatically created new ones as a replacement</li>
 <li>ASG can terminate instance marked as unhealthy by LB (and replace them)</li>
-<li>Has following attributes</li>
-<li>A Launch configuration has</li>
+<li>A Launch configuration has
+<ul>
 <li>Instance type</li>
 <li>EC2 User data</li>
 <li>EBS volume</li>
@@ -1439,36 +1439,63 @@ user-data</p>
 <li>Network + Subnet information</li>
 <li>Load balancer information  or Target Group information</li>
 <li>Scaling policies</li>
-<li>Auto scaling alarms</li>
+</ul>
+</li>
+<li>Auto scaling alarms
+<ul>
 <li>Scale in/out based on CloudWatch alarms</li>
 <li>Monitors metrics</li>
 <li>Based on can created policies<img src="https://miro.medium.com/max/1200/1*y5MJicq2QfakmlwXQhZ-ow.png" alt="enter image description here"></li>
-<li>Scaling policies</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Scaling policies
+<ul>
 <li>Possible to define rules that are directly managed by EC2 e.g. Target Average CPU usage, number of requests per ELB</li>
 <li>Target tracking scaling policy</li>
 <li>Most simple and easy to set up</li>
 <li>E.g. average ASG CPU to stay around 40%</li>
-<li>Simple/Step scaling policy</li>
+<li>Simple/Step scaling policy
+<ul>
 <li>When CloudWatch alarm triggered (e.g. CPU &gt; 70%) then add 2 units</li>
 <li>When CloudWatch alarm triggered (e.g. CPU &lt; 30%) then remove 1 unit</li>
-<li>Scheduled actions</li>
+</ul>
+</li>
+<li>Scheduled actions
+<ul>
 <li>Anticipate a scaling based on know usage patterns</li>
 <li>E.g. increase min capacity to 10 at 5pm on Friday</li>
-<li>Scaling cooldowns</li>
+</ul>
+</li>
+<li>Scaling cooldowns
+<ul>
 <li>Helps to insure ASG doesn’t launch or terminate instance before previous scaling  activity takes effect</li>
 <li>One common use for scaling specific cooldowns is</li>
 <li>If the default cooldown period of 300 sec is too long you can reduce cost by applying scaling specific cooldown period of 180 secs to scale-in policy</li>
 <li>If your application is scaling-up and down multiple times each hour, modify the ASG cool-down times and the CloudWatch Alarm Period that triggers scale-in</li>
-<li>Default Termination policy</li>
+</ul>
+</li>
+<li>Default Termination policy
+<ul>
 <li>Find AZ which has most instances, if there are multiple then delete the one with oldest launch configuration</li>
 <li>ASG tries the balance the number of imbalances across AZ by default</li>
-<li><a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroupLifecycle.html">Lifecycle Hooks</a></li>
-<li>Can perform extra steps (Extract info/ logging) before instance goes in service (Pending state) or before it get terminated (Terminating state)<br>
--<img src="https://docs.aws.amazon.com/autoscaling/ec2/userguide/images/auto_scaling_lifecycle.png" alt="enter image description here"></li>
-<li>ASG</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroupLifecycle.html">Lifecycle Hooks</a>
+<ul>
+<li>Can perform extra steps (Extract info/ logging) before instance goes in service (Pending state) or before it get terminated (Terminating state)<img src="https://docs.aws.amazon.com/autoscaling/ec2/userguide/images/auto_scaling_lifecycle.png" alt="enter image description here"></li>
+<li>ASG
+<ul>
 <li>(Scale Out) &gt; Pending [ Lifecycle hooks &gt;&gt; Pending:wait &gt; Pending: Proceed] &gt; InService</li>
 <li>(Scale In) &gt; Terminating [ Lifecycle hooks &gt;&gt; Terminating:wait &gt; Terminating: Proceed] &gt; Terminated</li>
 <li>Launch configuration: Legacy, must be created every time vs Launch Template: newer, can have multi-versions, parameter subsets and provision for both On-Demand and Spot instances</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <hr>
 <p>Q1: Load Balancers provide a</p>
@@ -1561,16 +1588,12 @@ right certificate for your clients?</p>
 <p>Target Tracking</p>
 </blockquote>
 <h2 id="aws-storage-services">AWS Storage Services</h2>
+<h3 id="relative-database-service"><a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html">Relative Database Service</a></h3>
 <ul>
-<li><a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html">Relative Database Service</a>
-<ul>
-<li>Managed SQL database service i.e. web service that makes it easier to set up, operate, and<br>
-scale a relational database in the AWS Cloud.</li>
-<li>It provides cost-efficient, resizable capacity for an industry-standard relational database and<br>
-manages common database administration tasks.</li>
+<li>Managed SQL database service i.e. web service that makes it easier to set up, operate, and scale a relational database in the AWS Cloud.</li>
+<li>It provides cost-efficient, resizable capacity for an industry-standard relational database and  manages common database administration tasks.</li>
 <li>Automated provision and used SQL language</li>
-<li>Allows to create databases in cloud managed by AWS like Postgres, MySQL, MariaDB, Oracle,<br>
-MSSQL and Aurora</li>
+<li>Allows to create databases in cloud managed by AWS like Postgres, MySQL, MariaDB, Oracle, MSSQL and Aurora</li>
 <li>Multi AZ setup for DR</li>
 <li>Scaling capabilities (Vertical and horizontal)</li>
 <li>Storage backed by EBS</li>
@@ -1588,13 +1611,10 @@ MSSQL and Aurora</li>
 <li>increase storage dynamically</li>
 <li>detect and scales automatically</li>
 <li>you have to set Maximum Storage Threshold</li>
-<li>Automatically modify storage if
-<ul>
+<li>Automatically modify storage if</li>
 <li>Free storage less than 10% of allocated storage</li>
 <li>Low storage last at least 5 mins</li>
 <li>6 hours have passed since last modification</li>
-</ul>
-</li>
 <li>Useful when unpredictable workloads</li>
 <li>Supports all RDS databases</li>
 </ul>
@@ -1607,8 +1627,7 @@ MSSQL and Aurora</li>
 <li>Async, eventual consistent</li>
 <li>Replicas can be promoted to own DB</li>
 <li>Must update connection string to leverage RR</li>
-<li>Use case &gt; create new RDS RR with Async replication to divert additional reads so<br>
-main application will be unaffected</li>
+<li>Use case &gt; create new RDS RR with Async replication to divert additional reads so main application will be unaffected</li>
 <li>RR used for Select Query only</li>
 <li>If RR within same region, no charges else for cross region have to pay</li>
 </ul>
@@ -1659,8 +1678,7 @@ Postgres using auth token obtained from IAM with 15 mins lifetime) and EC2 insta
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">Aurora</a>
+<h3 id="aurora"><a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">Aurora</a></h3>
 <ul>
 <li>Not open sourced</li>
 <li>Fully managed relational database engine that’s compatible with MySQL and PostgreSQL.</li>
@@ -1688,11 +1706,10 @@ or promoting a RR as the new master</li>
 <li>Global Database: 1 Primary region (r/w), 5 secondary (r only) region with &lt; 1sec replication lag, up to 16 RR per secondary region and promoting another region with RTO &lt; 1 min</li>
 <li>ML: prediction using SQL (SageMaker and Comprehend)</li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-use-cases.html">ElastiCache</a>
+<h3 id="elasticache"><a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-use-cases.html">ElastiCache</a></h3>
 <ul>
 <li>Allows you to seamlessly set up, run, and scale popular open-source compatible in-memory data stores in the cloud.</li>
-<li>Popular choice for real-time use cases like Caching, Session Stores, Gaming, Geospatial Services, Real-Time Analytics,  and Queuing</li>
+<li>For real-time use cases like Caching, Session Stores, Gaming, Geospatial Services, Real-Time Analytics, and Queuing</li>
 <li>Makes your application stateless</li>
 <li>Reduce load off of databases for read intensive workloads</li>
 <li><strong>REDIS</strong>
@@ -1736,8 +1753,7 @@ or promoting a RR as the new master</li>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html">AWS S3 (Simple Storage Service)</a>
+<h3 id="aws-s3-simple-storage-service"><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html">AWS S3 (Simple Storage Service)</a></h3>
 <ul>
 <li>Simple web services interface that you can use to store and retrieve any amount of data, at any time, from anywhere</li>
 <li>It gives any developer access to the same highly scalable, reliable, fast, inexpensive data storage infrastructure</li>
@@ -2161,8 +2177,7 @@ failures, useful to speed up downloads</li>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/snowball/">AWS Snow Family</a>
+<h3 id="aws-snow-family"><a href="https://docs.aws.amazon.com/snowball/">AWS Snow Family</a></h3>
 <ul>
 <li>Highly secure portable devices to collect and process data a the edge, and migrate data into or out of AWS</li>
 <li>You can use these devices to locally and cost-effectively access the storage and compute power of the AWS Cloud in places where an internet connection might not be an option</li>
@@ -2290,22 +2305,22 @@ failures, useful to speed up downloads</li>
 <li>You must import into S3 first then in combination with S3 lifecycle policy move it to Glacier</li>
 </ul>
 </li>
-</ul>
-</li>
 <li><a href="https://aws.amazon.com/storagegateway/?whats-new-cards.sort-by=item.additionalFields.postDateTime&amp;whats-new-cards.sort-order=desc">Storage Gateway</a>
 <ul>
 <li>Set of hybrid cloud services that gives you on-premises access to virtually unlimited cloud storage</li>
 <li>Bridge Between on-premise data and cloud data in S3</li>
 <li>Customers use Storage Gateway to integrate AWS Cloud storage with existing on-site workloads so they can simplify storage management and reduce costs for key hybrid cloud storage use cases</li>
-<li><a href="https://aws.amazon.com/storagegateway/file/s3/">Amazon S3 File Gateway</a>
-<ul>
-<li>Configured S3 buckets are accessible using SMB or NFS protocol with local caching</li>
-<li>Supports S3 standard, S3 IA, S3 One Zone IA</li>
-<li>Access using IAM roles for each gateway</li>
-<li>Can be mounted on may servers</li>
-<li>Integrated with Active Directory for user Authentication<img src="https://docs.aws.amazon.com/storagegateway/latest/userguide/images/file-gateway-concepts-diagram.png" alt="enter image description here"></li>
 </ul>
 </li>
+</ul>
+<h3 id="amazon-s3-file-gateway"><a href="https://aws.amazon.com/storagegateway/file/s3/">Amazon S3 File Gateway</a></h3>
+<pre><code>- Configured S3 buckets are accessible using SMB or NFS protocol with local caching
+- Supports S3 standard, S3 IA, S3 One Zone IA
+- Access using IAM roles for each gateway
+- Can be mounted on may servers
+- Integrated with Active Directory for user Authentication![enter image description here](https://docs.aws.amazon.com/storagegateway/latest/userguide/images/file-gateway-concepts-diagram.png)
+</code></pre>
+<ul>
 <li><strong>Amazon FSx File Gateway</strong>
 <ul>
 <li><a href="https://aws.amazon.com/fsx/windows/">FSx for windows</a>
@@ -2384,8 +2399,6 @@ failures, useful to speed up downloads</li>
 <ul>
 <li><img src="https://d2908q01vomqb2.cloudfront.net/cb4e5208b4cd87268b208e49452ed6e89a68e0b8/2018/03/20/aws-storage-soutions.jpg" alt="enter image description here"></li>
 <li><img src="https://miro.medium.com/max/1838/1*02FpTqeqNH6XzcrBUqjR_w.png" alt="enter image description here" width="600" height="600"></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
