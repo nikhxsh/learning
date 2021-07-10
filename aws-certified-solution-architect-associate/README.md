@@ -58,15 +58,15 @@
 <li>Bring native AWS services, infrastructure, and operating models to virtually any data center, co-location space, or on-premises facility</li>
 <li>AWS Outposts is designed for connected environments and can be used to support workloads that need to remain on-premises due to low latency or local data processing needs</li>
 </ul>
-<h2 id="iam-identity-and-access-management">IAM (Identity and Access Management)</h2>
+<h2 id="iam-identity-and-access-management"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">IAM (Identity and Access Management)</a></h2>
 <ul>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">Docs</a></li>
 <li>Global Service i.e. not scoped to regions</li>
 <li>Helps you securely control access to AWS resources</li>
 <li>Use IAM to control who is authenticated (signed in) and authorized (has permissions) to use resources</li>
 <li>Root account created by default, shouldn’t be used or shared</li>
 <li>You manage access in AWS by creating policies and attaching them to IAM identities (users, groups of users, or roles) or AWS resources</li>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html">Users</a>
+</ul>
+<h3 id="users"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html">Users</a></h3>
 <ul>
 <li>People within your organization</li>
 <li>Can belong to multiple groups</li>
@@ -76,21 +76,19 @@
 <li>Use the ARN when you need to uniquely identify the user across all of AWS<br>
 E.g. arn:aws:iam::<code>account-ID-without-hyphens</code>:user/nik</li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups.html">Groups</a>
+<h3 id="groups"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups.html">Groups</a></h3>
 <ul>
 <li>Group is a collection of IAM users</li>
 <li>Let you specify permissions for multiple users</li>
 <li>Group is a way to attach policies to multiple users at one time</li>
 <li>Groups can’t be nested i.e. they can contain only users, not other user groups</li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">Policies</a>
+<h3 id="policies"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">Policies</a></h3>
 <ul>
 <li>A policy is an object in AWS that, when associated with an identity or resource, defines their permissions</li>
 <li>Users and groups can be assigned JSON documents called policies</li>
 <li>IAM policies define permissions for an action of the users</li>
-<li>Apply least priviledge principle (dont give permission more than user needs)</li>
+<li>Apply least privileged principle (don’t give permission more than user needs)</li>
 <li>Supports six types of policies
 <ul>
 <li>Identity-based policies
@@ -133,8 +131,7 @@ E.g. arn:aws:iam::<code>account-ID-without-hyphens</code>:user/nik</li>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">Roles</a>
+<h3 id="roles"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">Roles</a></h3>
 <ul>
 <li>An IAM Role is an identity that you can create in your account that has specific permissions</li>
 <li>It is an AWS identity with permission policies that determine what the identity can and cannot do in AWS</li>
@@ -148,14 +145,12 @@ E.g. arn:aws:iam::<code>account-ID-without-hyphens</code>:user/nik</li>
 </ul>
 </li>
 </ul>
-</li>
-<li>Tools
+<h3 id="tools">Tools</h3>
 <ul>
 <li>Credentials Report (Account Level) that lists all your account’s users and status of various credentials</li>
 <li>Access Advisor (User level) shows the service permissions granted to the user and when those accessed</li>
 </ul>
-</li>
-<li>Best practices
+<h3 id="best-practices">Best practices</h3>
 <ul>
 <li>Do not use root account</li>
 <li>One AWS user = One Physical user</li>
@@ -166,8 +161,6 @@ E.g. arn:aws:iam::<code>account-ID-without-hyphens</code>:user/nik</li>
 <li>Use Access keys for programmatic access (CLI/SDK)</li>
 <li>Audit permissions of your account using Credentials Report</li>
 <li>Never share IAM users and Access keys</li>
-</ul>
-</li>
 </ul>
 <hr>
 <p>Q: You are getting started with AWS and your manager wants things to remain simple yet secure. He wants the management of engineers to be easy, and not re-invent the wheel every time someone joins your company. What will you do?</p>
@@ -203,9 +196,8 @@ added to groups</p>
 <blockquote>
 <p>Enable MFA (You want to enable MFA in order to add a layer of security, so even if your password is stolen, lost or hacked your account is not compromised.)</p>
 </blockquote>
-<h2 id="ec2-elastic-compute-cloud">EC2 (Elastic Compute Cloud)</h2>
+<h2 id="ec2-elastic-compute-cloud"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html">EC2 (Elastic Compute Cloud)</a></h2>
 <ul>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html">Docs</a></li>
 <li>Provides scalable computing capacity in the Amazon Web Services (AWS) Cloud</li>
 <li>Infrastructure as a Service (IaaS)</li>
 <li>Main capabilities are
@@ -218,7 +210,8 @@ added to groups</p>
 </li>
 <li>You can use Amazon EC2 to launch as many or as few virtual servers as you need, configure security and networking, and    manage storage</li>
 <li>EC2 enables you to scale up or down to handle changes in requirements or spikes in popularity, reducing your need to    forecast traffic</li>
-<li>Features
+</ul>
+<h3 id="features">Features</h3>
 <ul>
 <li>Virtual computing environments, known as  <em>instances</em></li>
 <li>Preconfigured templates for your instances, known as <em>Amazon Machine Images (AMIs)</em>,</li>
@@ -229,8 +222,7 @@ added to groups</p>
 <li>Static IPv4 addresses for dynamic cloud computing, known as  <em>Elastic IP addresses</em></li>
 <li>Virtual networks you can create that are logically isolated from the rest of the AWS Cloud</li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html">Instances</a>
+<h3 id="instances"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html">Instances</a></h3>
 <ul>
 <li>An instance is a virtual server in the cloud</li>
 <li>Its configuration at launch is a copy of the AMI that you specified when you launched the instance</li>
@@ -498,8 +490,7 @@ added to groups</p>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instances-and-amis.html">AMI (Amazon Machine Image)</a>
+<h3 id="ami-amazon-machine-image"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instances-and-amis.html">AMI (Amazon Machine Image)</a></h3>
 <ul>
 <li>Template that contains a software configuration (for example, an operating system, an application server, and	    applications)</li>
 <li>From an AMI, you launch an <em>instance</em>, which is a copy of the AMI running as a virtual server in the cloud
@@ -537,8 +528,6 @@ added to groups</p>
 <li>To copy an AMI that was shared with you from another account, the owner of the source AMI must grant you read permission for the storage that backs the AMI, either the associated EBS snapshot (EBS backend EMI) or associated S3 bucket (instance store backed AMI)</li>
 <li>You cant copy encrypted AMI that shared with you instead can copy underlaying snapshot and en ket shared with you and can register it as new AMIs</li>
 <li>Can’t copy AMI with an associated billing product code. To copy launch an EC2 instance from your account using shared AMI then create an AMI from instance</li>
-</ul>
-</li>
 <li>Free tier Amazon linux 2, t2.micro</li>
 <li>Subnet: In what AZ you want instance</li>
 <li>Key-Pair (Pem) file ()</li>
@@ -551,7 +540,8 @@ added to groups</p>
 <li>After you deregister an AMI, you can’t use it to launch new instances, Existing instances launched from the AMI are not affected</li>
 </ul>
 </li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-networking.html">Networking</a>
+</ul>
+<h3 id="networking"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-networking.html">Networking</a></h3>
 <ul>
 <li>Virtual private cloud (VPC) enables you to launch AWS resources, such as Amazon EC2 instances, into a virtual network dedicated to your AWS account,</li>
 <li>Private vs public IP (V4)
@@ -662,17 +652,16 @@ added to groups</p>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/infrastructure-security.html">Infrastructure security</a>
+<h3 id="infrastructure-security"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/infrastructure-security.html">Infrastructure security</a></h3>
 <ul>
 <li>As a managed service, Amazon EC2 is protected by the AWS global network security procedures</li>
-<li>IAM management
+<li><strong>IAM management</strong>
 <ul>
 <li>Use IAM to allow other users, services, and applications to use your Amazon EC2 resources without sharing your security credentials</li>
 <li>By using IAM with Amazon EC2, you can control whether users in your organization can perform a task using specific Amazon EC2 API actions and whether they can use specific AWS resources</li>
 </ul>
 </li>
-<li>Key pairs
+<li><strong>Key pairs</strong>
 <ul>
 <li>A key pair, consisting of a public key and a private key, is a set of security credentials that you use to prove your identity when connecting to an EC2 instance</li>
 <li>Amazon EC2 stores the public key on your instance</li>
@@ -681,7 +670,7 @@ added to groups</p>
 <li>The keys that Amazon EC2 uses are 2048-bit SSH-2 RSA keys. You can have up to 5,000 key pairs per Region</li>
 </ul>
 </li>
-<li>Security Groups
+<li><strong>Security Groups</strong>
 <ul>
 <li>Control inbound/outbound traffic using ports</li>
 <li>Add rules using different types  (Eg SSH - TCP - 22 - Custom - 0.0.0.0/0 - SSH allowed<br>
@@ -701,8 +690,7 @@ from anywhere) it allows to connect using ssh</li>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Storage.html">EC2 Storage</a>
+<h3 id="ec2-storage"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Storage.html">EC2 Storage</a></h3>
 <ul>
 <li>Amazon EC2 provides you with flexible, cost effective, and easy-to-use data storage options for your instances</li>
 <li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html">Amazon Elastic Block Store</a>
@@ -712,7 +700,7 @@ from anywhere) it allows to connect using ssh</li>
 <li>Can only be mounted to one instance at a time</li>
 <li>Bound to specific AZ</li>
 <li>Think of them as a “network USB stick”</li>
-<li>EBS Volume
+<li><strong>EBS Volume</strong>
 <ul>
 <li>Its a network drive (not physical one)
 <ul>
@@ -758,7 +746,7 @@ from anywhere) it allows to connect using ssh</li>
 <li>But EC2 Instance Store lose their storage if they’re stopped</li>
 </ul>
 </li>
-<li>Volume Types
+<li><strong>Volume Types</strong>
 <ul>
 <li>EBS volumes are characterized in Size | Throughput | IOPS (i/o per sec)</li>
 <li>General Purpose SSD
@@ -1011,8 +999,6 @@ from anywhere) it allows to connect using ssh</li>
 </li>
 </ul>
 </li>
-</ul>
-</li>
 <li>Advanced Concepts
 <ul>
 <li>EC2 Nitro
@@ -1067,15 +1053,15 @@ from anywhere) it allows to connect using ssh</li>
 </li>
 </ul>
 </li>
-<li>Notes
+</ul>
+<h3 id="notes">Notes</h3>
 <ul>
 <li>Billed by the second, t2.micro is free tier</li>
 <li>SSH on Linux/Mac, Putty on window</li>
 <li>SSH on port 22</li>
 <li>SG can reference other SG instead of IP ranges</li>
 </ul>
-</li>
-<li>Dev
+<h3 id="dev">Dev</h3>
 <ul>
 <li>Provide credentials to EC2 from IAM role only</li>
 <li>EC2 user data
@@ -1152,8 +1138,6 @@ user-data</p>
 <blockquote>
 <p>… All metadata …</p>
 </blockquote>
-</li>
-</ul>
 </li>
 </ul>
 </li>
