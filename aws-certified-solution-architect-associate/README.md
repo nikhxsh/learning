@@ -5,44 +5,59 @@
 
 <h2 id="aws-regions-and-availability-zones">AWS regions and Availability zones</h2>
 <h3 id="regions">Regions</h3>
-<pre><code>- AWS has the concept of a Region, which is a physical location around the world where we cluster data centers
-- Each AWS Region consists of multiple, isolated, and physically separate AZs within a geographic area
-- AWS maintains multiple geographic regions like us-east1, us-west-2 etc.
-- Most AWS services are region scoped
-- How to choose Region?
-	- Compliance with data governance and legality 
-	- Proximity to Customers
-	- Available services within region - new service not available in every region
-	- Pricing which varies from region to region    
-</code></pre>
+<ul>
+<li>AWS has the concept of a Region, which is a physical location around the world where we cluster data centers</li>
+<li>Each AWS Region consists of multiple, isolated, and physically separate AZs within a geographic area</li>
+<li>AWS maintains multiple geographic regions like us-east1, us-west-2 etc.</li>
+<li>Most AWS services are region scoped</li>
+<li>How to choose Region?
+<ul>
+<li>Compliance with data governance and legality</li>
+<li>Proximity to Customers</li>
+<li>Available services within region - new service not available in every region</li>
+<li>Pricing which varies from region to region</li>
+</ul>
+</li>
+</ul>
 <h3 id="availability-zones">Availability Zones</h3>
-<pre><code>- Each region has many AZs (Usually 3, min 2, max 6) 
-- Example:
-	- ap-southeast-2a
-	- ap-southeast-2b
-	- ap-southeast-2c
-- Each AZ is one or more discreet data centers with redundant power, network and connectivity
-- Each AZs separated from each other to isolate from disaster
-- Ability to operate production applications and databases that are more highly available, fault tolerant, and scalable than 	   would be possible from a single data center.
-- Each AZs connected with high bandwidth, low latency network
-- All traffic between AZs is encrypted
-</code></pre>
+<ul>
+<li>Each region has many AZs (Usually 3, min 2, max 6)</li>
+<li>Example:
+<ul>
+<li>ap-southeast-2a</li>
+<li>ap-southeast-2b</li>
+<li>ap-southeast-2c</li>
+</ul>
+</li>
+<li>Each AZ is one or more discreet data centers with redundant power, network and connectivity</li>
+<li>Each AZs separated from each other to isolate from disaster
+<ul>
+<li>Ability to operate production applications and databases that are more highly available, fault tolerant, and scalable than 	   would be possible from a single data center.</li>
+<li>Each AZs connected with high bandwidth, low latency network</li>
+<li>All traffic between AZs is encrypted</li>
+</ul>
+</li>
+</ul>
 <h3 id="local-zones">Local Zones</h3>
-<pre><code>- Place compute, storage, database, and other select AWS services closer to end-users
-- You can easily run highly-demanding applications that require single-digit millisecond latencies
-</code></pre>
+<ul>
+<li>Place compute, storage, database, and other select AWS services closer to end-users</li>
+<li>You can easily run highly-demanding applications that require single-digit millisecond latencies</li>
+</ul>
 <h3 id="edge-network-locations">Edge Network Locations</h3>
-<pre><code>- 216 Point of Presence (205 edge locations &amp; 11 Regional cache) in 84 cities across countries
-- Content delivered with lower latency
-</code></pre>
+<ul>
+<li>216 Point of Presence (205 edge locations &amp; 11 Regional cache) in 84 cities across countries</li>
+<li>Content delivered with lower latency</li>
+</ul>
 <h3 id="aws-wavelength">AWS Wavelength</h3>
-<pre><code>- Enables developers to build applications that deliver single-digit millisecond latencies to mobile devices and end-users 	  such as game and live video streaming, machine learning inference at the edge, and augmented and virtual reality
-- Application traffic can reach application servers running in Wavelength Zones without leaving the mobile provider’s	  network
-</code></pre>
+<ul>
+<li>Enables developers to build applications that deliver single-digit millisecond latencies to mobile devices and end-users 	  such as game and live video streaming, machine learning inference at the edge, and augmented and virtual reality</li>
+<li>Application traffic can reach application servers running in Wavelength Zones without leaving the mobile provider’s	  network</li>
+</ul>
 <h3 id="aws-outposts">AWS Outposts</h3>
-<pre><code> - Bring native AWS services, infrastructure, and operating models to virtually any data center, co-location space, or on-premises facility
- - AWS Outposts is designed for connected environments and can be used to support workloads that need to remain on-premises due to low latency or local data processing needs   
-</code></pre>
+<ul>
+<li>Bring native AWS services, infrastructure, and operating models to virtually any data center, co-location space, or on-premises facility</li>
+<li>AWS Outposts is designed for connected environments and can be used to support workloads that need to remain on-premises due to low latency or local data processing needs</li>
+</ul>
 <h2 id="iam-identity-and-access-management">IAM (Identity and Access Management)</h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">Docs</a></li>
