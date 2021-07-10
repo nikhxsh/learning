@@ -56,7 +56,7 @@
 </li>
 <li><a href="#route-53">Route 53</a></li>
 <li><a href="#case-studies">Case Studies</a></li>
-<li><a href="#cloudfront-aws-global-accelerator">CloudFront &amp; AWS Global Accelerator</a>
+<li><a href="#cloudfront--aws-global-accelerator">CloudFront &amp; AWS Global Accelerator</a>
 <ul>
 <li><a href="#cloudfront">CloudFront</a></li>
 <li><a href="#aws-global-accelerator">AWS Global Accelerator</a></li>
