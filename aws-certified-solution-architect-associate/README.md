@@ -49,8 +49,8 @@
 <li><a href="#relative-database-service">Relative Database Service</a></li>
 <li><a href="#aurora">Aurora</a></li>
 <li><a href="#elasticache">ElastiCache</a></li>
-<li><a href="#aws-s3">AWS S3 (Simple Storage Service)</a></li>
-<li><a href="#aws-snow-family-">AWS Snow Family</a></li>
+<li><a href="#aws-s3-simple-storage-service">AWS S3 (Simple Storage Service)</a></li>
+<li><a href="#aws-snow-family">AWS Snow Family</a></li>
 <li><a href="#amazon-s3-file-gateway">Amazon S3 File Gateway</a></li>
 </ul>
 </li>
