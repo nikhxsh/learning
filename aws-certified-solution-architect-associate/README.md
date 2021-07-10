@@ -4,65 +4,45 @@
 ---
 
 <h2 id="aws-regions-and-availability-zones">AWS regions and Availability zones</h2>
-<ul>
-<li>Regions
-<ul>
-<li>AWS has the concept of a Region, which is a physical location around the world where we cluster data centers</li>
-<li>Each AWS Region consists of multiple, isolated, and physically separate AZs within a geographic area</li>
-<li>AWS maintains multiple geographic regions like us-east1, us-west-2 etc.</li>
-<li>Most AWS services are region scoped</li>
-<li>How to choose Region?
-<ul>
-<li>Compliance with data governance and legality</li>
-<li>Proximity to Customers</li>
-<li>Available services within region - new service not available in every region</li>
-<li>Pricing which varies from region to region</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Availability Zones
-<ul>
-<li>Each region has many AZs (Usually 3, min 2, max 6)</li>
-<li>Example:
-<ul>
-<li>ap-southeast-2a</li>
-<li>ap-southeast-2b</li>
-<li>ap-southeast-2c</li>
-</ul>
-</li>
-<li>Each AZ is one or more discreet data centers with redundant power, network and connectivity</li>
-<li>Each AZs separated from each other to isolate from disaster</li>
-<li>Ability to operate production applications and databases that are more highly available, fault tolerant, and scalable than 	   would be possible from a single data center.</li>
-<li>Each AZs connected with high bandwidth, low latency network</li>
-<li>All traffic between AZs is encrypted</li>
-</ul>
-</li>
-<li>Local Zones
-<ul>
-<li>Place compute, storage, database, and other select AWS services closer to end-users</li>
-<li>You can easily run highly-demanding applications that require single-digit millisecond latencies</li>
-</ul>
-</li>
-<li>Edge Network Locations
-<ul>
-<li>216 Point of Presence (205 edge locations &amp; 11 Regional cache) in 84 cities across countries</li>
-<li>Content delivered with lower latency</li>
-</ul>
-</li>
-<li>AWS Wavelength
-<ul>
-<li>Enables developers to build applications that deliver single-digit millisecond latencies to mobile devices and end-users 	  such as game and live video streaming, machine learning inference at the edge, and augmented and virtual reality</li>
-<li>Application traffic can reach application servers running in Wavelength Zones without leaving the mobile provider’s	  network</li>
-</ul>
-</li>
-<li>AWS Outposts
-<ul>
-<li>Bring native AWS services, infrastructure, and operating models to virtually any data center, co-location space, or on-premises facility</li>
-<li>AWS Outposts is designed for connected environments and can be used to support workloads that need to remain on-premises due to low latency or local data processing needs</li>
-</ul>
-</li>
-</ul>
+<h3 id="regions">Regions</h3>
+<pre><code>- AWS has the concept of a Region, which is a physical location around the world where we cluster data centers
+- Each AWS Region consists of multiple, isolated, and physically separate AZs within a geographic area
+- AWS maintains multiple geographic regions like us-east1, us-west-2 etc.
+- Most AWS services are region scoped
+- How to choose Region?
+	- Compliance with data governance and legality 
+	- Proximity to Customers
+	- Available services within region - new service not available in every region
+	- Pricing which varies from region to region    
+</code></pre>
+<h3 id="availability-zones">Availability Zones</h3>
+<pre><code>- Each region has many AZs (Usually 3, min 2, max 6) 
+- Example:
+	- ap-southeast-2a
+	- ap-southeast-2b
+	- ap-southeast-2c
+- Each AZ is one or more discreet data centers with redundant power, network and connectivity
+- Each AZs separated from each other to isolate from disaster
+- Ability to operate production applications and databases that are more highly available, fault tolerant, and scalable than 	   would be possible from a single data center.
+- Each AZs connected with high bandwidth, low latency network
+- All traffic between AZs is encrypted
+</code></pre>
+<h3 id="local-zones">Local Zones</h3>
+<pre><code>- Place compute, storage, database, and other select AWS services closer to end-users
+- You can easily run highly-demanding applications that require single-digit millisecond latencies
+</code></pre>
+<h3 id="edge-network-locations">Edge Network Locations</h3>
+<pre><code>- 216 Point of Presence (205 edge locations &amp; 11 Regional cache) in 84 cities across countries
+- Content delivered with lower latency
+</code></pre>
+<h3 id="aws-wavelength">AWS Wavelength</h3>
+<pre><code>- Enables developers to build applications that deliver single-digit millisecond latencies to mobile devices and end-users 	  such as game and live video streaming, machine learning inference at the edge, and augmented and virtual reality
+- Application traffic can reach application servers running in Wavelength Zones without leaving the mobile provider’s	  network
+</code></pre>
+<h3 id="aws-outposts">AWS Outposts</h3>
+<pre><code> - Bring native AWS services, infrastructure, and operating models to virtually any data center, co-location space, or on-premises facility
+ - AWS Outposts is designed for connected environments and can be used to support workloads that need to remain on-premises due to low latency or local data processing needs   
+</code></pre>
 <h2 id="iam-identity-and-access-management">IAM (Identity and Access Management)</h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">Docs</a></li>
@@ -3877,6 +3857,162 @@ the installation process?</p>
 </li>
 </ul>
 </li>
+<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html">DynamoDB</a>
+<ul>
+<li>Fully managed NoSQL database service</li>
+<li><strong>Features</strong>
+<ul>
+<li>Highly Available with replication across 3 AZ</li>
+<li>Scales massive workloads, distributed database</li>
+<li>Millions of requests per seconds, trillions of row, 100s of TB of storage</li>
+<li>Low latency retrieval</li>
+<li>Integrated with IAM</li>
+<li>Enables event driven programming with Streams</li>
+<li>Encryption at rest</li>
+<li>On-demand backup and point-in-time recovery (you can restore a table to any point in time during the last 35 days)</li>
+<li>Delete expired items from tables automatically</li>
+<li>Low cost and auto scaling capabilities</li>
+</ul>
+</li>
+<li><a href="https://aws.amazon.com/dynamodb/pricing/provisioned/">Provision Throughput</a>
+<ul>
+<li>Table must have provisioned read and write capacity units</li>
+<li>Read Capacity Units (RCU)
+<ul>
+<li>Throughput for Reads ($0.00013 per RCU)</li>
+<li>1 RCU = 1 strongly consistent read of 4KB/s</li>
+<li>1 RCU = 2 eventual consistent read of 4KB/s</li>
+<li>Items larger than 4 KB require additional RCUs</li>
+<li><em>Transactional</em> read requests require two RCUs to perform one read per second for items up to 4 KB
+<ul>
+<li>A strongly consistent read of an 8 KB item would require two RCUs</li>
+<li>An eventually consistent read of an 8 KB item would require one RCU</li>
+<li>A transactional read of an 8 KB item would require four RCUs</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Write Capacity Units (WCU)
+<ul>
+<li>Throughput for Writes ($0.00065 per WCU)</li>
+<li>1 WCU = 1 write of 1KB/s</li>
+<li>Items larger than 1 KB require additional WCUs</li>
+<li><em>Transactional</em> write requests require two WCUs to perform one write per second for items up to 1 KB.
+<ul>
+<li>A standard write request of a 1 KB item would require one WCU</li>
+<li>A standard write request of a 3 KB item would require three WCUs</li>
+<li>A transactional write request of a 3 KB item would require six WCUs</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Replicated write capacity unit (rWCU)
+<ul>
+<li>When using DynamoDB global tables</li>
+<li>Data is written automatically to multiple AWS Regions of your choice</li>
+<li>Each write occurs in the local Region as well as the replicated Regions</li>
+</ul>
+</li>
+<li>Streams read request unit
+<ul>
+<li>Each GetRecords API call to DynamoDB Streams is a streams read request unit</li>
+<li>Each streams read request unit can return up to 1 MB of data</li>
+</ul>
+</li>
+<li>Throughput can be exceeded using “burst credits” and if “burst credits” are empty then you’ll get “ProvisionThroughputException”</li>
+</ul>
+</li>
+<li><strong>Structure</strong>
+<ul>
+<li>A <em>table</em> is a collection of data. For example, see the example table called <em>People</em> that you could use to store personal contact information about friends, family, or anyone else of interest</li>
+<li>An <em>item</em> is a group of attributes that is uniquely identifiable among all of the other items. In a <em>People</em> table, each item represents a person</li>
+<li>An <em>attribute</em> is a fundamental data element, something that does not need to be broken down any further. For example, an item in a <em>People</em> table contains attributes called <em>PersonID</em>, <em>LastName</em>, <em>FirstName</em>, and so on</li>
+<li><img src="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/images/HowItWorksPeople.png" alt="enter image description here"><img src="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/images/HowItWorksMusic.png" alt="enter image description here"></li>
+<li>the <em>People</em> table
+<ul>
+<li>The primary key consists of one attribute (<em>PersonID</em>)</li>
+<li>Other than the primary key, the <em>People</em> table is schemaless</li>
+<li>Most of the attributes are <em>scalar</em>, which means that they can have only one value</li>
+<li>Some of the items have a nested attribute (<em>Address</em>)</li>
+</ul>
+</li>
+<li>the <em>Music</em> table
+<ul>
+<li>The primary key for <em>Music</em> consists of two attributes (<em>Artist</em> and <em>SongTitle</em>)</li>
+<li>One of the items has a nested attribute (<em>PromotionInfo</em>), which contains other nested attributes</li>
+</ul>
+</li>
+<li><em>DynamoDB supports nested attributes up to 32 levels deep</em></li>
+<li><strong>Primary Key</strong>
+<ul>
+<li>DynamoDB supports two different kinds of primary keys</li>
+<li><strong>Partition key</strong>
+<ul>
+<li>A simple primary key, composed of one attribute known as the <em>partition key</em> (<em>PersonID</em>)</li>
+<li>The partition key of an item is also known as its <em>hash attribute</em></li>
+<li>DynamoDB uses the partition key’s value as input to an internal hash function. The output from the hash function determines the partition (physical storage internal to DynamoDB) in which the item will be stored</li>
+<li>In a table that has only a partition key, no two items can have the same partition key value</li>
+</ul>
+</li>
+<li><strong>Partition key and sort key</strong>
+<ul>
+<li><em>composite primary key</em>, this type of key is composed of two attributes. The first attribute is the <em>partition key</em>, and the second attribute is the <em>sort key</em> (<em>Artist</em> and <em>SongTitle</em>)</li>
+<li>The sort key of an item is also known as its <em>range attribute</em></li>
+<li>All items with the same partition key value are stored together, in sorted order by sort key value</li>
+<li>In a table that has a partition key and a sort key, it’s possible for two items to have the same partition key value. However, those two items must have different sort key values</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SecondaryIndexes.html">Secondary Indexes</a>
+<ul>
+<li>Lets you query the data in the table using an alternate key, in addition to queries against the primary key</li>
+<li>Global secondary index
+<ul>
+<li>An index with a partition key and sort key that can be different from those on the table</li>
+<li>20 global secondary indexes (default quota) per table</li>
+</ul>
+</li>
+<li>Local secondary index
+<ul>
+<li>An index that has the same partition key as the table, but a different sort key</li>
+<li>5 local secondary indexes per table<img src="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/images/HowItWorksGenreAlbumTitle.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><em>GenreAlbumTitle</em> index
+<ul>
+<li><em>Music</em> table, with a new index called <em>GenreAlbumTitle</em></li>
+<li>In the index, <em>Genre</em> is the partition key and <em>AlbumTitle</em> is the sort key</li>
+<li><em>Music</em> is the base table for the <em>GenreAlbumTitle</em> index</li>
+<li>Query the data by <em>Genre</em> and <em>AlbumTitle</em></li>
+<li>DynamoDB maintains indexes automatically.</li>
+<li>When you add, update, or delete an item in the base table, DynamoDB adds, updates, or deletes the corresponding item in any indexes that belong to that table</li>
+<li>You can query the <em>GenreAlbumTitle</em> index to find all albums of a particular genre (for example, all <em>Rock</em> albums). You can also query the index to find all albums within a particular genre that have certain album titles (for example, all <em>Country</em> albums with titles that start with the letter H)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Streams</strong>
+<ul>
+<li>Optional feature that captures data modification events in DynamoDB tables</li>
+<li>Each event is represented by a <em>stream record</em></li>
+<li>If you enable a stream on a table, DynamoDB Streams writes a stream record whenever one of the following events occurs
+<ul>
+<li>A new item is added to the table: The stream captures an image of the entire item, including all of its attributes</li>
+<li>An item is updated: The stream captures the “before” and “after” image of any attributes that were modified in the item</li>
+<li>An item is deleted from the table: The stream captures an image of the entire item before it was deleted</li>
+</ul>
+</li>
+<li>Each stream record also contains the name of the table, the event timestamp, and other metadata</li>
+<li>Stream records have a lifetime of 24 hours; after that, they are automatically removed from the stream</li>
+<li>For example, consider a <em>Customers</em> table that contains customer information for a company. Suppose that you want to send a “welcome” email to each new customer. You could enable a stream on that table, and then associate the stream with a Lambda function. The Lambda function would run whenever a new stream record appears<img src="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/images/HowItWorksStreams.png" alt="enter image description here"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html">DynamoDB</a></li>
 </ul>
 <h2 id="aws-development">AWS Development</h2>
 <ul>
