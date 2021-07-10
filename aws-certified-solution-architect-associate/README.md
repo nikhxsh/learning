@@ -3887,9 +3887,40 @@ the installation process?</p>
 <li>On-demand backup and point-in-time recovery (you can restore a table to any point in time during the last 35 days)</li>
 <li>Delete expired items from tables automatically</li>
 <li>Low cost and auto scaling capabilities</li>
+<li>Amazon DMS can be used to migrate to DynamoDB from Mongo, Oracle, MySQL, S3 etc.</li>
 </ul>
 </li>
-<li><a href="https://aws.amazon.com/dynamodb/pricing/provisioned/">Provision Throughput</a>
+<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html">Read/Write Capacity Mode</a>
+<ul>
+<li>On-Demand Mode
+<ul>
+<li>No capacity planning needed (RCU/WCU)</li>
+<li>Scales Automatically</li>
+<li>2.5x more expensive than provisioned mode</li>
+<li>On-demand mode is a good option if any of the following are true
+<ul>
+<li>You create new tables with unknown workloads</li>
+<li>You have unpredictable application traffic</li>
+<li>You prefer the ease of paying for only what you use</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Provisioned Mode
+<ul>
+<li>You specify the RCU/WCU that you require for your application</li>
+<li>You can use auto scaling to adjust your table’s provisioned capacity automatically in response to traffic changes</li>
+<li>Provisioned mode is a good option if any of the following are true:
+<ul>
+<li>You have predictable application traffic</li>
+<li>You run applications whose traffic is consistent or ramps gradually</li>
+<li>You can forecast capacity requirements to control costs</li>
+</ul>
+</li>
+<li>For provisioned mode tables, you specify throughput capacity</li>
+</ul>
+</li>
+<li><a href="https://aws.amazon.com/dynamodb/pricing/provisioned/">Throughput capacity</a>
 <ul>
 <li>Table must have provisioned read and write capacity units</li>
 <li>Read Capacity Units (RCU)
@@ -3935,6 +3966,8 @@ the installation process?</p>
 </ul>
 </li>
 <li>Throughput can be exceeded using “burst credits” and if “burst credits” are empty then you’ll get “ProvisionThroughputException”</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><strong>Structure</strong>
@@ -4021,8 +4054,58 @@ the installation process?</p>
 </ul>
 </li>
 <li>Each stream record also contains the name of the table, the event timestamp, and other metadata</li>
-<li>Stream records have a lifetime of 24 hours; after that, they are automatically removed from the stream</li>
+<li><strong>Stream records have a lifetime of 24 hours</strong>; after that, they are automatically removed from the stream</li>
 <li>For example, consider a <em>Customers</em> table that contains customer information for a company. Suppose that you want to send a “welcome” email to each new customer. You could enable a stream on that table, and then associate the stream with a Lambda function. The Lambda function would run whenever a new stream record appears<img src="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/images/HowItWorksStreams.png" alt="enter image description here"></li>
+<li>Use cases
+<ul>
+<li>React to changes in real time</li>
+<li>Analytics</li>
+<li>Create derivative tables/views</li>
+<li>Insert into ElasticSearch</li>
+<li>Could implement cross region replications</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://docs.amazonaws.cn/en_us/amazondynamodb/latest/developerguide/DAX.html">DAX (DynamoDB Accelerator)</a>
+<ul>
+<li>Seamless cache, no application re-write</li>
+<li>Writes go through DAX to DynamoDB</li>
+<li>Micro second latency for cached reads &amp; queries</li>
+<li>Solves Hot Key problem (too many reads)</li>
+<li>5 mins TTL for cache by default</li>
+<li>Up to 10 nodes in the cluster</li>
+<li>Multi AZ (3 min nodes recommended)</li>
+<li>Secure (Encryption at rest with KMS, VPC, IAM etc.)<img src="https://d2908q01vomqb2.cloudfront.net/887309d048beef83ad3eabf2a79a64a389ab1c9f/2018/04/19/Arch-Diagram.jpg" alt="enter image description here"></li>
+</ul>
+</li>
+<li><a href="https://aws.amazon.com/blogs/aws/new-amazon-dynamodb-transactions/">Transaction</a>
+<ul>
+<li>Provide atomicity, consistency, isolation, and durability (ACID) across one or more tables within a single AWS account and region</li>
+<li>Use cases
+<ul>
+<li>Processing financial transactions</li>
+<li>Fulfilling and managing orders</li>
+<li>Building multiplayer game engines</li>
+<li>Coordinating actions across distributed components and services</li>
+</ul>
+</li>
+<li>Handling transactions using
+<ul>
+<li><code>TransactWriteItems</code>, a batch operation that contains a write set, with one or more <code>PutItem</code>, <code>UpdateItem</code>, and <code>DeleteItem</code> operations</li>
+<li><code>TransactGetItems</code>, a batch operation that contains a read set, with one or more <code>GetItem</code> operations</li>
+</ul>
+</li>
+<li>Items are not locked during a transaction. DynamoDB transactions provide serializable isolation. If an item is modified outside of a transaction while the transaction is in progress, the transaction is canceled and an exception is thrown with details about which item or items caused the exception</li>
+<li>Transactional operations work within one or more tables within a region, and are not supported across regions in global tables</li>
+<li>There is no additional cost to enable transactions for DynamoDB tables</li>
+</ul>
+</li>
+<li>Global tables
+<ul>
+<li>Replicate your DynamoDB tables automatically across your choice of AWS Region</li>
+<li>Eliminate the difficult work of replicating data between Regions and resolving update conflicts</li>
+<li>There are no upfront costs or commitments for using global tables, and you pay only for the resources provisioned<img src="https://d1.awsstatic.com/product-marketing/DynamoDB/DynamoDB_Global-Tables-01.dad2508b80e8b7c544fe1a94a2abd3f770b789da.png" alt="enter image description here"></li>
 </ul>
 </li>
 </ul>
