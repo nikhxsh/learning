@@ -2315,13 +2315,12 @@ failures, useful to speed up downloads</li>
 </li>
 </ul>
 <h3 id="amazon-s3-file-gateway"><a href="https://aws.amazon.com/storagegateway/file/s3/">Amazon S3 File Gateway</a></h3>
-<pre><code>- Configured S3 buckets are accessible using SMB or NFS protocol with local caching
-- Supports S3 standard, S3 IA, S3 One Zone IA
-- Access using IAM roles for each gateway
-- Can be mounted on may servers
-- Integrated with Active Directory for user Authentication![enter image description here](https://docs.aws.amazon.com/storagegateway/latest/userguide/images/file-gateway-concepts-diagram.png)
-</code></pre>
 <ul>
+<li>Configured S3 buckets are accessible using SMB or NFS protocol with local caching</li>
+<li>Supports S3 standard, S3 IA, S3 One Zone IA</li>
+<li>Access using IAM roles for each gateway</li>
+<li>Can be mounted on may servers</li>
+<li>Integrated with Active Directory for user Authentication<img src="https://docs.aws.amazon.com/storagegateway/latest/userguide/images/file-gateway-concepts-diagram.png" alt="enter image description here"></li>
 <li><strong>Amazon FSx File Gateway</strong>
 <ul>
 <li><a href="https://aws.amazon.com/fsx/windows/">FSx for windows</a>
