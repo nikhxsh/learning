@@ -2395,12 +2395,8 @@ failures, useful to speed up downloads</li>
 - <em>VTL Tape/Backup with iSCSI &gt;&gt; Tape Gateway  (Backed by S3 and Glacier)</em><br>
 - <em>No on-premise virtualization&gt;&gt; Hardware appliances</em></li>
 <li>AWS transfer family<img src="https://d1.awsstatic.com/cloud-storage/aws-transfer-family-s3-efs-how-it-works-diagram.6ff1dc0d717f63d4207ce4670a729aabb85d0d70.png" alt="AWS Transfer Family | Amazon Web Services"></li>
-<li>AWS Storage options
-<ul>
-<li><img src="https://d2908q01vomqb2.cloudfront.net/cb4e5208b4cd87268b208e49452ed6e89a68e0b8/2018/03/20/aws-storage-soutions.jpg" alt="enter image description here"></li>
-<li><img src="https://miro.medium.com/max/1838/1*02FpTqeqNH6XzcrBUqjR_w.png" alt="enter image description here" width="600" height="600"></li>
-</ul>
-</li>
+<li>AWS Storage options<img src="https://d2908q01vomqb2.cloudfront.net/cb4e5208b4cd87268b208e49452ed6e89a68e0b8/2018/03/20/aws-storage-soutions.jpg" alt="enter image description here"><br>
+<img src="https://miro.medium.com/max/1838/1*02FpTqeqNH6XzcrBUqjR_w.png" alt="enter image description here" width="600" height="600"></li>
 </ul>
 <hr>
 <p>Q: My company would like to have a MySQL database internally that is going to be available even in  case of a disaster in the AWS Cloud. I should setup</p>
@@ -2808,8 +2804,7 @@ the installation process?</p>
 <p>Create a Golden AMI that contains the dependencies and launch the EC2 instances from that. (Golden AMI are a standard in making sure save the state after the installation or pulling dependencies so that future instances can boot up from that AMI quickly)</p>
 </blockquote>
 <h2 id="cloudfront--aws-global-accelerator">CloudFront &amp; AWS Global Accelerator</h2>
-<ul>
-<li><a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">CloudFront</a>
+<h3 id="cloudfront"><a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">CloudFront</a></h3>
 <ul>
 <li>It is a fast content delivery network (CDN) service that securely delivers data, videos, applications, and APIs to customers globally with low latency, high transfer speeds, all within a developer-friendly environment</li>
 <li>Speeds up distribution of your static and dynamic web content, such as .html, .css, .js, and image files, to your users</li>
@@ -2924,8 +2919,7 @@ the installation process?</p>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html">AWS Global Accelerator</a>
+<h3 id="aws-global-accelerator"><a href="https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html">AWS Global Accelerator</a></h3>
 <ul>
 <li>Service in which you create <em>accelerators</em> to improve the performance of your applications for local and global users</li>
 <li>Standard accelerator
@@ -2967,8 +2961,6 @@ the installation process?</p>
 </ul>
 </li>
 <li><img src="https://miro.medium.com/max/1200/1*1iQaCMjicPnfR7LsFZ2hrg.png" alt="enter image description here"></li>
-</ul>
-</li>
 </ul>
 <p>Q: Which features allows us to distribute paid content from S3 securely, globally, if the S3 bucket is secured to only exchange data with CloudFront?</p>
 <blockquote>
@@ -3022,7 +3014,8 @@ the installation process?</p>
 <li>Kinesis - real-time streaming model</li>
 </ul>
 </li>
-<li><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html">Amazon SQS</a>
+</ul>
+<h3 id="amazon-sqs"><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html">Amazon SQS</a></h3>
 <ul>
 <li>Offers a secure, durable, and available hosted queue that lets you integrate and decouple distributed software systems and components</li>
 <li>Supports both standard and FIFO queues</li>
@@ -3163,8 +3156,7 @@ the installation process?</p>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html">Amazon SNS (Simple Notification Service)</a>
+<h3 id="amazon-sns-simple-notification-service"><a href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html">Amazon SNS (Simple Notification Service)</a></h3>
 <ul>
 <li>Sends one message to many receivers</li>
 <li>Pub/Sub model</li>
@@ -3255,7 +3247,8 @@ the installation process?</p>
 </li>
 </ul>
 </li>
-<li>Amazon Kinesis
+</ul>
+<h3 id="amazon-kinesis">Amazon Kinesis</h3>
 <ul>
 <li>Collect, process and analyze streaming data in real-time</li>
 <li>Ingest real time data such as Application logs, Metrics, Website clickstreams, IoT telemetry data</li>
@@ -3332,8 +3325,7 @@ the installation process?</p>
 </ul>
 </li>
 </ul>
-</li>
-<li><strong>Data ordering for Kinesis vs SQS FIFO</strong>
+<h3 id="data-ordering-for-kinesis-vs-sqs-fifo">Data ordering for Kinesis vs SQS FIFO</h3>
 <ul>
 <li><em>Kinesis</em>
 <ul>
@@ -3368,10 +3360,7 @@ the installation process?</p>
 </li>
 <li><img src="https://miro.medium.com/max/1714/1*GPXkMjBqByYN3eD30FhsHw.png" alt="enter image description here"></li>
 </ul>
-</li>
-</ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.html">Amazon MQ</a>
+<h3 id="amazon-mq"><a href="https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.html">Amazon MQ</a></h3>
 <ul>
 <li>Managed message broker service that makes it easy to migrate to a message broker in the cloud</li>
 <li>SQS, SNS are <em>cloud native</em> services, and they’re using proprietary protocols from AWS</li>
@@ -3381,8 +3370,6 @@ the installation process?</p>
 <li>Does not scale as much as SQS/SNS</li>
 <li>Runs on dedicated machine</li>
 <li>Has both <strong>queue feature and topic feature</strong><img src="https://d1.awsstatic.com/product-marketing/Amazon-MQ/Amazon%20MQ%20HIW%20Diagram.78e380e8a97064c8f751c1569481a304644490b5.jpg" alt="enter image description here"></li>
-</ul>
-</li>
 </ul>
 <hr>
 <p>Q: You are preparing for the biggest day of sale of the year, where your traffic will increase by 100x. You have already setup SQS standard queue. What should you do?</p>
