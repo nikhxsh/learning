@@ -250,7 +250,7 @@ E.g. arn:aws:iam::<code>account-ID-without-hyphens</code>:user/nik</li>
 <li>Audit permissions of your account using Credentials Report</li>
 <li>Never share IAM users and Access keys</li>
 </ul>
-<hr>
+<h3 id="iam-qa">IAM Q&amp;A</h3>
 <p>Q: You are getting started with AWS and your manager wants things to remain simple yet secure. He wants the management of engineers to be easy, and not re-invent the wheel every time someone joins your company. What will you do?</p>
 <blockquote>
 <p>I’ll create multiple IAM users and groups, and assign policies to groups. New users will be<br>
@@ -4326,7 +4326,6 @@ the installation process?</p>
 </ul>
 </li>
 </ul>
-<hr>
 <h3 id="serverless-qa">Serverless Q&amp;A</h3>
 <p>Q: You have a Lambda function that will process data for 25 minutes before successfully completing. The code is working fine in your machine, but in AWS Lambda it just fails with a “timeout” issue after 3 seconds. What should you do?</p>
 <blockquote>
