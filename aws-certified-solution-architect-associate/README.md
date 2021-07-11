@@ -1606,7 +1606,7 @@ user-data</p>
 </li>
 </ul>
 <h3 id="scalability--availability-qa">Scalability &amp; Availability Q&amp;A</h3>
-<p>Q1: Load Balancers provide a</p>
+<p>Q: Load Balancers provide a</p>
 <blockquote>
 <p>Static DNS name we can used n our application</p>
 </blockquote>
