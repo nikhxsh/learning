@@ -44,7 +44,7 @@
 <li><a href="#scalability">Scalability</a></li>
 <li><a href="#high-availability">High Availability</a></li>
 <li><a href="#load-balancer">Load Balancer</a></li>
-<li><a href="#scalability-qa">Q&amp;N</a></li>
+<li><a href="#scalability--availability-qa">Q&amp;N</a></li>
 </ul>
 </li>
 <li><a href="#aws-storage-services">AWS Storage Services</a>
