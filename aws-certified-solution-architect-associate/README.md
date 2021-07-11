@@ -36,6 +36,7 @@
 <li><a href="#ec2-storage">EC2 Storage</a></li>
 <li><a href="#notes">Notes</a></li>
 <li><a href="#dev">Dev</a></li>
+<li><a href="#ec2-qa">Q&amp;N</a></li>
 </ul>
 </li>
 <li><a href="#scalability-and-high-availability">Scalability and High Availability</a>
@@ -43,6 +44,7 @@
 <li><a href="#scalability">Scalability</a></li>
 <li><a href="#high-availability">High Availability</a></li>
 <li><a href="#load-balancer">Load Balancer</a></li>
+<li><a href="#scalability-qa">Q&amp;N</a></li>
 </ul>
 </li>
 <li><a href="#aws-storage-services">AWS Storage Services</a>
@@ -53,14 +55,24 @@
 <li><a href="#aws-s3-simple-storage-service">AWS S3 (Simple Storage Service)</a></li>
 <li><a href="#aws-snow-family">AWS Snow Family</a></li>
 <li><a href="#amazon-s3-file-gateway">Amazon S3 File Gateway</a></li>
+<li><a href="#storage-services-qa">Q&amp;N</a></li>
 </ul>
 </li>
-<li><a href="#route-53">Route 53</a></li>
-<li><a href="#case-studies">Case Studies</a></li>
+<li><a href="#route-53">Route 53</a>
+<ul>
+<li><a href="#route-53-qa">Q&amp;N</a></li>
+</ul>
+</li>
+<li><a href="#case-studies">Case Studies</a>
+<ul>
+<li><a href="#case-studies-qa">Q&amp;N</a></li>
+</ul>
+</li>
 <li><a href="#cloudfront--aws-global-accelerator">CloudFront &amp; AWS Global Accelerator</a>
 <ul>
 <li><a href="#cloudfront">CloudFront</a></li>
 <li><a href="#aws-global-accelerator">AWS Global Accelerator</a></li>
+<li><a href="#cloudfront--aws-global-accelerator-qn">Q&amp;N</a></li>
 </ul>
 </li>
 <li><a href="#decoupling-applications">Decoupling applications</a>
@@ -70,6 +82,7 @@
 <li><a href="#amazon-kinesis">Amazon Kinesis</a></li>
 <li><a href="#data-ordering-for-kinesis-vs-sqs-fifo">Data ordering for Kinesis vs SQS FIFO</a></li>
 <li><a href="#amazon-mq">Amazon MQ</a></li>
+<li><a href="#decoupling-applications-qa">Q&amp;N</a></li>
 </ul>
 </li>
 <li><a href="#container-on-aws">Container on AWS</a>
@@ -87,11 +100,15 @@
 <li><a href="#dynamodb">DynamoDB</a></li>
 <li><a href="#aws-api-gateway">AWS API Gateway</a></li>
 <li><a href="#aws-cognito">AWS Cognito</a></li>
+<li><a href="#serverless-qa">Q&amp;N</a></li>
 </ul>
 </li>
-<li><a href="#aws-development">AWS Development</a></li>
+<li><a href="#aws-development">AWS Development</a>
+<ul>
+<li><a href="#aws-development-qa">Q&amp;N</a></li>
 </ul>
-<p><small><i><a href="http://ecotrust-canada.github.io/markdown-toc/">Table of contents generated with markdown-toc</a></i></small></p>
+</li>
+</ul>
 <h2 id="aws-regions-and-availability-zones">AWS regions and Availability zones</h2>
 <h3 id="regions">Regions</h3>
 <ul>
