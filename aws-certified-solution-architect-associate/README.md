@@ -84,7 +84,8 @@
 <ul>
 <li><a href="#aws-lambda">AWS Lambda</a></li>
 <li><a href="#dynamodb">DynamoDB</a></li>
-<li>[<a href=""></a>](#----)</li>
+<li><a href="#aws-api-gateway">AWS API Gateway</a></li>
+<li><a href="#aws-cognito">AWS Cognito</a></li>
 </ul>
 </li>
 <li><a href="#aws-development">AWS Development</a></li>
@@ -3767,6 +3768,21 @@ the installation process?</p>
 <li>Fargate (Serverless function in ECS)</li>
 </ul>
 </li>
+<li>SAM (Serverless Application Model)
+<ul>
+<li>Framework for developing and deploying serverless applications</li>
+<li>All the configuration is YAML code and you can configure
+<ul>
+<li>Lambda functions</li>
+<li>DynamoDB tables</li>
+<li>API Gateway</li>
+<li>Cognito User Pools</li>
+</ul>
+</li>
+<li>Can help you to run Lambda, API Gateway, DynamoDB locally</li>
+<li>Can use CodeDeploy to deploy Lambda functions</li>
+</ul>
+</li>
 </ul>
 <h3 id="aws-lambda"><a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda</a></h3>
 <ul>
@@ -4109,7 +4125,243 @@ the installation process?</p>
 </ul>
 </li>
 </ul>
-<h3 id="section"><a href=""></a></h3>
+<h3 id="aws-api-gateway"><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html">AWS API Gateway</a></h3>
+<ul>
+<li>An API gateway is service that sits in front of an API (Application Programming Interface) and is the single-entry point for defined back-end APIs and microservices (which can be both internal and external)</li>
+<li>Sitting in front of APIs, the gateway acts as protector, enforcing security and ensuring scalability and high availability</li>
+<li>API Gateway acts as a “front door” for applications to access data, business logic, or functionality from your backend services, such as workloads running on Amazon Elastic Compute Cloud (Amazon EC2), code running on AWS Lambda, any web application, or real-time communication applications</li>
+<li><strong>Features</strong>
+<ul>
+<li>AWS Lambda + API Gateway = No infrastructure to manage</li>
+<li>Support for stateful (<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html">WebSocket</a>) and stateless (<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html">HTTP</a> and <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-rest-api.html">REST</a>) APIs</li>
+<li>Powerful, flexible <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-control-access-to-api.html">authentication</a> mechanisms, such as AWS Identity and Access Management policies, Lambda authorizer functions, and Amazon Cognito user pools</li>
+<li><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/cloudtrail.html">CloudTrail</a> logging and monitoring of API usage and API changes</li>
+<li>CloudWatch access logging and execution logging, including the ability to set alarms</li>
+<li>Integration with <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-control-access-aws-waf.html">AWS WAF</a> for protecting your APIs against common web exploits</li>
+<li>Integration with <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-xray.html">AWS X-Ray</a> for understanding and triaging performance latencies</li>
+<li>Handles API versioning</li>
+<li>Swagger/Open API import to quickly define APIs</li>
+<li>Transform and validate requests and responses</li>
+<li>Generates SDK and API specification</li>
+<li>Cache API response</li>
+</ul>
+</li>
+<li><strong>Architecture</strong><img src="https://docs.aws.amazon.com/apigateway/latest/developerguide/images/Product-Page-Diagram_Amazon-API-Gateway-How-Works.png" alt="enter image description here"></li>
+<li><strong>Use cases</strong>
+<ul>
+<li><em>To create HTTP APIs</em>
+<ul>
+<li>HTTP APIs enable you to create RESTful APIs with lower latency and lower cost than REST APIs</li>
+<li>Send requests to AWS Lambda functions or to any publicly routable HTTP endpoint</li>
+<li>For example, you can create an HTTP API that integrates with a Lambda function on the backend. When a client calls your API, API Gateway sends the request to the Lambda function and returns the function’s response to the client</li>
+<li>HTTP APIs support <a href="https://openid.net/connect/">OpenID Connect</a> and <a href="https://oauth.net/2/">OAuth 2.0</a> authorization</li>
+<li>They come with built-in support for cross-origin resource sharing (CORS) and automatic deployments</li>
+<li>Works with Lambda and HTTP Backends</li>
+</ul>
+</li>
+<li><em>To create REST APIs</em>
+<ul>
+<li>An API Gateway REST API is made up of resources (logical entity that an app can access through a resource path) and methods (request that is submitted by the user of your API)</li>
+<li>For example, <code>/incomes</code> could be the path of a resource representing the income of the app user. A resource can have one or more operations that are defined by appropriate HTTP verbs such as GET, POST, PUT, PATCH, and DELETE. A combination of a resource path and an operation identifies a method of the API. For example, a <code>POST /incomes</code> method could add an income earned by the caller, and a <code>GET /expenses</code> method could query the reported expenses incurred by the caller</li>
+<li>In API Gateway REST APIs, the frontend is encapsulated by <em>method requests</em> and <em>method responses</em>. The API interfaces with the backend by means of <em>integration requests</em> and <em>integration responses</em></li>
+<li>For example, with DynamoDB as the backend, the API developer sets up the integration request to forward the incoming method request to the chosen backend. The setup includes specifications of an appropriate DynamoDB action, required IAM role and policies, and required input data transformation. The backend returns the result to API Gateway as an integration response<img src="https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b99f41ad8b103eff4b59/2020/03/04/api-gateway-sagemaker-2.png" alt="enter image description here"></li>
+<li>Support for generating SDKs and creating API documentation using API Gateway extensions to OpenAPI</li>
+<li>Throttling of HTTP requests</li>
+<li>Works with Lambda and HTTP, AWS Services</li>
+</ul>
+</li>
+<li><em>To create WebSocket APIs</em>
+<ul>
+<li>In a WebSocket API, the client and the server can both send messages to each other at any time</li>
+<li>Backend servers can easily push data to connected users and devices, avoiding the need to implement complex polling mechanisms</li>
+<li>For example, you could build a serverless application using an API Gateway WebSocket API and AWS Lambda to send and receive messages to and from individual users or groups of users in a chat room. Or you could invoke backend services such as AWS Lambda, Amazon Kinesis, or an HTTP endpoint based on message content<img src="https://d2908q01vomqb2.cloudfront.net/1b6453892473a467d07372d45eb05abc2031647a/2018/12/18/websockets-arch.png" alt="enter image description here"></li>
+<li>You can use API Gateway WebSocket APIs to build secure, real-time communication applications without having to provision or manage any servers to manage connections or large-scale data exchanges</li>
+<li>Targeted use cases include real-time applications such as the following
+<ul>
+<li>Chat applications</li>
+<li>Real-time dashboards such as stock tickers</li>
+<li>Real-time alerts and notifications</li>
+</ul>
+</li>
+<li>API Gateway provides WebSocket API management functionality such as the following
+<ul>
+<li>Monitoring and throttling of connections and messages</li>
+<li>Using AWS X-Ray to trace messages as they travel through the APIs to backend services</li>
+<li>Easy integration with HTTP/HTTPS endpoints</li>
+</ul>
+</li>
+<li>Works with Lambda and HTTP, AWS Services</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html"># Choosing between HTTP APIs and REST APIs</a></li>
+<li><strong>Endpoint type</strong>
+<ul>
+<li>Edge-Optimized (Default)
+<ul>
+<li>For global clients</li>
+<li>Request are routed through the CloudFront Edge locations (improves latency)</li>
+<li>Gateway still lives in only one region</li>
+</ul>
+</li>
+<li>Regional
+<ul>
+<li>For clients within same region</li>
+<li>Cloud manually combine with CloudFront (more control over the caching strategies and the distribution)</li>
+</ul>
+</li>
+<li>Private
+<ul>
+<li>Can only be accessed from your VPC using an interface VPC endpoint (ENI)</li>
+<li>Use a resource policy to define access</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Security</strong>
+<ul>
+<li>IAM Permissions
+<ul>
+<li>Create an IAM policy authorization and attach to User/Role</li>
+<li>API Gateway verifies IAM permissions passed by the calling applications</li>
+<li>Leverage “Sig v4” capability where IAM credential are in headers</li>
+</ul>
+</li>
+<li>Lambda Authorizer (Custom Authorizers)
+<ul>
+<li>Uses Lambda to validate the token in header being passed</li>
+<li>Option to cache result of authentication</li>
+<li>Helps to use OAuth/SAML/3rd party type of authentication</li>
+<li>Lambda must return an IAM policy for the user</li>
+</ul>
+</li>
+<li>Cognito user pools
+<ul>
+<li>Fully Manages user lifecycle</li>
+<li>You manage your own user pool (can be Facebook, google etc.)</li>
+<li>API gateway verifies identity automatically from AWS Cognito</li>
+<li>No custom implementation required</li>
+<li>Only helps with authentication, not authorization (must implement authorization in the backend)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="aws-cognito"><a href="https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html">AWS Cognito</a></h3>
+<ul>
+<li>Provides authentication, authorization, and user management for your web and mobile apps</li>
+<li>Your users can sign in directly with a user name and password, or through a third party such as Facebook, Amazon, Google or Apple</li>
+<li><strong>Cognito User Pools</strong>
+<ul>
+<li>It is a user directory that provide sign-up and sign-in options for your app users</li>
+<li>Whether your users sign in directly or through a third party, all members of the user pool have a directory profile that you can access through an SDK</li>
+<li>Sends backs Json Web Tokens (JWT)</li>
+<li>Integrates with API Gateway</li>
+</ul>
+</li>
+<li><strong>Cognito Identity Pools</strong> (Federated Identity)
+<ul>
+<li>Identity pools enable you to grant your users access to other AWS services</li>
+<li>With an identity pool, your users can obtain temporary AWS credentials to access AWS services, such as Amazon S3 and DynamoDB</li>
+<li>Identity pools support anonymous guest users, as well as federation through third-party IdPs</li>
+<li>Integrates with Cognito User pools as an identity provider</li>
+<li>Example: provide temporary access to write to S3 bucket using Facebook login</li>
+</ul>
+</li>
+<li><strong>Cognito Sync</strong> (Deprecated, current AWS AppSync)
+<ul>
+<li>Synchronize data from device to Cognito</li>
+<li>Store preferences, configuration, state of app</li>
+<li>Cross device synchronization</li>
+<li>Offline capability (synchronization when back offline)</li>
+<li>Requires Federated Identity Pool</li>
+<li>Data stored in datasets (up to 1MB) and up to 20 datasets to Synchronize</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-scenarios.html">Scenarios</a>
+<ul>
+<li><em>Authenticate with a User Pool</em>
+<ul>
+<li>You can enable your users to authenticate with a user pool</li>
+<li>Your app users can sign in either directly through a user pool, or federate through a third-party identity provider (IdP)</li>
+<li>The user pool manages the overhead of handling the tokens that are returned from social sign-in through Facebook, Google, Amazon, and Apple, and from OpenID Connect (OIDC) and SAML IdPs</li>
+<li>After a successful authentication, your web or mobile app will receive user pool tokens from Amazon Cognito. You can use those tokens to retrieve AWS credentials that allow your app to access other AWS services, or you might choose to use them to control access to your server-side resources, or to the Amazon API Gateway</li>
+<li><img src="https://docs.aws.amazon.com/cognito/latest/developerguide/images/scenario-authentication-cup.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><em>Access Your Server-side Resources with a User Pool</em>
+<ul>
+<li>After a successful user pool sign-in, your web or mobile app will receive user pool tokens from Amazon Cognito</li>
+<li>You can use those tokens to control access to your server-side resource</li>
+<li><img src="https://docs.aws.amazon.com/cognito/latest/developerguide/images/scenario-standalone.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><em>Access Resources with API Gateway and Lambda with a User Pool</em>
+<ul>
+<li>API Gateway validates the tokens from a successful user pool authentication, and uses them to grant your users access to resources including Lambda functions, or your own API</li>
+<li>You can use groups in a user pool to control permissions with API Gateway by mapping group membership to IAM roles</li>
+<li><img src="https://docs.aws.amazon.com/cognito/latest/developerguide/images/scenario-api-gateway.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li>Access AWS Services with a User Pool and an Identity Pool
+<ul>
+<li>After a successful user pool authentication, your app will receive user pool tokens from Amazon Cognito. You can exchange them for temporary access to other AWS services with an identity pool</li>
+<li><img src="https://docs.aws.amazon.com/cognito/latest/developerguide/images/scenario-cup-cib.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><em>Authenticate with a Third Party and Access AWS Services with an Identity Pool</em>
+<ul>
+<li>You can enable your users access to AWS services through an identity pool</li>
+<li>An identity pool requires an IdP token from a user that’s authenticated by a third-party identity provider</li>
+<li><img src="https://docs.aws.amazon.com/cognito/latest/developerguide/images/scenario-identity-pool.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><em>Access AWS AppSync Resources with Amazon Cognito</em>
+<ul>
+<li>You can grant your users access to AWS AppSync resources with tokens from a successful Amazon Cognito authentication</li>
+<li><img src="https://docs.aws.amazon.com/cognito/latest/developerguide/images/scenario-appsync.png" alt="enter image description here"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Q: You have a Lambda function that will process data for 25 minutes before successfully completing. The code is working fine in your machine, but in AWS Lambda it just fails with a “timeout” issue after 3 seconds. What should you do?</p>
+<blockquote>
+<p>Run your code somewhere else than Lambda - the maximum timeout is 15 minutes</p>
+</blockquote>
+<p>Q: You’d like to have a dynamic DB_URL variable loaded in your Lambda code</p>
+<blockquote>
+<p>Environment variables allow for your Lambda to have dynamic variables from within</p>
+</blockquote>
+<p>Q: We have to provision the instance type for our DynamoDB database</p>
+<blockquote>
+<p>False, DynamoDB is a serverless service and as such we don’t provision an instance type for our database. We just say how much RCU and WCU we require for our table (or auto scaling)</p>
+</blockquote>
+<p>Q: A DynamoDB table has been provisioned with 10 RCU and 10 WCU. You would like to increase the RCU to sustain more read traffic. What is true about RCU and WCU?</p>
+<blockquote>
+<p>RCU and WCU are decoupled, so WCU can stay the same</p>
+</blockquote>
+<p>Q: You are about to enter the Christmas sale and you know a few items in your website are very popular and will be read often. Last year you had a <strong>ProvisionedThroughputExceededException.</strong> What should you do this year?</p>
+<blockquote>
+<p>Create DAX Cluster (A DynamoDB Accelerator (DAX) cluster is a cache that fronts your DynamoDB tables and caches the most frequently read values. They help offload the heavy reads on hot keys off of DynamoDB itself, hence preventing the ProvisionedThroughputExceededException)</p>
+</blockquote>
+<p>Q: You would like to automate sending welcome emails to the users who subscribe to the Users table in DynamoDB. How can you achieve that?</p>
+<blockquote>
+<p>Enable DynamoDB Streams and have the Lambda function receive the events in real-time</p>
+</blockquote>
+<p>Q: To make a serverless API, I should integrate API Gateway with</p>
+<blockquote>
+<p>Lambda (Lambda is a serverless technology)</p>
+</blockquote>
+<p>Q: You would like to provide a Facebook login before your users call your API hosted by API Gateway. You need seamlessly authentication integration, you will use</p>
+<blockquote>
+<p>Cognito User Pool (Cognito User Pools directly integration with Facebook Logins)</p>
+</blockquote>
+<p>Q: Your production application is leveraging DynamoDB as its backend and is experiencing smooth sustained usage. There is a need to make the application run in development as well, where it will experience unpredictable, sometimes high, sometimes low volume of requests. You would like to make sure you optimize for cost. What do you recommend?</p>
+<blockquote>
+<p>Provision WCU &amp; RCU and enable auto-scaling for production and use on-demand capacity for development</p>
+</blockquote>
 <h2 id="aws-development">AWS Development</h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/cli/latest/reference/s3/">https://docs.aws.amazon.com/cli/latest/reference/s3/</a></li>
