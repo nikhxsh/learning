@@ -1233,7 +1233,7 @@ user-data</p>
 </ul>
 </li>
 </ul>
-<hr>
+<h3 id="ec2-qa">EC2 Q&amp;A</h3>
 <p>Q: You are launching an EC2 instance in us-east-1 using this Python script snippet: (we will see SDK in a later section, for now just look at the code reference ImageId) ec2.create_instances(ImageId=‘ami-b23a5e7’, MinCount=1, MaxCount=1) It works well, so you decide to deploy your script in us-west-1 as well. There, the script does not work and fails with “ami not found” error. What’s the problem?</p>
 <blockquote>
 <p>AMI is region locked and the same ID cannot be used across regions</p>
@@ -1588,7 +1588,7 @@ user-data</p>
 </ul>
 </li>
 </ul>
-<hr>
+<h3 id="scalability-qa">Scalability Q&amp;A</h3>
 <p>Q1: Load Balancers provide a</p>
 <blockquote>
 <p>Static DNS name we can used n our application</p>
@@ -2487,7 +2487,7 @@ failures, useful to speed up downloads</li>
 <li>AWS Storage options<img src="https://d2908q01vomqb2.cloudfront.net/cb4e5208b4cd87268b208e49452ed6e89a68e0b8/2018/03/20/aws-storage-soutions.jpg" alt="enter image description here"><br>
 <img src="https://miro.medium.com/max/1838/1*02FpTqeqNH6XzcrBUqjR_w.png" alt="enter image description here" width="600" height="600"></li>
 </ul>
-<hr>
+<h3 id="storage-services-qa">Storage Services Q&amp;A</h3>
 <p>Q: My company would like to have a MySQL database internally that is going to be available even in  case of a disaster in the AWS Cloud. I should setup</p>
 <blockquote>
 <p>Multi-AZ (In this question, we consider a disaster to be an entire Availability Zone going down. In<br>
@@ -2717,7 +2717,7 @@ records are returned for each multi-value query, not a substitute for ELB</li>
 </ul>
 </li>
 </ul>
-<hr>
+<h3 id="route-53-qa">Route 53 Q&amp;A</h3>
 <p>Q: You have purchased “<a href="http://mycoolcompany.com">mycoolcompany.com</a>” on the AWS registrar and would like for it to point to<br>
 <code>lb1-1234.us-east-2.elb.amazonaws.com</code> . What sort of Route 53 record is <strong>NOT POSSIBLE</strong> to set<br>
 up for this?</p>
@@ -2865,7 +2865,7 @@ the unified AWS CLI</li>
 </ul>
 </li>
 </ul>
-<hr>
+<h3 id="case-studies-qa">Case Studies Q&amp;A</h3>
 <p>Q:  You have an ASG that scales on demand based on the traffic going to your new website: <a href="http://TriangleSunglasses.Com">TriangleSunglasses.Com</a>. You      would like to optimise for cost, so you have selected an ASG that scales based on demand going through your ELB. Still,      you want your solution to be highly available so you have selected the minimum instances to 2. How can you further      optimize the cost while respecting the requirements?</p>
 <blockquote>
 <p>Reserve two EC2 instances (This is the way to save further costs as we know we will run 2 EC2 instances no matter what.)</p>
@@ -3051,6 +3051,7 @@ the installation process?</p>
 </li>
 <li><img src="https://miro.medium.com/max/1200/1*1iQaCMjicPnfR7LsFZ2hrg.png" alt="enter image description here"></li>
 </ul>
+<h3 id="cloudfront--aws-global-accelerator-qn">CloudFront &amp; AWS Global Accelerator Q&amp;N</h3>
 <p>Q: Which features allows us to distribute paid content from S3 securely, globally, if the S3 bucket is secured to only exchange data with CloudFront?</p>
 <blockquote>
 <p>CloudFront Signed URL (CloudFront Signed URL are commonly used to distribute paid content through dynamic CloudFront Signed URL generation)</p>
@@ -3456,7 +3457,7 @@ the installation process?</p>
 <li>Runs on dedicated machine</li>
 <li>Has both <strong>queue feature and topic feature</strong><img src="https://d1.awsstatic.com/product-marketing/Amazon-MQ/Amazon%20MQ%20HIW%20Diagram.78e380e8a97064c8f751c1569481a304644490b5.jpg" alt="enter image description here"></li>
 </ul>
-<hr>
+<h3 id="decoupling-applications-qa">Decoupling applications Q&amp;A</h3>
 <p>Q: You are preparing for the biggest day of sale of the year, where your traffic will increase by 100x. You have already setup SQS standard queue. What should you do?</p>
 <blockquote>
 <p>Do nothing, SQS scales automatically</p>
@@ -4373,7 +4374,7 @@ the installation process?</p>
 <li><a href="https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/id_roles_create_for-user.html">https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/id_roles_create_for-user.html</a></li>
 <li><a href="https://console.aws.amazon.com/iam">https://console.aws.amazon.com/iam</a></li>
 </ul>
-<hr>
+<h3 id="aws-development-qa">AWS Development Q&amp;A</h3>
 <p>Q: My EC2 Instance does not have the permissions to perform an API call PutObject on S3. What should I do?</p>
 <blockquote>
 <p>I should ask an administrator to attach a Policy to the IAM Role on my EC2 Instance that authorizes it to do the API call (IAM roles are the right way to provide credentials and permissions to an EC2 instance)</p>
