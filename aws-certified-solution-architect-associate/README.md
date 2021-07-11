@@ -23,6 +23,7 @@
 <li><a href="#roles">Roles</a></li>
 <li><a href="#tools">Tools</a></li>
 <li><a href="#best-practices">Best practices</a></li>
+<li><a href="#iam-qa">Q&amp;N</a></li>
 </ul>
 </li>
 <li><a href="#ec2-elastic-compute-cloud">EC2 (Elastic Compute Cloud)</a>
