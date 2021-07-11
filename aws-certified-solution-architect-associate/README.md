@@ -4326,6 +4326,7 @@ the installation process?</p>
 </ul>
 </li>
 </ul>
+<h3 id="serverless-qa">Serverless Q&amp;A</h3>
 <p>Q: You have a Lambda function that will process data for 25 minutes before successfully completing. The code is working fine in your machine, but in AWS Lambda it just fails with a “timeout” issue after 3 seconds. What should you do?</p>
 <blockquote>
 <p>Run your code somewhere else than Lambda - the maximum timeout is 15 minutes</p>
