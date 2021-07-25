@@ -4441,9 +4441,11 @@ the unified AWS CLI</li>
 <li>S3 will call Lambda which will generate thumbnail and save to S3 (optionally can push to SQS and SNS)</li>
 </ul>
 </li>
+<li><img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-myblog.com.png" alt="enter image description here"></li>
 </ul>
 </li>
-<li><strong>Micro Services</strong></li>
+<li><strong>Micro Services</strong>
+<ul>
 <li>Requirement
 <ul>
 <li>Synchronous &amp; asynchronous patterns</li>
@@ -4456,6 +4458,9 @@ the unified AWS CLI</li>
 <li>Synchronous using API Gateway and Load balancer</li>
 <li>Asynchronous using SQS, Kinesis, SNS and Lambda triggers (S3)</li>
 <li>Serverless using API Gateway, Lambda</li>
+</ul>
+</li>
+<li><img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-microservices.png" alt="enter image description here"></li>
 </ul>
 </li>
 <li><strong>Distributed Paid Content</strong>
@@ -4480,6 +4485,7 @@ the unified AWS CLI</li>
 <li><em>S3 signed URL not efficient for global access</em></li>
 </ul>
 </li>
+<li><img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-severless-distributing-paid-content.png" alt="enter image description here"></li>
 </ul>
 </li>
 <li><strong>Software update distribution</strong>
@@ -4505,6 +4511,7 @@ the unified AWS CLI</li>
 </li>
 </ul>
 </li>
+<li><img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serveless-software-update-offloading.png" alt="enter image description here"></li>
 </ul>
 </li>
 <li><strong>Big Data Ingestion Pipeline</strong>
@@ -4527,6 +4534,7 @@ the unified AWS CLI</li>
 <li>Amazon Athena will pull data using query from ingestion bucket and upload it to the reporting bucket</li>
 </ul>
 </li>
+<li><img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-data-ingestion.png" alt="enter image description here"></li>
 </ul>
 </li>
 </ul>
