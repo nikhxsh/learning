@@ -63,11 +63,6 @@
 <li><a href="#route-53-qa">Q&amp;N</a></li>
 </ul>
 </li>
-<li><a href="#case-studies">Case Studies</a>
-<ul>
-<li><a href="#case-studies-qa">Q&amp;N</a></li>
-</ul>
-</li>
 <li><a href="#cloudfront--aws-global-accelerator">CloudFront &amp; AWS Global Accelerator</a>
 <ul>
 <li><a href="#cloudfront">CloudFront</a></li>
@@ -101,6 +96,18 @@
 <li><a href="#aws-api-gateway">AWS API Gateway</a></li>
 <li><a href="#aws-cognito">AWS Cognito</a></li>
 <li><a href="#serverless-qa">Q&amp;N</a></li>
+</ul>
+</li>
+<li><a href="#deployment">Deployment</a>
+<ul>
+<li><a href="#elastic-beanstalk">Elastic Beanstalk</a></li>
+</ul>
+</li>
+<li><a href="#solution-architecture-discussions">Solution Architecture Discussions</a>
+<ul>
+<li><a href="#classic">Classic</a></li>
+<li><a href="#serverless">Serverless</a></li>
+<li><a href="#case-studies-qa">Q&amp;N</a></li>
 </ul>
 </li>
 <li><a href="#aws-development">AWS Development</a>
@@ -2770,145 +2777,6 @@ zones are meant to be used for internal network queries and are not publicly acc
 Public Hosted Zones are meant to be used for people requesting your website through the<br>
 public internet. Finally, NS records must be updated on the 3rd party registrar.)</p>
 </blockquote>
-<h2 id="case-studies">Case Studies</h2>
-<ul>
-<li>We’re considering 5 pillars for a well architect application: Cost, Performance, Reliability, Security &amp; Operational Excellence</li>
-<li><a href="http://WhatIsTheTime.com">WhatIsTheTime.com</a> (Stateless)
-<ul>
-<li>No Database</li>
-<li>Low latency selected</li>
-<li>Setup private EC2 Instances
-<ul>
-<li>In different AZs for [Availability and Disaster recovery]</li>
-<li>with ASG  (we can add and remove instances at run time) [Better Costing]</li>
-<li>Setup SG (EC2 will on receive request for ELB) [Security]</li>
-<li>Reserving instance for minimum capacity [Better Costing]</li>
-</ul>
-</li>
-<li>Add Multi AZ ELB [Performance]</li>
-<li>Health Check [Performance]</li>
-<li>Use Route 53 to manage DNS queries [Reliability]</li>
-<li>Fully Automated like ASG, ELB and Route 53 [Operational Excellence]</li>
-</ul>
-</li>
-<li>MyClothes (Stateful)
-<ul>
-<li>Require database with hundreds of Users the same time, Need vertically scaling</li>
-<li>Introduce Route 53</li>
-<li>Introduce Multi AZ ELB</li>
-<li>Setup private EC2 Instances
-<ul>
-<li>In different AZs</li>
-<li>with ASG  (we can add and remove instances at run time)</li>
-<li>Setup SG (EC2 will on receive request for ELB)</li>
-<li>Reserving instance for minimum capacity</li>
-</ul>
-</li>
-<li>Introduce ElastiCache (Alt DynamoDB)
-<ul>
-<li>For storing user session data</li>
-<li>For caching data from RDS</li>
-<li>Multi AZ</li>
-</ul>
-</li>
-<li>Introduce RDS
-<ul>
-<li>For storing user data</li>
-<li>Read replicas for scaling reads</li>
-<li>Multi AZ for disaster recovery</li>
-</ul>
-</li>
-<li>Restrict traffic to EC2 SG from ELB</li>
-<li>Restrict traffic to ElastiCache SG from the EC2 SG</li>
-<li>Restrict traffic to RDS SG from the EC2 SG</li>
-</ul>
-</li>
-<li>MyWordPress (Stateful)
-<ul>
-<li>Require fully scalable, display images, has user data and blog content stored in MySQL</li>
-<li>Introduce Route 53</li>
-<li>Introduce Multi AZ ELB</li>
-<li>Setup private EC2 Instances
-<ul>
-<li>In different AZs</li>
-<li>with ASG  (we can add and remove instances at run time)</li>
-<li>Setup SG (EC2 will on receive request for ELB)</li>
-<li>Reserving instance for minimum capacity</li>
-<li>Create ENI (Elastic network Interface) in each AZ to access EFS</li>
-</ul>
-</li>
-<li>Introduce EFS (EBS good for single instance only)
-<ul>
-<li>Elastic File System</li>
-<li>To store images in distributed application</li>
-</ul>
-</li>
-<li>Introduce RDS
-<ul>
-<li>For storing user data using MySQL</li>
-<li>Read replicas for scaling reads</li>
-<li>Multi AZ for disaster recovery</li>
-</ul>
-</li>
-<li>Restrict traffic to EC2 SG from ELB</li>
-<li>Restrict traffic to EFS SG from the EC2 SG</li>
-<li>Restrict traffic to RDS SG from the EC2 SG</li>
-</ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html">Elastic Beanstalk</a>
-<ul>
-<li>Beanstalk, you can quickly deploy and manage applications in the AWS Cloud without having to learn about<br>
-the infrastructure that runs those applications.</li>
-<li>After you create and deploy your application, information about the application—including metrics, events, and<br>
-environment status—is available through the Elastic Beanstalk console, APIs, or Command Line Interfaces, including<br>
-the unified AWS CLI</li>
-<li>Developer centric</li>
-<li>Managed service, instance configuration and deployment auto handled</li>
-<li>Models
-<ul>
-<li>Single instance development</li>
-<li>LB + ASG great for prd and pre-prd web apps</li>
-</ul>
-</li>
-<li>Components
-<ul>
-<li>Application</li>
-<li>Application version for each deployment</li>
-<li>Environment name</li>
-</ul>
-</li>
-<li>Rollback feature to previous version</li>
-<li>Full control over lifecycle of environments</li>
-</ul>
-</li>
-</ul>
-<h3 id="case-studies-qa">Case Studies Q&amp;A</h3>
-<p>Q:  You have an ASG that scales on demand based on the traffic going to your new website: <a href="http://TriangleSunglasses.Com">TriangleSunglasses.Com</a>. You      would like to optimise for cost, so you have selected an ASG that scales based on demand going through your ELB. Still,      you want your solution to be highly available so you have selected the minimum instances to 2. How can you further      optimize the cost while respecting the requirements?</p>
-<blockquote>
-<p>Reserve two EC2 instances (This is the way to save further costs as we know we will run 2 EC2 instances no matter what.)</p>
-</blockquote>
-<p>Q: Which of the following will <strong>NOT</strong> help make our application tier stateless?</p>
-<blockquote>
-<p>Storing shared data on EBS volumes (EBS volumes are created for a specific AZ and can only be attached to one EC2<br>
-instance at a time. This will not help make our application stateles)</p>
-</blockquote>
-<p>Q:  You are looking to store shared software updates data across 100s of EC2 instances. The software updates should be      dynamically loaded on the EC2 instances and shouldn’t require heavy operations. What do you suggest?</p>
-<blockquote>
-<p>Store the software updates on EFS and mount EFS as a network drive (EFS is a network file system (NFS) and allows to mount the same file system to 100s of EC2 instances. Publishing software updates their allow each EC2 instance to access them.)</p>
-</blockquote>
-<p>Q: As a solution architect managing a complex ERP software suite, you are orchestrating a migration to the AWS cloud. The     software traditionally takes well over an hour to setup on a Linux machine, and you would like to make sure your      application does leverage the ASG feature of auto scaling based on the demand. How do you recommend you speed up<br>
-the installation process?</p>
-<blockquote>
-<p>Use golden AMI (Golden AMI are a standard in making sure you snapshot a state after an application installation so that future instances can boot up from that AMI quickly.)</p>
-</blockquote>
-<p>Q: I am creating an application and would like for it to be running with minimal cost in a development environment with     Elastic Beanstalk. I should run it in</p>
-<blockquote>
-<p>Single Instance Mode (This will create one EC2 instance and one Elastic IP)</p>
-</blockquote>
-<p>Q: My deployments on Elastic Beanstalk have been painfully slow, and after looking at the logs, I realize this is due to the    fact that my dependencies are resolved on each EC2 machine at deployment time. How can I speed up my deployment     with the minimal impact?</p>
-<blockquote>
-<p>Create a Golden AMI that contains the dependencies and launch the EC2 instances from that. (Golden AMI are a standard in making sure save the state after the installation or pulling dependencies so that future instances can boot up from that AMI quickly)</p>
-</blockquote>
 <h2 id="cloudfront--aws-global-accelerator">CloudFront &amp; AWS Global Accelerator</h2>
 <h3 id="cloudfront"><a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">CloudFront</a></h3>
 <ul>
@@ -4381,6 +4249,329 @@ the installation process?</p>
 <p>Q: Your production application is leveraging DynamoDB as its backend and is experiencing smooth sustained usage. There is a need to make the application run in development as well, where it will experience unpredictable, sometimes high, sometimes low volume of requests. You would like to make sure you optimize for cost. What do you recommend?</p>
 <blockquote>
 <p>Provision WCU &amp; RCU and enable auto-scaling for production and use on-demand capacity for development</p>
+</blockquote>
+<h2 id="deployment">Deployment</h2>
+<h3 id="elastic-beanstalk"><a href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html">Elastic Beanstalk</a></h3>
+<ul>
+<li>Beanstalk, you can quickly deploy and manage applications in the AWS Cloud without having to learn about<br>
+the infrastructure that runs those applications.</li>
+<li>After you create and deploy your application, information about the application—including metrics, events, and<br>
+environment status—is available through the Elastic Beanstalk console, APIs, or Command Line Interfaces, including<br>
+the unified AWS CLI</li>
+<li>Developer centric</li>
+<li>Managed service, instance configuration and deployment auto handled <img src="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/images/clearbox-flow-00.png" alt="enter image description here"></li>
+<li>Models
+<ul>
+<li>Single instance development</li>
+<li>LB + ASG great for prd and pre-prd web apps</li>
+</ul>
+</li>
+<li>Components
+<ul>
+<li>Application</li>
+<li>Application version for each deployment</li>
+<li>Environment name</li>
+</ul>
+</li>
+<li>Rollback feature to previous version</li>
+<li>Full control over lifecycle of environments</li>
+</ul>
+<h2 id="solution-architecture-discussions">Solution Architecture Discussions</h2>
+<h3 id="classic">Classic</h3>
+<ul>
+<li>We’re considering 5 pillars for a well architect application: Cost, Performance, Reliability, Security &amp; Operational Excellence</li>
+<li><strong><a href="http://WhatIsTheTime.com">WhatIsTheTime.com</a> (Stateless)</strong></li>
+<li>Requirement
+<ul>
+<li>No Database</li>
+<li>Low latency selected</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>Setup private EC2 Instances
+<ul>
+<li>In different AZs for [Availability and Disaster recovery]</li>
+<li>with ASG  (we can add and remove instances at run time) [Better Costing]</li>
+<li>Setup SG (EC2 will on receive request for ELB) [Security]</li>
+<li>Reserving instance for minimum capacity [Better Costing]</li>
+</ul>
+</li>
+<li>Add Multi AZ ELB [Performance]</li>
+<li>Health Check [Performance]</li>
+<li>Use Route 53 to manage DNS queries [Reliability]</li>
+<li>Fully Automated like ASG, ELB and Route 53 [Operational Excellence]</li>
+</ul>
+</li>
+<li><strong>MyClothes (Stateful)</strong></li>
+<li>Requirement
+<ul>
+<li>Database with hundreds of Users the same time</li>
+<li>Need vertically scaling</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>Introduce Route 53</li>
+<li>Introduce Multi AZ ELB</li>
+<li>Setup private EC2 Instances
+<ul>
+<li>In different AZs</li>
+<li>with ASG  (we can add and remove instances at run time)</li>
+<li>Setup SG (EC2 will on receive request for ELB)</li>
+<li>Reserving instance for minimum capacity</li>
+</ul>
+</li>
+<li>Introduce ElastiCache (Alt DynamoDB)
+<ul>
+<li>For storing user session data</li>
+<li>For caching data from RDS</li>
+<li>Multi AZ</li>
+</ul>
+</li>
+<li>Introduce RDS
+<ul>
+<li>For storing user data</li>
+<li>Read replicas for scaling reads</li>
+<li>Multi AZ for disaster recovery</li>
+</ul>
+</li>
+<li>Restrict traffic to EC2 SG from ELB</li>
+<li>Restrict traffic to ElastiCache SG from the EC2 SG</li>
+<li>Restrict traffic to RDS SG from the EC2 SG</li>
+</ul>
+</li>
+<li><strong>MyWordPress (Stateful)</strong></li>
+<li>Requirement
+<ul>
+<li>Fully scalable</li>
+<li>Display images</li>
+<li>Has user data and blog content stored in MySQL</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>Introduce Route 53</li>
+<li>Introduce Multi AZ ELB</li>
+<li>Setup private EC2 Instances
+<ul>
+<li>In different AZs</li>
+<li>with ASG  (we can add and remove instances at run time)</li>
+<li>Setup SG (EC2 will on receive request for ELB)</li>
+<li>Reserving instance for minimum capacity</li>
+<li>Create ENI (Elastic network Interface) in each AZ to access EFS</li>
+</ul>
+</li>
+<li>Introduce EFS (EBS good for single instance only)
+<ul>
+<li>Elastic File System</li>
+<li>To store images in distributed application</li>
+</ul>
+</li>
+<li>Introduce RDS
+<ul>
+<li>For storing user data using MySQL</li>
+<li>Read replicas for scaling reads</li>
+<li>Multi AZ for disaster recovery</li>
+</ul>
+</li>
+<li>Restrict traffic to EC2 SG from ELB</li>
+<li>Restrict traffic to EFS SG from the EC2 SG</li>
+<li>Restrict traffic to RDS SG from the EC2 SG</li>
+</ul>
+</li>
+</ul>
+<h3 id="serverless">Serverless</h3>
+<ul>
+<li><strong>MyTodoList</strong></li>
+<li>Requirement
+<ul>
+<li>Rest API with HTTPS</li>
+<li>Serverless</li>
+<li>User should able to directly interact with their own folder in S3</li>
+<li>User should authenticate through a managed serverless service</li>
+<li>User can write and read to-dos, but mostly read them</li>
+<li>Database should scale and have some high read throughput</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>Introduce REST API through API gateway</li>
+<li>Mobile client will authenticate using amazon Cognito which in turn verify authentication through API gateway</li>
+<li>API gateway will invoke Lambda function which in turn query DynamoDB</li>
+<li>Cognito will generate temp credentials for Client by calling AWS STS</li>
+<li>Client can use this temp credentials to access S3 bucket to store/retrieve files</li>
+<li>Use DAX Caching layer for increase RCUs</li>
+<li>Use API response caching<br>
+<img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-mytodolist.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><strong><a href="http://MyBlog.com">MyBlog.com</a></strong></li>
+<li>Requirement
+<ul>
+<li>Should scale globally</li>
+<li>Rarely written, often read</li>
+<li>Some of the website is purely static files, the rest is a dynamic REST API</li>
+<li>Caching must be implemented</li>
+<li>New subscriber should receive a welcome mail</li>
+<li>Photo uploaded to the blog should have thumbnail generated</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>To serve static content globally use Amazon CloudFront Global distribution, interacting with edge locations</li>
+<li>To serve securely, use OAI (origin access identity) to access S3, Bucker policy will only allows request with OAI</li>
+<li>API gateway will invoke Lambda function which in turn query DynamoDB</li>
+<li>Use DAX Caching layer for increase RCUs</li>
+<li>Can use DynamoDB Global tables</li>
+<li>Use DynamoDB stream to invoke Lambda which will AWS Simple Message Service to send Email</li>
+<li>S3 will call Lambda which will generate thumbnail and save to S3 (optionally can push to SQS and SNS)</li>
+</ul>
+</li>
+<li><strong>Micro Services</strong></li>
+<li>Requirement
+<ul>
+<li>Synchronous &amp; asynchronous patterns</li>
+<li>Serverless</li>
+<li>Pay per usage</li>
+</ul>
+</li>
+<li>Solutions
+<ul>
+<li>Synchronous using API Gateway and Load balancer</li>
+<li>Asynchronous using SQS, Kinesis, SNS and Lambda triggers (S3)</li>
+<li>Serverless using API Gateway, Lambda</li>
+</ul>
+</li>
+<li><strong>Distributed Paid Content</strong></li>
+<li>Requirement
+<ul>
+<li>Sell videos online</li>
+<li>User have to pay to buy videos</li>
+<li>Distribute videos only to premium users</li>
+<li>Database for premium users</li>
+<li>Link we send to premium users should be short lived</li>
+<li>Global application</li>
+<li>Fully serverless</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>Premium User service, to store/retrieve premium users using DynamoDB Tables</li>
+<li>CloudFront to generate short lived signed URL using AWS SDK and lambda invoke</li>
+<li>S3 to store and retrieve videos files</li>
+<li>Cognito to verify AUTH</li>
+<li><em>S3 signed URL not efficient for global access</em></li>
+</ul>
+</li>
+<li><strong>Software update distribution</strong></li>
+<li>Requirement
+<ul>
+<li>We have application running on EC2, that distributes software updates once in a while</li>
+<li>When a new software update is out, we get lot of requests as our content distributed in mass over the network (very costly)</li>
+<li>We don’t want to change application but want to optimize our cost and CPU</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>Use CloudFront, because
+<ul>
+<li>No change is architecture</li>
+<li>Will cache software updates files at the edge</li>
+<li>Software updates files are static</li>
+<li>EC2 instances are not serverless</li>
+<li>ASG will not scale as much, and we’ll save in EC2</li>
+<li>Will save in availability, network bandwidth cost etc.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Big Data Ingestion Pipeline</strong></li>
+<li>Requirement
+<ul>
+<li>Ingestion pipeline to be fully serverless</li>
+<li>Collect data in real time</li>
+<li>Transform data</li>
+<li>Query transformed data</li>
+<li>Load data to warehouse and create dashboards</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>IoT devices will send data to Kinesis Data Stream using AWS IoT Core</li>
+<li>Kinesis Data Stream will talk to Kinesis Data Firehouse which will upload our data to ingestion bucket every min</li>
+<li>Kinesis Data Firehouse also will talk to lambda function to cleanse or transform our data</li>
+<li>Ingestion bucket will call lambda function which will trigger Amazon Athena SQL query</li>
+<li>Amazon Athena will pull data using query from ingestion bucket and upload it to the reporting bucket</li>
+</ul>
+</li>
+</ul>
+<h3 id="case-studies-qa">Case Studies Q&amp;A</h3>
+<p>Q:  You have an ASG that scales on demand based on the traffic going to your new website: <a href="http://TriangleSunglasses.Com">TriangleSunglasses.Com</a>. You      would like to optimise for cost, so you have selected an ASG that scales based on demand going through your ELB. Still,      you want your solution to be highly available so you have selected the minimum instances to 2. How can you further      optimize the cost while respecting the requirements?</p>
+<blockquote>
+<p>Reserve two EC2 instances (This is the way to save further costs as we know we will run 2 EC2 instances no matter what.)</p>
+</blockquote>
+<p>Q: Which of the following will <strong>NOT</strong> help make our application tier stateless?</p>
+<blockquote>
+<p>Storing shared data on EBS volumes (EBS volumes are created for a specific AZ and can only be attached to one EC2<br>
+instance at a time. This will not help make our application stateles)</p>
+</blockquote>
+<p>Q:  You are looking to store shared software updates data across 100s of EC2 instances. The software updates should be      dynamically loaded on the EC2 instances and shouldn’t require heavy operations. What do you suggest?</p>
+<blockquote>
+<p>Store the software updates on EFS and mount EFS as a network drive (EFS is a network file system (NFS) and allows to mount the same file system to 100s of EC2 instances. Publishing software updates their allow each EC2 instance to access them.)</p>
+</blockquote>
+<p>Q: As a solution architect managing a complex ERP software suite, you are orchestrating a migration to the AWS cloud. The     software traditionally takes well over an hour to setup on a Linux machine, and you would like to make sure your      application does leverage the ASG feature of auto scaling based on the demand. How do you recommend you speed up<br>
+the installation process?</p>
+<blockquote>
+<p>Use golden AMI (Golden AMI are a standard in making sure you snapshot a state after an application installation so that future instances can boot up from that AMI quickly.)</p>
+</blockquote>
+<p>Q: I am creating an application and would like for it to be running with minimal cost in a development environment with     Elastic Beanstalk. I should run it in</p>
+<blockquote>
+<p>Single Instance Mode (This will create one EC2 instance and one Elastic IP)</p>
+</blockquote>
+<p>Q: My deployments on Elastic Beanstalk have been painfully slow, and after looking at the logs, I realize this is due to the    fact that my dependencies are resolved on each EC2 machine at deployment time. How can I speed up my deployment     with the minimal impact?</p>
+<blockquote>
+<p>Create a Golden AMI that contains the dependencies and launch the EC2 instances from that. (Golden AMI are a standard in making sure save the state after the installation or pulling dependencies so that future instances can boot up from that AMI quickly)</p>
+</blockquote>
+<p>Q: As a solutions architect, you have been tasked to implement a fully Serverless REST API. Which technology choices do you recommend?</p>
+<blockquote>
+<p>API Gateway + AWS Lambda</p>
+</blockquote>
+<p>Q: Which technology does not have an out of the box caching feature?</p>
+<blockquote>
+<p>Lambda (Lambda does not have an out of the box caching feature (it’s often paired with API gateway for that))</p>
+</blockquote>
+<p>Q: Which service allows to federate mobile users and generate temporary credentials so that they can access their own S3 bucket sub-folder?</p>
+<blockquote>
+<p>Cognito (in combination with STS)</p>
+</blockquote>
+<p>Q: You would like to distribute your static content which currently lives in Amazon S3 to multiple regions around the world, such as the US, France and Australia. What do you recommend?</p>
+<blockquote>
+<p>CloudFront</p>
+</blockquote>
+<p>Q: You have hosted a DynamoDB table in ap-northeast-1 and would like to make it available in eu-west-1. What must be enabled first to create a DynamoDB Global Table?</p>
+<blockquote>
+<p>DynamoDB Streams (Streams enable DynamoDB to get a changelog and use that changelog to replicate data across regions)</p>
+</blockquote>
+<p>Q: A Lambda function is triggered by a DynamoDB stream and is meant to insert data into SQS for further long processing jobs. The Lambda function does seem able to read from the DynamoDB stream but isn’t able to store messages in SQS. What’s the problem?</p>
+<blockquote>
+<p>The lambda IAM role is missing permission</p>
+</blockquote>
+<p>Q: You would like to create a micro service whose sole purpose is to encode video files with your specific algorithm from S3 back into S3. You would like to make that micro-service reliable and retry upon failure. Processing a video may take over 25 minutes. The service is asynchronous and it should be possible for the service to be stopped for a day and resume the next day from the videos that haven’t been encoded yet. Which of the following service would you recommend to implement this service?</p>
+<blockquote>
+<p>SQS + EC2 (SQS allows you to retain messages for days and process them later, while we take down our EC2 instances)(Lambda has a 15 minutes timeout)</p>
+</blockquote>
+<p>Q: You would like to distribute paid software installation files globally for your customers that have indeed purchased the content. The software may be purchased by different users, and you want to protect the download URL with security including IP restriction. Which solution do you recommend?</p>
+<blockquote>
+<p>CloudFront Signed URL (This will have security including IP restriction)</p>
+</blockquote>
+<p>Q: You are a photo hosting service and publish every month a master pack of beautiful mountains images, that are over 15 GB in size and downloaded from all around the world. The content is currently hosted on EFS and distributed by ELB and EC2 instances. You are experiencing high load each month and very high network costs. What can you recommend that won’t force an application refactor and reduce network costs and EC2 load dramatically?</p>
+<blockquote>
+<p>Create CloudFront distribution (CloudFront can be used in front of an ELB)</p>
+</blockquote>
+<p>Q: You would like to deliver big data streams in real time to multiple consuming applications, with replay features. Which technology do you recommend?</p>
+<blockquote>
+<p>Kinesis Data Streams (Kinesis Data Streams has all these features)</p>
 </blockquote>
 <h2 id="aws-development">AWS Development</h2>
 <ul>
