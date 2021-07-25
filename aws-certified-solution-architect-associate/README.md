@@ -4539,14 +4539,14 @@ the unified AWS CLI</li>
 </li>
 </ul>
 <h3 id="case-studies-qa">Case Studies Q&amp;A</h3>
-<p>Q:  You have an ASG that scales on demand based on the traffic going to your new website: <a href="http://TriangleSunglasses.Com">TriangleSunglasses.Com</a>. You      would like to optimise for cost, so you have selected an ASG that scales based on demand going through your ELB. Still,      you want your solution to be highly available so you have selected the minimum instances to 2. How can you further      optimize the cost while respecting the requirements?</p>
+<p>Q:  You have an ASG that scales on demand based on the traffic going to your new website: <a href="http://TriangleSunglasses.Com">TriangleSunglasses.Com</a>. You      would like to optimize for cost, so you have selected an ASG that scales based on demand going through your ELB. Still,      you want your solution to be highly available so you have selected the minimum instances to 2. How can you further      optimize the cost while respecting the requirements?</p>
 <blockquote>
 <p>Reserve two EC2 instances (This is the way to save further costs as we know we will run 2 EC2 instances no matter what.)</p>
 </blockquote>
 <p>Q: Which of the following will <strong>NOT</strong> help make our application tier stateless?</p>
 <blockquote>
 <p>Storing shared data on EBS volumes (EBS volumes are created for a specific AZ and can only be attached to one EC2<br>
-instance at a time. This will not help make our application stateles)</p>
+instance at a time. This will not help make our application stateless)</p>
 </blockquote>
 <p>Q:  You are looking to store shared software updates data across 100s of EC2 instances. The software updates should be      dynamically loaded on the EC2 instances and shouldn’t require heavy operations. What do you suggest?</p>
 <blockquote>
