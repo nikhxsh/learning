@@ -4412,10 +4412,10 @@ the unified AWS CLI</li>
 <li>Cognito will generate temp credentials for Client by calling AWS STS</li>
 <li>Client can use this temp credentials to access S3 bucket to store/retrieve files</li>
 <li>Use DAX Caching layer for increase RCUs</li>
-<li>Use API response caching<br>
-<img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-mytodolist.png" alt="enter image description here"></li>
+<li>Use API response caching</li>
 </ul>
 </li>
+<li><img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-mytodolist.png" alt="enter image description here"></li>
 </ul>
 </li>
 <li><strong><a href="http://MyBlog.com">MyBlog.com</a></strong>
