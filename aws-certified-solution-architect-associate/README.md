@@ -4280,7 +4280,8 @@ the unified AWS CLI</li>
 <h3 id="classic">Classic</h3>
 <ul>
 <li>We’re considering 5 pillars for a well architect application: Cost, Performance, Reliability, Security &amp; Operational Excellence</li>
-<li><strong><a href="http://WhatIsTheTime.com">WhatIsTheTime.com</a> (Stateless)</strong></li>
+<li><strong><a href="http://WhatIsTheTime.com">WhatIsTheTime.com</a> (Stateless)</strong>
+<ul>
 <li>Requirement
 <ul>
 <li>No Database</li>
@@ -4303,7 +4304,10 @@ the unified AWS CLI</li>
 <li>Fully Automated like ASG, ELB and Route 53 [Operational Excellence]</li>
 </ul>
 </li>
-<li><strong>MyClothes (Stateful)</strong></li>
+</ul>
+</li>
+<li><strong>MyClothes (Stateful)</strong>
+<ul>
 <li>Requirement
 <ul>
 <li>Database with hundreds of Users the same time</li>
@@ -4341,7 +4345,10 @@ the unified AWS CLI</li>
 <li>Restrict traffic to RDS SG from the EC2 SG</li>
 </ul>
 </li>
-<li><strong>MyWordPress (Stateful)</strong></li>
+</ul>
+</li>
+<li><strong>MyWordPress (Stateful)</strong>
+<ul>
 <li>Requirement
 <ul>
 <li>Fully scalable</li>
@@ -4381,9 +4388,12 @@ the unified AWS CLI</li>
 </ul>
 </li>
 </ul>
+</li>
+</ul>
 <h3 id="serverless">Serverless</h3>
 <ul>
-<li><strong>MyTodoList</strong></li>
+<li><strong>MyTodoList</strong>
+<ul>
 <li>Requirement
 <ul>
 <li>Rest API with HTTPS</li>
@@ -4406,7 +4416,10 @@ the unified AWS CLI</li>
 <img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-mytodolist.png" alt="enter image description here"></li>
 </ul>
 </li>
-<li><strong><a href="http://MyBlog.com">MyBlog.com</a></strong></li>
+</ul>
+</li>
+<li><strong><a href="http://MyBlog.com">MyBlog.com</a></strong>
+<ul>
 <li>Requirement
 <ul>
 <li>Should scale globally</li>
@@ -4428,6 +4441,8 @@ the unified AWS CLI</li>
 <li>S3 will call Lambda which will generate thumbnail and save to S3 (optionally can push to SQS and SNS)</li>
 </ul>
 </li>
+</ul>
+</li>
 <li><strong>Micro Services</strong></li>
 <li>Requirement
 <ul>
@@ -4443,7 +4458,8 @@ the unified AWS CLI</li>
 <li>Serverless using API Gateway, Lambda</li>
 </ul>
 </li>
-<li><strong>Distributed Paid Content</strong></li>
+<li><strong>Distributed Paid Content</strong>
+<ul>
 <li>Requirement
 <ul>
 <li>Sell videos online</li>
@@ -4464,7 +4480,10 @@ the unified AWS CLI</li>
 <li><em>S3 signed URL not efficient for global access</em></li>
 </ul>
 </li>
-<li><strong>Software update distribution</strong></li>
+</ul>
+</li>
+<li><strong>Software update distribution</strong>
+<ul>
 <li>Requirement
 <ul>
 <li>We have application running on EC2, that distributes software updates once in a while</li>
@@ -4486,7 +4505,10 @@ the unified AWS CLI</li>
 </li>
 </ul>
 </li>
-<li><strong>Big Data Ingestion Pipeline</strong></li>
+</ul>
+</li>
+<li><strong>Big Data Ingestion Pipeline</strong>
+<ul>
 <li>Requirement
 <ul>
 <li>Ingestion pipeline to be fully serverless</li>
@@ -4503,6 +4525,8 @@ the unified AWS CLI</li>
 <li>Kinesis Data Firehouse also will talk to lambda function to cleanse or transform our data</li>
 <li>Ingestion bucket will call lambda function which will trigger Amazon Athena SQL query</li>
 <li>Amazon Athena will pull data using query from ingestion bucket and upload it to the reporting bucket</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
