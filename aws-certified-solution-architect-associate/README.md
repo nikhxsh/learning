@@ -3,9 +3,121 @@
 
 ---
 
-<h2 id="aws-regions-and-availability-zones">AWS regions and Availability zones</h2>
+<h2 id="table-of-contents">Table of Contents</h2>
 <ul>
-<li>Regions
+<li><a href="#aws-regions-and-availability-zones">AWS regions and Availability zones</a>
+<ul>
+<li><a href="#regions">Regions</a></li>
+<li><a href="#availability-zones">Availability Zones</a></li>
+<li><a href="#local-zones">Local Zones</a></li>
+<li><a href="#edge-network-locations">Edge Network Locations</a></li>
+<li><a href="#aws-wavelength">AWS Wavelength</a></li>
+<li><a href="#aws-outposts">AWS Outposts</a></li>
+</ul>
+</li>
+<li><a href="#iam-identity-and-access-management">IAM (Identity and Access Management)</a>
+<ul>
+<li><a href="#users">Users</a></li>
+<li><a href="#-groups">Groups</a></li>
+<li><a href="#policies">Policies</a></li>
+<li><a href="#roles">Roles</a></li>
+<li><a href="#tools">Tools</a></li>
+<li><a href="#best-practices">Best practices</a></li>
+<li><a href="#iam-qa">Q&amp;N</a></li>
+</ul>
+</li>
+<li><a href="#ec2-elastic-compute-cloud">EC2 (Elastic Compute Cloud)</a>
+<ul>
+<li><a href="#features">Features</a></li>
+<li><a href="#instances">Instances</a></li>
+<li><a href="#ami-amazon-machine-image">AMI (Amazon Machine Image)</a></li>
+<li><a href="#networking">Networking</a></li>
+<li><a href="#infrastructure-security">Infrastructure security</a></li>
+<li><a href="#ec2-storage">EC2 Storage</a></li>
+<li><a href="#notes">Notes</a></li>
+<li><a href="#dev">Dev</a></li>
+<li><a href="#ec2-qa">Q&amp;N</a></li>
+</ul>
+</li>
+<li><a href="#scalability-and-high-availability">Scalability and High Availability</a>
+<ul>
+<li><a href="#scalability">Scalability</a></li>
+<li><a href="#high-availability">High Availability</a></li>
+<li><a href="#load-balancer">Load Balancer</a></li>
+<li><a href="#scalability--availability-qa">Q&amp;N</a></li>
+</ul>
+</li>
+<li><a href="#aws-storage-services">AWS Storage Services</a>
+<ul>
+<li><a href="#relative-database-service">Relative Database Service</a></li>
+<li><a href="#aurora">Aurora</a></li>
+<li><a href="#elasticache">ElastiCache</a></li>
+<li><a href="#aws-s3-simple-storage-service">AWS S3 (Simple Storage Service)</a></li>
+<li><a href="#aws-snow-family">AWS Snow Family</a></li>
+<li><a href="#amazon-s3-file-gateway">Amazon S3 File Gateway</a></li>
+<li><a href="#storage-services-qa">Q&amp;N</a></li>
+</ul>
+</li>
+<li><a href="#route-53">Route 53</a>
+<ul>
+<li><a href="#route-53-qa">Q&amp;N</a></li>
+</ul>
+</li>
+<li><a href="#cloudfront--aws-global-accelerator">CloudFront &amp; AWS Global Accelerator</a>
+<ul>
+<li><a href="#cloudfront">CloudFront</a></li>
+<li><a href="#aws-global-accelerator">AWS Global Accelerator</a></li>
+<li><a href="#cloudfront--aws-global-accelerator-qn">Q&amp;N</a></li>
+</ul>
+</li>
+<li><a href="#decoupling-applications">Decoupling applications</a>
+<ul>
+<li><a href="#amazon-sqs">Amazon SQS</a></li>
+<li><a href="#amazon-sns-simple-notification-service">Amazon SNS (Simple Notification Service)</a></li>
+<li><a href="#amazon-kinesis">Amazon Kinesis</a></li>
+<li><a href="#data-ordering-for-kinesis-vs-sqs-fifo">Data ordering for Kinesis vs SQS FIFO</a></li>
+<li><a href="#amazon-mq">Amazon MQ</a></li>
+<li><a href="#decoupling-applications-qa">Q&amp;N</a></li>
+</ul>
+</li>
+<li><a href="#container-on-aws">Container on AWS</a>
+<ul>
+<li><a href="#docker">Docker</a></li>
+<li><a href="#ecs-elastic-container-service">ECS (Elastic Container Service)</a></li>
+<li><a href="#fargate">Fargate</a></li>
+<li><a href="#eks-elastic-kubernetes-service">EKS (Elastic Kubernetes Service)</a></li>
+<li><a href="#ecr-elastic-container-registry">ECR (Elastic Container Registry)</a></li>
+</ul>
+</li>
+<li><a href="#serverless-in-aws">Serverless in AWS</a>
+<ul>
+<li><a href="#aws-lambda">AWS Lambda</a></li>
+<li><a href="#dynamodb">DynamoDB</a></li>
+<li><a href="#aws-api-gateway">AWS API Gateway</a></li>
+<li><a href="#aws-cognito">AWS Cognito</a></li>
+<li><a href="#serverless-qa">Q&amp;N</a></li>
+</ul>
+</li>
+<li><a href="#deployment">Deployment</a>
+<ul>
+<li><a href="#elastic-beanstalk">Elastic Beanstalk</a></li>
+</ul>
+</li>
+<li><a href="#solution-architecture-discussions">Solution Architecture Discussions</a>
+<ul>
+<li><a href="#classic">Classic</a></li>
+<li><a href="#serverless">Serverless</a></li>
+<li><a href="#case-studies-qa">Q&amp;N</a></li>
+</ul>
+</li>
+<li><a href="#aws-development">AWS Development</a>
+<ul>
+<li><a href="#aws-development-qa">Q&amp;N</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="aws-regions-and-availability-zones">AWS regions and Availability zones</h2>
+<h3 id="regions">Regions</h3>
 <ul>
 <li>AWS has the concept of a Region, which is a physical location around the world where we cluster data centers</li>
 <li>Each AWS Region consists of multiple, isolated, and physically separate AZs within a geographic area</li>
@@ -20,8 +132,7 @@
 </ul>
 </li>
 </ul>
-</li>
-<li>Availability Zones
+<h3 id="availability-zones">Availability Zones</h3>
 <ul>
 <li>Each region has many AZs (Usually 3, min 2, max 6)</li>
 <li>Example:
@@ -32,46 +143,43 @@
 </ul>
 </li>
 <li>Each AZ is one or more discreet data centers with redundant power, network and connectivity</li>
-<li>Each AZs separated from each other to isolate from disaster</li>
+<li>Each AZs separated from each other to isolate from disaster
+<ul>
 <li>Ability to operate production applications and databases that are more highly available, fault tolerant, and scalable than 	   would be possible from a single data center.</li>
 <li>Each AZs connected with high bandwidth, low latency network</li>
 <li>All traffic between AZs is encrypted</li>
 </ul>
 </li>
-<li>Local Zones
+</ul>
+<h3 id="local-zones">Local Zones</h3>
 <ul>
 <li>Place compute, storage, database, and other select AWS services closer to end-users</li>
 <li>You can easily run highly-demanding applications that require single-digit millisecond latencies</li>
 </ul>
-</li>
-<li>Edge Network Locations
+<h3 id="edge-network-locations">Edge Network Locations</h3>
 <ul>
 <li>216 Point of Presence (205 edge locations &amp; 11 Regional cache) in 84 cities across countries</li>
 <li>Content delivered with lower latency</li>
 </ul>
-</li>
-<li>AWS Wavelength
+<h3 id="aws-wavelength">AWS Wavelength</h3>
 <ul>
 <li>Enables developers to build applications that deliver single-digit millisecond latencies to mobile devices and end-users 	  such as game and live video streaming, machine learning inference at the edge, and augmented and virtual reality</li>
 <li>Application traffic can reach application servers running in Wavelength Zones without leaving the mobile provider’s	  network</li>
 </ul>
-</li>
-<li>AWS Outposts
+<h3 id="aws-outposts">AWS Outposts</h3>
 <ul>
 <li>Bring native AWS services, infrastructure, and operating models to virtually any data center, co-location space, or on-premises facility</li>
 <li>AWS Outposts is designed for connected environments and can be used to support workloads that need to remain on-premises due to low latency or local data processing needs</li>
 </ul>
-</li>
-</ul>
-<h2 id="iam-identity-and-access-management">IAM (Identity and Access Management)</h2>
+<h2 id="iam-identity-and-access-management"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">IAM (Identity and Access Management)</a></h2>
 <ul>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">Docs</a></li>
 <li>Global Service i.e. not scoped to regions</li>
 <li>Helps you securely control access to AWS resources</li>
 <li>Use IAM to control who is authenticated (signed in) and authorized (has permissions) to use resources</li>
 <li>Root account created by default, shouldn’t be used or shared</li>
 <li>You manage access in AWS by creating policies and attaching them to IAM identities (users, groups of users, or roles) or AWS resources</li>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html">Users</a>
+</ul>
+<h3 id="users"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html">Users</a></h3>
 <ul>
 <li>People within your organization</li>
 <li>Can belong to multiple groups</li>
@@ -81,21 +189,19 @@
 <li>Use the ARN when you need to uniquely identify the user across all of AWS<br>
 E.g. arn:aws:iam::<code>account-ID-without-hyphens</code>:user/nik</li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups.html">Groups</a>
+<h3 id="groups"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups.html">Groups</a></h3>
 <ul>
 <li>Group is a collection of IAM users</li>
 <li>Let you specify permissions for multiple users</li>
 <li>Group is a way to attach policies to multiple users at one time</li>
 <li>Groups can’t be nested i.e. they can contain only users, not other user groups</li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">Policies</a>
+<h3 id="policies"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">Policies</a></h3>
 <ul>
 <li>A policy is an object in AWS that, when associated with an identity or resource, defines their permissions</li>
 <li>Users and groups can be assigned JSON documents called policies</li>
 <li>IAM policies define permissions for an action of the users</li>
-<li>Apply least priviledge principle (dont give permission more than user needs)</li>
+<li>Apply least privileged principle (don’t give permission more than user needs)</li>
 <li>Supports six types of policies
 <ul>
 <li>Identity-based policies
@@ -138,8 +244,7 @@ E.g. arn:aws:iam::<code>account-ID-without-hyphens</code>:user/nik</li>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">Roles</a>
+<h3 id="roles"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">Roles</a></h3>
 <ul>
 <li>An IAM Role is an identity that you can create in your account that has specific permissions</li>
 <li>It is an AWS identity with permission policies that determine what the identity can and cannot do in AWS</li>
@@ -153,14 +258,12 @@ E.g. arn:aws:iam::<code>account-ID-without-hyphens</code>:user/nik</li>
 </ul>
 </li>
 </ul>
-</li>
-<li>Tools
+<h3 id="tools">Tools</h3>
 <ul>
 <li>Credentials Report (Account Level) that lists all your account’s users and status of various credentials</li>
 <li>Access Advisor (User level) shows the service permissions granted to the user and when those accessed</li>
 </ul>
-</li>
-<li>Best practices
+<h3 id="best-practices">Best practices</h3>
 <ul>
 <li>Do not use root account</li>
 <li>One AWS user = One Physical user</li>
@@ -172,9 +275,7 @@ E.g. arn:aws:iam::<code>account-ID-without-hyphens</code>:user/nik</li>
 <li>Audit permissions of your account using Credentials Report</li>
 <li>Never share IAM users and Access keys</li>
 </ul>
-</li>
-</ul>
-<hr>
+<h3 id="iam-qa">IAM Q&amp;A</h3>
 <p>Q: You are getting started with AWS and your manager wants things to remain simple yet secure. He wants the management of engineers to be easy, and not re-invent the wheel every time someone joins your company. What will you do?</p>
 <blockquote>
 <p>I’ll create multiple IAM users and groups, and assign policies to groups. New users will be<br>
@@ -208,9 +309,8 @@ added to groups</p>
 <blockquote>
 <p>Enable MFA (You want to enable MFA in order to add a layer of security, so even if your password is stolen, lost or hacked your account is not compromised.)</p>
 </blockquote>
-<h2 id="ec2-elastic-compute-cloud">EC2 (Elastic Compute Cloud)</h2>
+<h2 id="ec2-elastic-compute-cloud"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html">EC2 (Elastic Compute Cloud)</a></h2>
 <ul>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html">Docs</a></li>
 <li>Provides scalable computing capacity in the Amazon Web Services (AWS) Cloud</li>
 <li>Infrastructure as a Service (IaaS)</li>
 <li>Main capabilities are
@@ -223,7 +323,8 @@ added to groups</p>
 </li>
 <li>You can use Amazon EC2 to launch as many or as few virtual servers as you need, configure security and networking, and    manage storage</li>
 <li>EC2 enables you to scale up or down to handle changes in requirements or spikes in popularity, reducing your need to    forecast traffic</li>
-<li>Features
+</ul>
+<h3 id="features">Features</h3>
 <ul>
 <li>Virtual computing environments, known as  <em>instances</em></li>
 <li>Preconfigured templates for your instances, known as <em>Amazon Machine Images (AMIs)</em>,</li>
@@ -234,8 +335,7 @@ added to groups</p>
 <li>Static IPv4 addresses for dynamic cloud computing, known as  <em>Elastic IP addresses</em></li>
 <li>Virtual networks you can create that are logically isolated from the rest of the AWS Cloud</li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html">Instances</a>
+<h3 id="instances"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html">Instances</a></h3>
 <ul>
 <li>An instance is a virtual server in the cloud</li>
 <li>Its configuration at launch is a copy of the AMI that you specified when you launched the instance</li>
@@ -503,8 +603,7 @@ added to groups</p>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instances-and-amis.html">AMI (Amazon Machine Image)</a>
+<h3 id="ami-amazon-machine-image"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instances-and-amis.html">AMI (Amazon Machine Image)</a></h3>
 <ul>
 <li>Template that contains a software configuration (for example, an operating system, an application server, and	    applications)</li>
 <li>From an AMI, you launch an <em>instance</em>, which is a copy of the AMI running as a virtual server in the cloud
@@ -542,8 +641,6 @@ added to groups</p>
 <li>To copy an AMI that was shared with you from another account, the owner of the source AMI must grant you read permission for the storage that backs the AMI, either the associated EBS snapshot (EBS backend EMI) or associated S3 bucket (instance store backed AMI)</li>
 <li>You cant copy encrypted AMI that shared with you instead can copy underlaying snapshot and en ket shared with you and can register it as new AMIs</li>
 <li>Can’t copy AMI with an associated billing product code. To copy launch an EC2 instance from your account using shared AMI then create an AMI from instance</li>
-</ul>
-</li>
 <li>Free tier Amazon linux 2, t2.micro</li>
 <li>Subnet: In what AZ you want instance</li>
 <li>Key-Pair (Pem) file ()</li>
@@ -556,7 +653,8 @@ added to groups</p>
 <li>After you deregister an AMI, you can’t use it to launch new instances, Existing instances launched from the AMI are not affected</li>
 </ul>
 </li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-networking.html">Networking</a>
+</ul>
+<h3 id="networking"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-networking.html">Networking</a></h3>
 <ul>
 <li>Virtual private cloud (VPC) enables you to launch AWS resources, such as Amazon EC2 instances, into a virtual network dedicated to your AWS account,</li>
 <li>Private vs public IP (V4)
@@ -667,17 +765,16 @@ added to groups</p>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/infrastructure-security.html">Infrastructure security</a>
+<h3 id="infrastructure-security"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/infrastructure-security.html">Infrastructure security</a></h3>
 <ul>
 <li>As a managed service, Amazon EC2 is protected by the AWS global network security procedures</li>
-<li>IAM management
+<li><strong>IAM management</strong>
 <ul>
 <li>Use IAM to allow other users, services, and applications to use your Amazon EC2 resources without sharing your security credentials</li>
 <li>By using IAM with Amazon EC2, you can control whether users in your organization can perform a task using specific Amazon EC2 API actions and whether they can use specific AWS resources</li>
 </ul>
 </li>
-<li>Key pairs
+<li><strong>Key pairs</strong>
 <ul>
 <li>A key pair, consisting of a public key and a private key, is a set of security credentials that you use to prove your identity when connecting to an EC2 instance</li>
 <li>Amazon EC2 stores the public key on your instance</li>
@@ -686,7 +783,7 @@ added to groups</p>
 <li>The keys that Amazon EC2 uses are 2048-bit SSH-2 RSA keys. You can have up to 5,000 key pairs per Region</li>
 </ul>
 </li>
-<li>Security Groups
+<li><strong>Security Groups</strong>
 <ul>
 <li>Control inbound/outbound traffic using ports</li>
 <li>Add rules using different types  (Eg SSH - TCP - 22 - Custom - 0.0.0.0/0 - SSH allowed<br>
@@ -706,8 +803,7 @@ from anywhere) it allows to connect using ssh</li>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Storage.html">EC2 Storage</a>
+<h3 id="ec2-storage"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Storage.html">EC2 Storage</a></h3>
 <ul>
 <li>Amazon EC2 provides you with flexible, cost effective, and easy-to-use data storage options for your instances</li>
 <li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html">Amazon Elastic Block Store</a>
@@ -717,7 +813,7 @@ from anywhere) it allows to connect using ssh</li>
 <li>Can only be mounted to one instance at a time</li>
 <li>Bound to specific AZ</li>
 <li>Think of them as a “network USB stick”</li>
-<li>EBS Volume
+<li><strong>EBS Volume</strong>
 <ul>
 <li>Its a network drive (not physical one)
 <ul>
@@ -763,7 +859,7 @@ from anywhere) it allows to connect using ssh</li>
 <li>But EC2 Instance Store lose their storage if they’re stopped</li>
 </ul>
 </li>
-<li>Volume Types
+<li><strong>Volume Types</strong>
 <ul>
 <li>EBS volumes are characterized in Size | Throughput | IOPS (i/o per sec)</li>
 <li>General Purpose SSD
@@ -1016,8 +1112,6 @@ from anywhere) it allows to connect using ssh</li>
 </li>
 </ul>
 </li>
-</ul>
-</li>
 <li>Advanced Concepts
 <ul>
 <li>EC2 Nitro
@@ -1072,15 +1166,15 @@ from anywhere) it allows to connect using ssh</li>
 </li>
 </ul>
 </li>
-<li>Notes
+</ul>
+<h3 id="notes">Notes</h3>
 <ul>
 <li>Billed by the second, t2.micro is free tier</li>
 <li>SSH on Linux/Mac, Putty on window</li>
 <li>SSH on port 22</li>
 <li>SG can reference other SG instead of IP ranges</li>
 </ul>
-</li>
-<li>Dev
+<h3 id="dev">Dev</h3>
 <ul>
 <li>Provide credentials to EC2 from IAM role only</li>
 <li>EC2 user data
@@ -1163,9 +1257,7 @@ user-data</p>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-<hr>
+<h3 id="ec2-qa">EC2 Q&amp;A</h3>
 <p>Q: You are launching an EC2 instance in us-east-1 using this Python script snippet: (we will see SDK in a later section, for now just look at the code reference ImageId) ec2.create_instances(ImageId=‘ami-b23a5e7’, MinCount=1, MaxCount=1) It works well, so you decide to deploy your script in us-west-1 as well. There, the script does not work and fails with “ami not found” error. What’s the problem?</p>
 <blockquote>
 <p>AMI is region locked and the same ID cannot be used across regions</p>
@@ -1243,8 +1335,7 @@ user-data</p>
 <p>Instance Store (Is running a DB on EC2 instance store possible? It is possible to run a database on EC2. It is also possible to use instance store, but there are some considerations to have. The data will be lost if the instance is stopped, but it can be restarted without problems. One can also set up a replication mechanism on another EC2 instance with instance store to have a standby copy. One can also have back-up mechanisms. It’s all up to how you want to set up your architecture to validate your requirements. In this case, it’s around IOPS, and we build an architecture of replication and back up around it)</p>
 </blockquote>
 <h2 id="scalability-and-high-availability">Scalability and High Availability</h2>
-<ul>
-<li><strong>Scalability</strong>
+<h3 id="scalability"><strong>Scalability</strong></h3>
 <ul>
 <li>Means that application/system can handle greater loads by adapting</li>
 <li>Vertical
@@ -1256,7 +1347,7 @@ user-data</p>
 <li>Has hardware limits</li>
 </ul>
 </li>
-<li><strong>Horizontal</strong>
+<li>Horizontal
 <ul>
 <li>Increasing number of instances / systems for application (scale out/in)</li>
 <li>Implies distributed systems</li>
@@ -1266,8 +1357,7 @@ user-data</p>
 </ul>
 </li>
 </ul>
-</li>
-<li><strong>High Availability</strong>
+<h3 id="high-availability">High Availability</h3>
 <ul>
 <li>Goes hand in hand with Horizontal Scaling</li>
 <li>Running your application in at least 2 data centres</li>
@@ -1275,8 +1365,7 @@ user-data</p>
 <li>Can be passive (for RDS Multi AZ) or can be active (for horizontal scaling)</li>
 <li>Achieved by running instances for same application across Multi-AZ (with the help of Auto Scaling Groups (ASG) and Load Balancer Multi-AZ)</li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html">Load Balancer</a>
+<h3 id="load-balancer"><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html">Load Balancer</a></h3>
 <ul>
 <li>Servers that forward internet traffic to multiple servers or backend EC2 instances</li>
 <li>Can expose single point of access (DNS)</li>
@@ -1293,11 +1382,8 @@ user-data</p>
 <li>AWS provides only a few configuration knobs</li>
 <li>Cost to setup but will be lot more effort on your end</li>
 <li>Integrated with other AWS services</li>
-<li>Health checks is done on a port and a route (/health is common)
-<ul>
+<li>Health checks is done on a port and a route (/health is common)</li>
 <li>if the response if not 200 (OK), then instance is unhealthy</li>
-</ul>
-</li>
 <li>It can automatically scale to the vast majority of workloads</li>
 <li>You can setup internal (private) and external(public) ELBs</li>
 <li><img src="https://res.cloudinary.com/hy4kyit2a/f_auto,fl_lossy,q_70/learn/modules/aws-optimization/route-traffic-with-amazon-elastic-load-balancing/images/5e6d6d4ec8ab0c7bb984cf7624178d5a_b-7-eef-6-f-4-fdb-5-4-e-01-a-89-d-88-d-7257-bf-924.png" alt="enter image description here" width="500" height="300"></li>
@@ -1325,25 +1411,19 @@ user-data</p>
 <li>Makes routing decisions at the application layer (HTTP/HTTPS), supports path-based routing, and can route requests to one or more ports on each container instance in your cluster</li>
 <li>Support dynamic host port mapping. For example, if your task’s container definition specifies port 80 for an NGINX container port, and port 0 for the host port, then the host port is dynamically chosen from the ephemeral port range of the container instance (such as 32768 to 61000 on the latest Amazon ECS-optimized AMI)</li>
 <li>It monitors the health of its registered targets, and routes traffic only to the healthy targets</li>
-<li><em>Listener</em>
-<ul>
+<li><em>Listener</em></li>
 <li>Checks for connection requests from clients, using the protocol and port that you configure</li>
 <li>The rules that you define for a listener determine how the load balancer routes requests to its registered targets.</li>
-</ul>
-</li>
-<li><em>Target group</em>
-<ul>
+<li><em>Target group</em></li>
 <li>Routes requests to one or more registered targets, such as EC2 instances, using the protocol and port number that you specify</li>
 <li>You can register a target with multiple target groups</li>
-<li>You can configure health checks on a per target group basis</li>
-<li>Target groups are
+<li>You can configure health checks on a per target group basis
 <ul>
+<li>Target groups are</li>
 <li>EC2 instances (HTTP)</li>
 <li>ECS Tasks (HTTP)</li>
 <li>Lambda functions (HTTP request is translated into JSON event)</li>
 <li>IP address (must be private)</li>
-</ul>
-</li>
 <li>Can route to multiple target groups</li>
 <li>Health check at Target group level<img src="https://www.bogotobogo.com/DevOps/AWS/images/NLB-ASG/ALB-Diagram.png" alt="enter image description here"><img src="https://i.pinimg.com/originals/53/77/ee/5377ee17410f880ec70c9f4bf3463bc3.png" alt="enter image description here"></li>
 </ul>
@@ -1353,22 +1433,16 @@ user-data</p>
 <li>Fixed hostname <a href="http://xxx.region.elb.amazonaws.com">xxx.region.elb.amazonaws.com</a></li>
 <li>Load balancing to multiple HTTP applications across machines</li>
 <li>Load balancing to multiple applications on same machine (containers)</li>
-<li>Support route routing, based on different target groups
-<ul>
+<li>Support route routing, based on different target groups</li>
 <li>Path in the URL (E.g. /users (Target 1) &amp; /posts (Target 2))</li>
 <li>Hostname in the URL (E.g. <a href="http://example.com">example.com</a> (Target 1) &amp; <a href="http://test.example.com">test.example.com</a> (Target 2))</li>
 <li>Query string or headers in the URL (E.g. ?id=1234 (Target 1) &amp; ?name=xyz (Target 2))</li>
-</ul>
-</li>
 <li>Great fit for Microservices and container based application (Docker &amp; Amazon ECS)</li>
 <li>Access logs contain additional information and are stored in compressed format</li>
 <li>Has a port mapping feature to redirect to a dynamic port in ECS</li>
-<li>Application server don’t see the IP of client directly
-<ul>
+<li>Application server don’t see the IP of client directly</li>
 <li>The true IP of client is inserted in header X-Forwarded-For</li>
 <li>We can also get Port (X-Forwarded-Port) and proto (X-Forwarded-Proto)</li>
-</ul>
-</li>
 </ul>
 </li>
 <li>In comparison, multiple CLB per application</li>
@@ -1442,13 +1516,10 @@ user-data</p>
 <li>You can manage certificates using ACM</li>
 <li>Client can use SNI (Server Name Indication) to specify the hostname they reach</li>
 <li>SNI solved problem if loading multiple SSL certificates onto one web server</li>
-<li>SNI works for ALB and NLB only
-<ul>
+<li>SNI works for ALB and NLB only</li>
 <li>CLB (support only one certificate, must use multiple CLB for multiple hostname with mu certificates)</li>
 <li>ALB (support multiple listeners with multiple SSL certificates, uses SNI to make it work)</li>
 <li>NLB (support multiple listeners with multiple SSL certificates, uses SNI to make it work)</li>
-</ul>
-</li>
 </ul>
 </li>
 <li><strong>Connection draining</strong>
@@ -1462,8 +1533,6 @@ user-data</p>
 <li>Deregistration delay is for ALB and NLB</li>
 </ul>
 </li>
-</ul>
-</li>
 <li><a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html">Auto scaling group</a>
 <ul>
 <li>Scale out (Add ec2 instance) to match increased load</li>
@@ -1473,8 +1542,6 @@ user-data</p>
 <li>ASG is Free</li>
 <li>If having instance under ASG get terminated for whatever reason then ASG will automatically created new ones as a replacement</li>
 <li>ASG can terminate instance marked as unhealthy by LB (and replace them)</li>
-<li>Has following attributes
-<ul>
 <li>A Launch configuration has
 <ul>
 <li>Instance type</li>
@@ -1482,14 +1549,10 @@ user-data</p>
 <li>EBS volume</li>
 <li>Security groups</li>
 <li>SSH Key pair</li>
-</ul>
-</li>
 <li>Min/Max Size and initial capacity</li>
 <li>Network + Subnet information</li>
 <li>Load balancer information  or Target Group information</li>
 <li>Scaling policies</li>
-</ul>
-</li>
 </ul>
 </li>
 <li>Auto scaling alarms
@@ -1499,15 +1562,14 @@ user-data</p>
 <li>Based on can created policies<img src="https://miro.medium.com/max/1200/1*y5MJicq2QfakmlwXQhZ-ow.png" alt="enter image description here"></li>
 </ul>
 </li>
+</ul>
+</li>
 <li>Scaling policies
 <ul>
 <li>Possible to define rules that are directly managed by EC2 e.g. Target Average CPU usage, number of requests per ELB</li>
-<li>Target tracking scaling policy
-<ul>
+<li>Target tracking scaling policy</li>
 <li>Most simple and easy to set up</li>
 <li>E.g. average ASG CPU to stay around 40%</li>
-</ul>
-</li>
 <li>Simple/Step scaling policy
 <ul>
 <li>When CloudWatch alarm triggered (e.g. CPU &gt; 70%) then add 2 units</li>
@@ -1518,8 +1580,6 @@ user-data</p>
 <ul>
 <li>Anticipate a scaling based on know usage patterns</li>
 <li>E.g. increase min capacity to 10 at 5pm on Friday</li>
-</ul>
-</li>
 </ul>
 </li>
 <li>Scaling cooldowns
@@ -1536,22 +1596,24 @@ user-data</p>
 <li>ASG tries the balance the number of imbalances across AZ by default</li>
 </ul>
 </li>
+</ul>
+</li>
 <li><a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroupLifecycle.html">Lifecycle Hooks</a>
 <ul>
-<li>Can perform extra steps (Extract info/ logging) before instance goes in service (Pending state) or before it get terminated (Terminating state)<br>
--<img src="https://docs.aws.amazon.com/autoscaling/ec2/userguide/images/auto_scaling_lifecycle.png" alt="enter image description here"></li>
+<li>Can perform extra steps (Extract info/ logging) before instance goes in service (Pending state) or before it get terminated (Terminating state)</li>
+<li><img src="https://docs.aws.amazon.com/autoscaling/ec2/userguide/images/auto_scaling_lifecycle.png" alt="enter image description here"></li>
 <li>ASG
 <ul>
 <li>(Scale Out) &gt; Pending [ Lifecycle hooks &gt;&gt; Pending:wait &gt; Pending: Proceed] &gt; InService</li>
 <li>(Scale In) &gt; Terminating [ Lifecycle hooks &gt;&gt; Terminating:wait &gt; Terminating: Proceed] &gt; Terminated</li>
-</ul>
-</li>
-</ul>
-</li>
 <li>Launch configuration: Legacy, must be created every time vs Launch Template: newer, can have multi-versions, parameter subsets and provision for both On-Demand and Spot instances</li>
 </ul>
-<hr>
-<p>Q1: Load Balancers provide a</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="scalability--availability-qa">Scalability &amp; Availability Q&amp;A</h3>
+<p>Q: Load Balancers provide a</p>
 <blockquote>
 <p>Static DNS name we can used n our application</p>
 </blockquote>
@@ -1641,16 +1703,12 @@ right certificate for your clients?</p>
 <p>Target Tracking</p>
 </blockquote>
 <h2 id="aws-storage-services">AWS Storage Services</h2>
+<h3 id="relative-database-service"><a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html">Relative Database Service</a></h3>
 <ul>
-<li><a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html">Relative Database Service</a>
-<ul>
-<li>Managed SQL database service i.e. web service that makes it easier to set up, operate, and<br>
-scale a relational database in the AWS Cloud.</li>
-<li>It provides cost-efficient, resizable capacity for an industry-standard relational database and<br>
-manages common database administration tasks.</li>
+<li>Managed SQL database service i.e. web service that makes it easier to set up, operate, and scale a relational database in the AWS Cloud.</li>
+<li>It provides cost-efficient, resizable capacity for an industry-standard relational database and  manages common database administration tasks.</li>
 <li>Automated provision and used SQL language</li>
-<li>Allows to create databases in cloud managed by AWS like Postgres, MySQL, MariaDB, Oracle,<br>
-MSSQL and Aurora</li>
+<li>Allows to create databases in cloud managed by AWS like Postgres, MySQL, MariaDB, Oracle, MSSQL and Aurora</li>
 <li>Multi AZ setup for DR</li>
 <li>Scaling capabilities (Vertical and horizontal)</li>
 <li>Storage backed by EBS</li>
@@ -1668,13 +1726,10 @@ MSSQL and Aurora</li>
 <li>increase storage dynamically</li>
 <li>detect and scales automatically</li>
 <li>you have to set Maximum Storage Threshold</li>
-<li>Automatically modify storage if
-<ul>
+<li>Automatically modify storage if</li>
 <li>Free storage less than 10% of allocated storage</li>
 <li>Low storage last at least 5 mins</li>
 <li>6 hours have passed since last modification</li>
-</ul>
-</li>
 <li>Useful when unpredictable workloads</li>
 <li>Supports all RDS databases</li>
 </ul>
@@ -1687,8 +1742,7 @@ MSSQL and Aurora</li>
 <li>Async, eventual consistent</li>
 <li>Replicas can be promoted to own DB</li>
 <li>Must update connection string to leverage RR</li>
-<li>Use case &gt; create new RDS RR with Async replication to divert additional reads so<br>
-main application will be unaffected</li>
+<li>Use case &gt; create new RDS RR with Async replication to divert additional reads so main application will be unaffected</li>
 <li>RR used for Select Query only</li>
 <li>If RR within same region, no charges else for cross region have to pay</li>
 </ul>
@@ -1739,8 +1793,7 @@ Postgres using auth token obtained from IAM with 15 mins lifetime) and EC2 insta
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">Aurora</a>
+<h3 id="aurora"><a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">Aurora</a></h3>
 <ul>
 <li>Not open sourced</li>
 <li>Fully managed relational database engine that’s compatible with MySQL and PostgreSQL.</li>
@@ -1768,11 +1821,10 @@ or promoting a RR as the new master</li>
 <li>Global Database: 1 Primary region (r/w), 5 secondary (r only) region with &lt; 1sec replication lag, up to 16 RR per secondary region and promoting another region with RTO &lt; 1 min</li>
 <li>ML: prediction using SQL (SageMaker and Comprehend)</li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-use-cases.html">ElastiCache</a>
+<h3 id="elasticache"><a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-use-cases.html">ElastiCache</a></h3>
 <ul>
 <li>Allows you to seamlessly set up, run, and scale popular open-source compatible in-memory data stores in the cloud.</li>
-<li>Popular choice for real-time use cases like Caching, Session Stores, Gaming, Geospatial Services, Real-Time Analytics,  and Queuing</li>
+<li>For real-time use cases like Caching, Session Stores, Gaming, Geospatial Services, Real-Time Analytics, and Queuing</li>
 <li>Makes your application stateless</li>
 <li>Reduce load off of databases for read intensive workloads</li>
 <li><strong>REDIS</strong>
@@ -1816,8 +1868,7 @@ or promoting a RR as the new master</li>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html">AWS S3 (Simple Storage Service)</a>
+<h3 id="aws-s3-simple-storage-service"><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html">AWS S3 (Simple Storage Service)</a></h3>
 <ul>
 <li>Simple web services interface that you can use to store and retrieve any amount of data, at any time, from anywhere</li>
 <li>It gives any developer access to the same highly scalable, reliable, fast, inexpensive data storage infrastructure</li>
@@ -2241,8 +2292,7 @@ failures, useful to speed up downloads</li>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/snowball/">AWS Snow Family</a>
+<h3 id="aws-snow-family"><a href="https://docs.aws.amazon.com/snowball/">AWS Snow Family</a></h3>
 <ul>
 <li>Highly secure portable devices to collect and process data a the edge, and migrate data into or out of AWS</li>
 <li>You can use these devices to locally and cost-effectively access the storage and compute power of the AWS Cloud in places where an internet connection might not be an option</li>
@@ -2269,10 +2319,9 @@ failures, useful to speed up downloads</li>
 <li>Unstable connection</li>
 </ul>
 </li>
-<li>If data migration takes more than a week to transfer over the network</li>
+<li>If data migration takes more than a week to transfer over the network<img src="https://d2908q01vomqb2.cloudfront.net/e1822db470e60d090affd0956d743cb0e7cdf113/2020/12/08/AWS-Snow-Family-data-migration-workflow.png" alt="enter image description here"></li>
 </ul>
 </li>
-<li><img src="https://d2908q01vomqb2.cloudfront.net/e1822db470e60d090affd0956d743cb0e7cdf113/2020/12/08/AWS-Snow-Family-data-migration-workflow.png" alt="enter image description here"></li>
 <li><a href="https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snowcone-what-is-snowcone.html">Snowcone</a>
 <ul>
 <li>Small portable computing anywhere, rugged &amp; secure, withstand harsh enviroments</li>
@@ -2370,22 +2419,21 @@ failures, useful to speed up downloads</li>
 <li>You must import into S3 first then in combination with S3 lifecycle policy move it to Glacier</li>
 </ul>
 </li>
-</ul>
-</li>
 <li><a href="https://aws.amazon.com/storagegateway/?whats-new-cards.sort-by=item.additionalFields.postDateTime&amp;whats-new-cards.sort-order=desc">Storage Gateway</a>
 <ul>
 <li>Set of hybrid cloud services that gives you on-premises access to virtually unlimited cloud storage</li>
 <li>Bridge Between on-premise data and cloud data in S3</li>
 <li>Customers use Storage Gateway to integrate AWS Cloud storage with existing on-site workloads so they can simplify storage management and reduce costs for key hybrid cloud storage use cases</li>
-<li><a href="https://aws.amazon.com/storagegateway/file/s3/">Amazon S3 File Gateway</a>
+</ul>
+</li>
+</ul>
+<h3 id="amazon-s3-file-gateway"><a href="https://aws.amazon.com/storagegateway/file/s3/">Amazon S3 File Gateway</a></h3>
 <ul>
 <li>Configured S3 buckets are accessible using SMB or NFS protocol with local caching</li>
 <li>Supports S3 standard, S3 IA, S3 One Zone IA</li>
 <li>Access using IAM roles for each gateway</li>
 <li>Can be mounted on may servers</li>
 <li>Integrated with Active Directory for user Authentication<img src="https://docs.aws.amazon.com/storagegateway/latest/userguide/images/file-gateway-concepts-diagram.png" alt="enter image description here"></li>
-</ul>
-</li>
 <li><strong>Amazon FSx File Gateway</strong>
 <ul>
 <li><a href="https://aws.amazon.com/fsx/windows/">FSx for windows</a>
@@ -2460,16 +2508,10 @@ failures, useful to speed up downloads</li>
 - <em>VTL Tape/Backup with iSCSI &gt;&gt; Tape Gateway  (Backed by S3 and Glacier)</em><br>
 - <em>No on-premise virtualization&gt;&gt; Hardware appliances</em></li>
 <li>AWS transfer family<img src="https://d1.awsstatic.com/cloud-storage/aws-transfer-family-s3-efs-how-it-works-diagram.6ff1dc0d717f63d4207ce4670a729aabb85d0d70.png" alt="AWS Transfer Family | Amazon Web Services"></li>
-<li>AWS Storage options
-<ul>
-<li><img src="https://d2908q01vomqb2.cloudfront.net/cb4e5208b4cd87268b208e49452ed6e89a68e0b8/2018/03/20/aws-storage-soutions.jpg" alt="enter image description here"></li>
-<li><img src="https://miro.medium.com/max/1838/1*02FpTqeqNH6XzcrBUqjR_w.png" alt="enter image description here" width="600" height="600"></li>
+<li>AWS Storage options<img src="https://d2908q01vomqb2.cloudfront.net/cb4e5208b4cd87268b208e49452ed6e89a68e0b8/2018/03/20/aws-storage-soutions.jpg" alt="enter image description here"><br>
+<img src="https://miro.medium.com/max/1838/1*02FpTqeqNH6XzcrBUqjR_w.png" alt="enter image description here" width="600" height="600"></li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
+<h3 id="storage-services-qa">Storage Services Q&amp;A</h3>
 <p>Q: My company would like to have a MySQL database internally that is going to be available even in  case of a disaster in the AWS Cloud. I should setup</p>
 <blockquote>
 <p>Multi-AZ (In this question, we consider a disaster to be an entire Availability Zone going down. In<br>
@@ -2699,7 +2741,7 @@ records are returned for each multi-value query, not a substitute for ELB</li>
 </ul>
 </li>
 </ul>
-<hr>
+<h3 id="route-53-qa">Route 53 Q&amp;A</h3>
 <p>Q: You have purchased “<a href="http://mycoolcompany.com">mycoolcompany.com</a>” on the AWS registrar and would like for it to point to<br>
 <code>lb1-1234.us-east-2.elb.amazonaws.com</code> . What sort of Route 53 record is <strong>NOT POSSIBLE</strong> to set<br>
 up for this?</p>
@@ -2735,148 +2777,8 @@ zones are meant to be used for internal network queries and are not publicly acc
 Public Hosted Zones are meant to be used for people requesting your website through the<br>
 public internet. Finally, NS records must be updated on the 3rd party registrar.)</p>
 </blockquote>
-<h2 id="case-studies">Case Studies</h2>
-<ul>
-<li>We’re considering 5 pillars for a well architect application: Cost, Performance, Reliability, Security &amp; Operational Excellence</li>
-<li><a href="http://WhatIsTheTime.com">WhatIsTheTime.com</a> (Stateless)
-<ul>
-<li>No Database</li>
-<li>Low latency selected</li>
-<li>Setup private EC2 Instances
-<ul>
-<li>In different AZs for [Availability and Disaster recovery]</li>
-<li>with ASG  (we can add and remove instances at run time) [Better Costing]</li>
-<li>Setup SG (EC2 will on receive request for ELB) [Security]</li>
-<li>Reserving instance for minimum capacity [Better Costing]</li>
-</ul>
-</li>
-<li>Add Multi AZ ELB [Performance]</li>
-<li>Health Check [Performance]</li>
-<li>Use Route 53 to manage DNS queries [Reliability]</li>
-<li>Fully Automated like ASG, ELB and Route 53 [Operational Excellence]</li>
-</ul>
-</li>
-<li>MyClothes (Stateful)
-<ul>
-<li>Require database with hundreds of Users the same time, Need vertically scaling</li>
-<li>Introduce Route 53</li>
-<li>Introduce Multi AZ ELB</li>
-<li>Setup private EC2 Instances
-<ul>
-<li>In different AZs</li>
-<li>with ASG  (we can add and remove instances at run time)</li>
-<li>Setup SG (EC2 will on receive request for ELB)</li>
-<li>Reserving instance for minimum capacity</li>
-</ul>
-</li>
-<li>Introduce ElastiCache (Alt DynamoDB)
-<ul>
-<li>For storing user session data</li>
-<li>For caching data from RDS</li>
-<li>Multi AZ</li>
-</ul>
-</li>
-<li>Introduce RDS
-<ul>
-<li>For storing user data</li>
-<li>Read replicas for scaling reads</li>
-<li>Multi AZ for disaster recovery</li>
-</ul>
-</li>
-<li>Restrict traffic to EC2 SG from ELB</li>
-<li>Restrict traffic to ElastiCache SG from the EC2 SG</li>
-<li>Restrict traffic to RDS SG from the EC2 SG</li>
-</ul>
-</li>
-<li>MyWordPress (Stateful)
-<ul>
-<li>Require fully scalable, display images, has user data and blog content stored in MySQL</li>
-<li>Introduce Route 53</li>
-<li>Introduce Multi AZ ELB</li>
-<li>Setup private EC2 Instances
-<ul>
-<li>In different AZs</li>
-<li>with ASG  (we can add and remove instances at run time)</li>
-<li>Setup SG (EC2 will on receive request for ELB)</li>
-<li>Reserving instance for minimum capacity</li>
-<li>Create ENI (Elastic network Interface) in each AZ to access EFS</li>
-</ul>
-</li>
-<li>Introduce EFS (EBS good for single instance only)
-<ul>
-<li>Elastic File System</li>
-<li>To store images in distributed application</li>
-</ul>
-</li>
-<li>Introduce RDS
-<ul>
-<li>For storing user data using MySQL</li>
-<li>Read replicas for scaling reads</li>
-<li>Multi AZ for disaster recovery</li>
-</ul>
-</li>
-<li>Restrict traffic to EC2 SG from ELB</li>
-<li>Restrict traffic to EFS SG from the EC2 SG</li>
-<li>Restrict traffic to RDS SG from the EC2 SG</li>
-</ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html">Elastic Beanstalk</a>
-<ul>
-<li>Beanstalk, you can quickly deploy and manage applications in the AWS Cloud without having to learn about<br>
-the infrastructure that runs those applications.</li>
-<li>After you create and deploy your application, information about the application—including metrics, events, and<br>
-environment status—is available through the Elastic Beanstalk console, APIs, or Command Line Interfaces, including<br>
-the unified AWS CLI</li>
-<li>Developer centric</li>
-<li>Managed service, instance configuration and deployment auto handled</li>
-<li>Models
-<ul>
-<li>Single instance development</li>
-<li>LB + ASG great for prd and pre-prd web apps</li>
-</ul>
-</li>
-<li>Components
-<ul>
-<li>Application</li>
-<li>Application version for each deployment</li>
-<li>Environment name</li>
-</ul>
-</li>
-<li>Rollback feature to previous version</li>
-<li>Full control over lifecycle of environments</li>
-</ul>
-</li>
-</ul>
-<hr>
-<p>Q:  You have an ASG that scales on demand based on the traffic going to your new website: <a href="http://TriangleSunglasses.Com">TriangleSunglasses.Com</a>. You      would like to optimise for cost, so you have selected an ASG that scales based on demand going through your ELB. Still,      you want your solution to be highly available so you have selected the minimum instances to 2. How can you further      optimize the cost while respecting the requirements?</p>
-<blockquote>
-<p>Reserve two EC2 instances (This is the way to save further costs as we know we will run 2 EC2 instances no matter what.)</p>
-</blockquote>
-<p>Q: Which of the following will <strong>NOT</strong> help make our application tier stateless?</p>
-<blockquote>
-<p>Storing shared data on EBS volumes (EBS volumes are created for a specific AZ and can only be attached to one EC2<br>
-instance at a time. This will not help make our application stateles)</p>
-</blockquote>
-<p>Q:  You are looking to store shared software updates data across 100s of EC2 instances. The software updates should be      dynamically loaded on the EC2 instances and shouldn’t require heavy operations. What do you suggest?</p>
-<blockquote>
-<p>Store the software updates on EFS and mount EFS as a network drive (EFS is a network file system (NFS) and allows to mount the same file system to 100s of EC2 instances. Publishing software updates their allow each EC2 instance to access them.)</p>
-</blockquote>
-<p>Q: As a solution architect managing a complex ERP software suite, you are orchestrating a migration to the AWS cloud. The     software traditionally takes well over an hour to setup on a Linux machine, and you would like to make sure your      application does leverage the ASG feature of auto scaling based on the demand. How do you recommend you speed up<br>
-the installation process?</p>
-<blockquote>
-<p>Use golden AMI (Golden AMI are a standard in making sure you snapshot a state after an application installation so that future instances can boot up from that AMI quickly.)</p>
-</blockquote>
-<p>Q: I am creating an application and would like for it to be running with minimal cost in a development environment with     Elastic Beanstalk. I should run it in</p>
-<blockquote>
-<p>Single Instance Mode (This will create one EC2 instance and one Elastic IP)</p>
-</blockquote>
-<p>Q: My deployments on Elastic Beanstalk have been painfully slow, and after looking at the logs, I realize this is due to the    fact that my dependencies are resolved on each EC2 machine at deployment time. How can I speed up my deployment     with the minimal impact?</p>
-<blockquote>
-<p>Create a Golden AMI that contains the dependencies and launch the EC2 instances from that. (Golden AMI are a standard in making sure save the state after the installation or pulling dependencies so that future instances can boot up from that AMI quickly)</p>
-</blockquote>
 <h2 id="cloudfront--aws-global-accelerator">CloudFront &amp; AWS Global Accelerator</h2>
-<ul>
-<li><a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">CloudFront</a>
+<h3 id="cloudfront"><a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">CloudFront</a></h3>
 <ul>
 <li>It is a fast content delivery network (CDN) service that securely delivers data, videos, applications, and APIs to customers globally with low latency, high transfer speeds, all within a developer-friendly environment</li>
 <li>Speeds up distribution of your static and dynamic web content, such as .html, .css, .js, and image files, to your users</li>
@@ -2991,8 +2893,7 @@ the installation process?</p>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html">AWS Global Accelerator</a>
+<h3 id="aws-global-accelerator"><a href="https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html">AWS Global Accelerator</a></h3>
 <ul>
 <li>Service in which you create <em>accelerators</em> to improve the performance of your applications for local and global users</li>
 <li>Standard accelerator
@@ -3035,8 +2936,7 @@ the installation process?</p>
 </li>
 <li><img src="https://miro.medium.com/max/1200/1*1iQaCMjicPnfR7LsFZ2hrg.png" alt="enter image description here"></li>
 </ul>
-</li>
-</ul>
+<h3 id="cloudfront--aws-global-accelerator-qn">CloudFront &amp; AWS Global Accelerator Q&amp;N</h3>
 <p>Q: Which features allows us to distribute paid content from S3 securely, globally, if the S3 bucket is secured to only exchange data with CloudFront?</p>
 <blockquote>
 <p>CloudFront Signed URL (CloudFront Signed URL are commonly used to distribute paid content through dynamic CloudFront Signed URL generation)</p>
@@ -3089,7 +2989,8 @@ the installation process?</p>
 <li>Kinesis - real-time streaming model</li>
 </ul>
 </li>
-<li><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html">Amazon SQS</a>
+</ul>
+<h3 id="amazon-sqs"><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html">Amazon SQS</a></h3>
 <ul>
 <li>Offers a secure, durable, and available hosted queue that lets you integrate and decouple distributed software systems and components</li>
 <li>Supports both standard and FIFO queues</li>
@@ -3230,8 +3131,7 @@ the installation process?</p>
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html">Amazon SNS (Simple Notification Service)</a>
+<h3 id="amazon-sns-simple-notification-service"><a href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html">Amazon SNS (Simple Notification Service)</a></h3>
 <ul>
 <li>Sends one message to many receivers</li>
 <li>Pub/Sub model</li>
@@ -3239,7 +3139,7 @@ the installation process?</p>
 <li>Many <em>“event receivers”</em> (subscriptions) as we want to listen to the SNS topic notifications</li>
 <li>Each subscriber to the topic will get all the messages</li>
 <li>Up tp 10,000,000 subscriptions per topic</li>
-<li>100,000 topics limit</li>
+<li>100,000 topics limit<img src="https://d1.awsstatic.com/diagrams/Product-page-diagram-Amazon-SNS_event-driven-SNS-compute@2X_.4b9c0a75aa40bda9cdb12f0176930a12da2872bf.png" alt="enter image description here"></li>
 <li><strong>Subscribers can be</strong>
 <ul>
 <li>SQS</li>
@@ -3278,7 +3178,6 @@ the installation process?</p>
 </li>
 </ul>
 </li>
-<li><img src="https://d1.awsstatic.com/diagrams/Product-page-diagram-Amazon-SNS_event-driven-SNS-compute@2X_.4b9c0a75aa40bda9cdb12f0176930a12da2872bf.png" alt="enter image description here"></li>
 <li><strong>Security</strong>
 <ul>
 <li><em>Encryption</em>
@@ -3322,7 +3221,8 @@ the installation process?</p>
 </li>
 </ul>
 </li>
-<li>Amazon Kinesis
+</ul>
+<h3 id="amazon-kinesis">Amazon Kinesis</h3>
 <ul>
 <li>Collect, process and analyze streaming data in real-time</li>
 <li>Ingest real time data such as Application logs, Metrics, Website clickstreams, IoT telemetry data</li>
@@ -3336,7 +3236,7 @@ the installation process?</p>
 <li>Once data inserted in Kinesis, it can’t be deleted</li>
 <li>Data that shares same partition goes to the same shard</li>
 <li>Producers - AWS SDK, Kinesis Producer Library (KPL), Kinesis Agent</li>
-<li>Consumers - AWS Lambda, Kinesis Data Firehose etc.</li>
+<li>Consumers - AWS Lambda, Kinesis Data Firehose etc.<img src="https://i.pinimg.com/originals/6d/aa/21/6daa21bd6c878525a5f4c82e5a79d8ff.jpg" alt="enter image description here"></li>
 <li>Feature
 <ul>
 <li>Streaming service for ingest at scale</li>
@@ -3347,7 +3247,6 @@ the installation process?</p>
 <li>Support replay capability</li>
 </ul>
 </li>
-<li><img src="https://i.pinimg.com/originals/6d/aa/21/6daa21bd6c878525a5f4c82e5a79d8ff.jpg" alt="enter image description here"></li>
 </ul>
 </li>
 <li><a href="https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html">Kinesis Data Firehose</a>
@@ -3365,9 +3264,9 @@ the installation process?</p>
 <li>Support custom data transformations using AWS Lambda</li>
 <li>Can send failed or all data to backup S3 bucket</li>
 <li>Doesn’t support replay capability</li>
+<li><img src="https://i.pinimg.com/originals/83/68/c6/8368c679d78d6d1aeab7750a3da7ce59.jpg" alt="enter image description here"></li>
 </ul>
 </li>
-<li><img src="https://i.pinimg.com/originals/83/68/c6/8368c679d78d6d1aeab7750a3da7ce59.jpg" alt="enter image description here"></li>
 </ul>
 </li>
 <li><a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/what-is.html">Kinesis Data Analytics</a>
@@ -3386,10 +3285,9 @@ the installation process?</p>
 <ul>
 <li>Time-series analytics</li>
 <li>Real-time dashboards</li>
-<li>Real-time metrics</li>
+<li>Real-time metrics<img src="https://d2908q01vomqb2.cloudfront.net/b6692ea5df920cad691c20319a6fffd7a4a766b8/2017/10/05/preprocessing-data-kinesis-1.gif" alt="enter image description here"></li>
 </ul>
 </li>
-<li><img src="https://d2908q01vomqb2.cloudfront.net/b6692ea5df920cad691c20319a6fffd7a4a766b8/2017/10/05/preprocessing-data-kinesis-1.gif" alt="enter image description here"></li>
 </ul>
 </li>
 <li><a href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/what-is-kinesis-video.html">Kinesis Video Streams</a>
@@ -3399,8 +3297,7 @@ the installation process?</p>
 </ul>
 </li>
 </ul>
-</li>
-<li><strong>Data ordering for Kinesis vs SQS FIFO</strong>
+<h3 id="data-ordering-for-kinesis-vs-sqs-fifo">Data ordering for Kinesis vs SQS FIFO</h3>
 <ul>
 <li><em>Kinesis</em>
 <ul>
@@ -3428,17 +3325,13 @@ the installation process?</p>
 <ul>
 <li>Will have 100 group ID</li>
 <li>So can have 100 Consumers (due to 100 group ID)</li>
-<li>Can have up to 300 messages per second (or 3000 if using batching)</li>
+<li>Can have up to 300 messages per second (or 3000 if using batching)<img src="https://miro.medium.com/max/1714/1*GPXkMjBqByYN3eD30FhsHw.png" alt="enter image description here"></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><img src="https://miro.medium.com/max/1714/1*GPXkMjBqByYN3eD30FhsHw.png" alt="enter image description here"></li>
 </ul>
-</li>
-</ul>
-</li>
-<li><a href="https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.html">Amazon MQ</a>
+<h3 id="amazon-mq"><a href="https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.html">Amazon MQ</a></h3>
 <ul>
 <li>Managed message broker service that makes it easy to migrate to a message broker in the cloud</li>
 <li>SQS, SNS are <em>cloud native</em> services, and they’re using proprietary protocols from AWS</li>
@@ -3449,9 +3342,7 @@ the installation process?</p>
 <li>Runs on dedicated machine</li>
 <li>Has both <strong>queue feature and topic feature</strong><img src="https://d1.awsstatic.com/product-marketing/Amazon-MQ/Amazon%20MQ%20HIW%20Diagram.78e380e8a97064c8f751c1569481a304644490b5.jpg" alt="enter image description here"></li>
 </ul>
-</li>
-</ul>
-<hr>
+<h3 id="decoupling-applications-qa">Decoupling applications Q&amp;A</h3>
 <p>Q: You are preparing for the biggest day of sale of the year, where your traffic will increase by 100x. You have already setup SQS standard queue. What should you do?</p>
 <blockquote>
 <p>Do nothing, SQS scales automatically</p>
@@ -3497,19 +3388,19 @@ the installation process?</p>
 <p>Amazon MQ (Supports JMS, NMS, AMQP, STOMP, MQTT, and WebSocket)</p>
 </blockquote>
 <h2 id="container-on-aws">Container on AWS</h2>
+<h3 id="docker">Docker</h3>
 <ul>
-<li><strong>Docker</strong></li>
 <li>Is a software platform that allows you to build, test, and deploy applications quickly</li>
 <li>With Docker, you can manage your infrastructure in the same ways you manage your applications</li>
 <li>Provides the ability to package and run an application in a loosely isolated environment called a container, that can be run on any OS</li>
 <li>The isolation and security allow you to run many containers simultaneously on a given host</li>
 <li>Containers are lightweight and contain everything needed to run the application, so you do not need to rely on what is currently installed on the host</li>
-<li><strong>Uses a client-server architecture</strong> <img src="https://docs.docker.com/engine/images/architecture.svg" alt="enter image description here">
-<ul>
+<li><strong>Uses a client-server architecture</strong> <img src="https://docs.docker.com/engine/images/architecture.svg" alt="enter image description here"></li>
 <li>Docker <em>client</em> talks to the Docker <em>daemon</em>, which does the heavy lifting of building, running, and distributing your Docker containers</li>
 <li>The Docker client and daemon <em>can</em> run on the same system, or you can connect a Docker client to a remote Docker daemon</li>
 <li>The Docker client and daemon communicate using a REST API, over UNIX sockets or a network interface</li>
-<li>Another Docker client is Docker Compose, that lets you work with applications consisting of a set of containers</li>
+<li>Another Docker client is Docker Compose, that lets you work with applications consisting of a set of containers
+<ul>
 <li><strong>daemon</strong>
 <ul>
 <li>daemon (<code>dockerd</code>) listens for Docker API requests and manages Docker objects such as images, containers, networks, and volumes</li>
@@ -3551,15 +3442,14 @@ the installation process?</p>
 </li>
 </ul>
 </li>
-<li>Docker Container Management On AWS
-<ul>
-<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html">ECS (Elastic Container Service) </a>
+</ul>
+<h3 id="ecs-elastic-container-service-"><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html">ECS (Elastic Container Service) </a></h3>
 <ul>
 <li>Enables you to launch and stop your container-based applications by using simple API calls</li>
 <li>Your containers are defined in a task definition that you use to run individual tasks or tasks within a service</li>
 <li>You must provision &amp; maintain the infrastructure (EC2 instances)</li>
 <li>ECS will take care of starting/stopping containers</li>
-<li>Has integration with ALB <img src="https://raw.githubusercontent.com/nikxsh/aws/master/aws-certified-solution-architect-associate/aws-ecs-cluster.jpg" alt="enter image description here"></li>
+<li>Has integration with ALB <img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-ecs-cluster.png" alt="enter image description here"></li>
 <li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">ECS Tasks</a>
 <ul>
 <li>To prepare your application to run on Amazon ECS, you create a task definition.</li>
@@ -3613,7 +3503,7 @@ the installation process?</p>
 <li><em>Fargate launch type</em>
 <ul>
 <li>Fargate service will launch a Task and not need to create EC2 instances beforehand</li>
-<li>We have ENI to connect to each Fargate Tasks which also get launched within our VPC to bind these task to network IP</li>
+<li>Has ENI to connect to each Fargate Tasks which also get launched within our VPC to bind these task to network IP</li>
 <li>As ENI is distinct IP we should have enough private address within our VPC<img src="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/overview-fargate.png" alt="enter image description here"></li>
 <li>Load Balancing
 <ul>
@@ -3675,33 +3565,1046 @@ the installation process?</p>
 <li>EventBridge receives an <em><a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-events.html">event</a></em>, an indicator of a change in environment, and applies a <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rules.html">rule</a> to route the event to a <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html">target</a></li>
 <li>Rules match events to targets based on either the structure of the event, called an <em><a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html">event pattern</a></em>, or on a schedule</li>
 <li>E.g. We can invoke ECS task upon object is uploaded, using EventBridge Rule and events<img src="https://i.pinimg.com/originals/0f/46/44/0f4644ef4790af0720e506b6c1dda849.jpg" alt="enter image description here"></li>
-<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html">Automatic Scaling</a>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html">ECS Scaling</a>
 <ul>
 <li>Is the ability to increase or decrease the desired count of tasks in your Amazon ECS service automatically</li>
+<li>Service Scaling
+<ul>
 <li>Amazon ECS publishes CloudWatch metrics with your service’s average CPU and memory usage</li>
 <li>You can use these and other CloudWatch metrics to scale out your service (add more tasks) to deal with high demand at peak times, and to scale in your service (run fewer tasks) to reduce costs during periods of low utilization <img src="https://s3.amazonaws.com/chrisb/concept_diagram.jpg" alt="enter image description here"></li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-capacity-providers.html">Scale ECS Capacity Providers (Optional)</a>
+<ul>
+<li>Each cluster can have one or more capacity providers and an optional default capacity provider strategy</li>
+<li>The capacity provider strategy determines how the tasks are spread across the cluster’s capacity providers</li>
+<li>Optional and for <strong>EC2 type only</strong></li>
+<li>It will launch additional EC2 instances to cluster</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ECS Rolling Updates
+<ul>
+<li>When the <em>rolling update</em> (<code>ECS</code>) deployment type is used for your service, when a new service deployment is started the Amazon ECS service scheduler replaces the currently running tasks with new tasks</li>
+<li>The <em>rolling update</em> is controlled by the deployment configuration</li>
+<li>The deployment configuration consists of the <code>minimumHealthyPercent</code> and <code>maximumPercent</code> values which are defined when the service is created, but can also be updated on an existing service</li>
+<li>The <code>minimumHealthyPercent</code> represents the lower limit on the number of tasks that should be running for a service during a deployment or when a container instance is draining, as a percent of the desired number of tasks for the service</li>
+<li>The <code>maximumPercent</code> represents the upper limit on the number of tasks that should be running for a service during a deployment or when a container instance is draining, as a percent of the desired number of tasks for a service</li>
+<li>When updating service from v1 to v2, we can control how many tasks can be started and stopped, and in which order<img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-ecs-service-rolling-updates.png" alt="enter image description here"></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="https://docs.aws.amazon.com/eks/latest/userguide/fargate.html">Fargate</a>
+</ul>
+<h3 id="fargate"><a href="https://docs.aws.amazon.com/eks/latest/userguide/fargate.html">Fargate</a></h3>
 <ul>
 <li>Serverless container platform</li>
 <li>Launch Docker containers on AWS</li>
 <li>You no longer have to provision, configure, or scale groups of virtual machines to run containers (No EC2 instances to manage), that why serverless</li>
 <li>AWS just runs containers for you based on the CPU/RAM you need<img src="https://d1.awsstatic.com/re19/FargateonEKS/Product-Page-Diagram_Fargate@2x.a20fb2b15c2aebeda3a44dbbb0b10b82fb89aa6a.png" alt="enter image description here"></li>
 </ul>
-</li>
-<li>EKS
+<h3 id="eks-elastic-kubernetes-service"><a href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html">EKS (Elastic Kubernetes Service)</a></h3>
 <ul>
 <li>Managed Kubernetes</li>
+<li>It is a way to launch managed Kubernetes cluster on AWS</li>
+<li><a href="https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/">Kubernetes</a>, also known as K8s, is an open-source system for automating deployment, scaling, and management of containerized applications</li>
+<li>Alternative to ECS, similar goal but different API (Kubernetes is open source)</li>
+<li>EKS supports EC2 if you want to deploy worker nodes or Fargate to deploy serverless containers</li>
+<li>Cloud-agnostic i.e. can be used on any cloud <img src="https://d1.awsstatic.com/partner-network/QuickStart/datasheets/amazon-eks-on-aws-architecture-diagram.64cf0e40c45ade8107daf6a3ef5e2e05134d9a4b.png" alt="enter image description here"></li>
+<li>Use Cases
+<ul>
+<li>Organization already using Kubernetes</li>
+<li>Organization wants to migrate to AWS using Kubernetes</li>
+</ul>
+</li>
+</ul>
+<h3 id="ecr-elastic-container-registry"><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html">ECR (Elastic Container Registry)</a></h3>
+<ul>
+<li>An AWS managed container image registry service that is secure, scalable, and reliable</li>
+<li>Supports private container image repositories with resource-based permissions using AWS IAM</li>
+<li><em>ECR registry</em> is provided to each AWS account; you can create image repositories in your registry and store images in them</li>
+<li><em>Authorization token</em> - Your client must authenticate to Amazon ECR registries as an AWS user before it can push and pull images</li>
+<li>An Amazon <em>ECR image repository</em> contains your Docker images, Open Container Initiative (OCI) images, and OCI compatible artifacts</li>
+<li>You can control access to your repositories and the images within them with <em>repository policies</em></li>
+<li>You can push and pull <em>container images</em> to your repositories</li>
+<li>Supports image vulnerability scanning, version, tag, image lifecycle <img src="https://d1.awsstatic.com/diagrams/product-page-diagrams/Product-Page-Diagram_Amazon-ECR.bf2e7a03447ed3aba97a70e5f4aead46a5e04547.png" alt="enter image description here"></li>
+</ul>
+<h2 id="serverless-in-aws">Serverless in AWS</h2>
+<ul>
+<li>A <a href="https://aws.amazon.com/lambda/serverless-architectures-learn-more/">serverless architecture</a> is a way to build and run applications and services without having to manage infrastructure</li>
+<li>Application still runs on servers, but all the server management is done by AWS</li>
+<li>Just deploy code (Function as Service FaaS)</li>
+<li>Use cases
+<ul>
+<li>Build web applications and mobile backends in a faster, more agile way</li>
+<li>Can use cloud services like AWS Lambda, Amazon API Gateway, and Amazon DynamoDB to implement serverless architectural patterns that reduce the operational complexity of running and managing applications <img src="https://docs.aws.amazon.com/whitepapers/latest/microservices-on-aws/images/image4.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li>Serverless in AWS
+<ul>
+<li>Lambda</li>
+<li>DynamoDB</li>
+<li>Cognito</li>
+<li>API Gateway</li>
+<li>S3</li>
+<li>SNS &amp; SQS</li>
+<li>Kinesis Data Firehouse (Getting scaled based on throughput)</li>
+<li>Aurora Serverless</li>
+<li>Step Functions</li>
+<li>Fargate (Serverless function in ECS)</li>
+</ul>
+</li>
+<li>SAM (Serverless Application Model)
+<ul>
+<li>Framework for developing and deploying serverless applications</li>
+<li>All the configuration is YAML code and you can configure
+<ul>
+<li>Lambda functions</li>
+<li>DynamoDB tables</li>
+<li>API Gateway</li>
+<li>Cognito User Pools</li>
+</ul>
+</li>
+<li>Can help you to run Lambda, API Gateway, DynamoDB locally</li>
+<li>Can use CodeDeploy to deploy Lambda functions</li>
+</ul>
+</li>
+</ul>
+<h3 id="aws-lambda"><a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda</a></h3>
+<ul>
+<li>Virtual Functions - service that lets you run code without provisioning or managing servers</li>
+<li>Runs on demand - runs your function only when needed</li>
+<li>You pay only for per request &amp; compute time</li>
+<li>Performs all of the administration of the compute resources, like
+<ul>
+<li>Server and operating system maintenance</li>
+<li>Capacity provisioning</li>
+<li>Automatic scaling</li>
+<li>Code monitoring and logging</li>
+</ul>
+</li>
+<li>Can invoke your Lambda functions using
+<ul>
+<li>Lambda API</li>
+<li>In response to events from other AWS services</li>
+</ul>
+</li>
+<li>Language Support
+<ul>
+<li>Node.js, Python, Java, C#, Golang, PowerShell, Ruby &amp; Custom Runtime API (community supported e.g. Rust)</li>
+<li>Lambda Container Image
+<ul>
+<li>Must be implement the Lambda Runtime API</li>
+<li>ECS / Fargate is preferred for running arbitrary Docker images</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Examples
+<ul>
+<li>Serverless thumbnail creation<img src="https://blog.kakaocdn.net/dn/cLsDbd/btqZrfTcmN3/IZZdwYV5ssrNPb7KMeDXQK/img.png" alt="Serverless thumbnail creation"></li>
+<li>Serverless CRON Job<br>
+<img src="https://d2908q01vomqb2.cloudfront.net/fc074d501302eb2b93e2554793fcaf50b3bf7291/2018/05/13/architecture_v2small2.png" alt="Serverless CRON Job"></li>
+</ul>
+</li>
+<li><a href="https://aws.amazon.com/lambda/pricing/">Pricing</a>
+<ul>
+<li>Pay per calls
+<ul>
+<li>Free usage tier includes 1M free requests per month</li>
+<li>$0.20 per 1 million requests thereafter ($0.0000002/request)</li>
+</ul>
+</li>
+<li>Pay per duration
+<ul>
+<li>Free usage tier includes 400,000 GB-seconds of compute time per month</li>
+<li>== 400,000 secs if function is 1GB RAM</li>
+<li>== 3,200,000 secs if function is 128 MB RAM</li>
+<li>After that $1 for 600,000 GB-secs</li>
+</ul>
+</li>
+<li>Very cheap to run AWS lambda</li>
+</ul>
+</li>
+<li>Limits (per region)
+<ul>
+<li>Execution limit
+<ul>
+<li>Memory 128MB - 10 GB (64MB increments)</li>
+<li>Max execution time 900 sec (15 mins)</li>
+<li>Max size for environment variables 4KB</li>
+<li>Disk capacity in the function container is 512 MB</li>
+<li>Concurrent execution 1000 (can be increase)</li>
+</ul>
+</li>
+<li>Deployment limit
+<ul>
+<li>Max deployment size is 50 MB (Compressed)</li>
+<li>Max size of uncompressed deployment (Code + Dependencies) is 250 MB</li>
+<li>Can use the /tmp directory to load other files at startup</li>
+<li>Max size for environment variables 4KB</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Lambda@Edge
+<ul>
+<li>Deploy Lambda function alongside your CloudFront CDN to
+<ul>
+<li>Build more responsive applications</li>
+<li>Customized CDN content</li>
+<li>Lambda deployed globally</li>
+<li>Pay only for what you use</li>
+</ul>
+</li>
+<li>You can use it to change CloudFront requests and responses<img src="https://docs.aws.amazon.com/lambda/latest/dg/images/cloudfront-events-that-trigger-lambda-functions.png" alt="enter image description here"></li>
+<li>Allows you to change Viewer request/response and Origin request/response</li>
+<li>Use cases
+<ul>
+<li>Website security and privacy</li>
+<li>Dynamic web application at the edge</li>
+<li>Search engine optimization (SEO)</li>
+<li>Intelligently Route Across origin and Data Centers</li>
+<li>Bot Mitigation at the edge</li>
+<li>Real-time Image Transformation</li>
+<li>User Authentication and Authorization</li>
+<li>User tracking and Analytics</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
+<h3 id="dynamodb"><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html">DynamoDB</a></h3>
+<ul>
+<li>Fully managed NoSQL database service</li>
+<li><strong>Features</strong>
+<ul>
+<li>Highly Available with replication across 3 AZ</li>
+<li>Scales massive workloads, distributed database</li>
+<li>Millions of requests per seconds, trillions of row, 100s of TB of storage</li>
+<li>Low latency retrieval</li>
+<li>Integrated with IAM</li>
+<li>Enables event driven programming with Streams</li>
+<li>Encryption at rest</li>
+<li>On-demand backup and point-in-time recovery (you can restore a table to any point in time during the last 35 days)</li>
+<li>Delete expired items from tables automatically</li>
+<li>Low cost and auto scaling capabilities</li>
+<li>Amazon DMS can be used to migrate to DynamoDB from Mongo, Oracle, MySQL, S3 etc.</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html">Read/Write Capacity Mode</a>
+<ul>
+<li>On-Demand Mode
+<ul>
+<li>No capacity planning needed (RCU/WCU)</li>
+<li>Scales Automatically</li>
+<li>2.5x more expensive than provisioned mode</li>
+<li>On-demand mode is a good option if any of the following are true
+<ul>
+<li>You create new tables with unknown workloads</li>
+<li>You have unpredictable application traffic</li>
+<li>You prefer the ease of paying for only what you use</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Provisioned Mode
+<ul>
+<li>You specify the RCU/WCU that you require for your application</li>
+<li>You can use auto scaling to adjust your table’s provisioned capacity automatically in response to traffic changes</li>
+<li>Provisioned mode is a good option if any of the following are true:
+<ul>
+<li>You have predictable application traffic</li>
+<li>You run applications whose traffic is consistent or ramps gradually</li>
+<li>You can forecast capacity requirements to control costs</li>
+</ul>
+</li>
+<li>For provisioned mode tables, you specify throughput capacity</li>
+</ul>
+</li>
+<li><a href="https://aws.amazon.com/dynamodb/pricing/provisioned/">Throughput capacity</a>
+<ul>
+<li>Table must have provisioned read and write capacity units</li>
+<li>Read Capacity Units (RCU)
+<ul>
+<li>Throughput for Reads ($0.00013 per RCU)</li>
+<li>1 RCU = 1 strongly consistent read of 4KB/s</li>
+<li>1 RCU = 2 eventual consistent read of 4KB/s</li>
+<li>Items larger than 4 KB require additional RCUs</li>
+<li><em>Transactional</em> read requests require two RCUs to perform one read per second for items up to 4 KB
+<ul>
+<li>A strongly consistent read of an 8 KB item would require two RCUs</li>
+<li>An eventually consistent read of an 8 KB item would require one RCU</li>
+<li>A transactional read of an 8 KB item would require four RCUs</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Write Capacity Units (WCU)
+<ul>
+<li>Throughput for Writes ($0.00065 per WCU)</li>
+<li>1 WCU = 1 write of 1KB/s</li>
+<li>Items larger than 1 KB require additional WCUs</li>
+<li><em>Transactional</em> write requests require two WCUs to perform one write per second for items up to 1 KB.
+<ul>
+<li>A standard write request of a 1 KB item would require one WCU</li>
+<li>A standard write request of a 3 KB item would require three WCUs</li>
+<li>A transactional write request of a 3 KB item would require six WCUs</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Replicated write capacity unit (rWCU)
+<ul>
+<li>When using DynamoDB global tables</li>
+<li>Data is written automatically to multiple AWS Regions of your choice</li>
+<li>Each write occurs in the local Region as well as the replicated Regions</li>
+</ul>
+</li>
+<li>Streams read request unit
+<ul>
+<li>Each GetRecords API call to DynamoDB Streams is a streams read request unit</li>
+<li>Each streams read request unit can return up to 1 MB of data</li>
+</ul>
+</li>
+<li>Throughput can be exceeded using “burst credits” and if “burst credits” are empty then you’ll get “ProvisionThroughputException”</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Structure</strong>
+<ul>
+<li>A <em>table</em> is a collection of data. For example, see the example table called <em>People</em> that you could use to store personal contact information about friends, family, or anyone else of interest</li>
+<li>An <em>item</em> is a group of attributes that is uniquely identifiable among all of the other items. In a <em>People</em> table, each item represents a person</li>
+<li>An <em>attribute</em> is a fundamental data element, something that does not need to be broken down any further. For example, an item in a <em>People</em> table contains attributes called <em>PersonID</em>, <em>LastName</em>, <em>FirstName</em>, and so on</li>
+<li><img src="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/images/HowItWorksPeople.png" alt="enter image description here"><img src="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/images/HowItWorksMusic.png" alt="enter image description here"></li>
+<li>the <em>People</em> table
+<ul>
+<li>The primary key consists of one attribute (<em>PersonID</em>)</li>
+<li>Other than the primary key, the <em>People</em> table is schemaless</li>
+<li>Most of the attributes are <em>scalar</em>, which means that they can have only one value</li>
+<li>Some of the items have a nested attribute (<em>Address</em>)</li>
+</ul>
+</li>
+<li>the <em>Music</em> table
+<ul>
+<li>The primary key for <em>Music</em> consists of two attributes (<em>Artist</em> and <em>SongTitle</em>)</li>
+<li>One of the items has a nested attribute (<em>PromotionInfo</em>), which contains other nested attributes</li>
+</ul>
+</li>
+<li><em>DynamoDB supports nested attributes up to 32 levels deep</em></li>
+<li><strong>Primary Key</strong>
+<ul>
+<li>DynamoDB supports two different kinds of primary keys</li>
+<li><strong>Partition key</strong>
+<ul>
+<li>A simple primary key, composed of one attribute known as the <em>partition key</em> (<em>PersonID</em>)</li>
+<li>The partition key of an item is also known as its <em>hash attribute</em></li>
+<li>DynamoDB uses the partition key’s value as input to an internal hash function. The output from the hash function determines the partition (physical storage internal to DynamoDB) in which the item will be stored</li>
+<li>In a table that has only a partition key, no two items can have the same partition key value</li>
+</ul>
+</li>
+<li><strong>Partition key and sort key</strong>
+<ul>
+<li><em>composite primary key</em>, this type of key is composed of two attributes. The first attribute is the <em>partition key</em>, and the second attribute is the <em>sort key</em> (<em>Artist</em> and <em>SongTitle</em>)</li>
+<li>The sort key of an item is also known as its <em>range attribute</em></li>
+<li>All items with the same partition key value are stored together, in sorted order by sort key value</li>
+<li>In a table that has a partition key and a sort key, it’s possible for two items to have the same partition key value. However, those two items must have different sort key values</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SecondaryIndexes.html">Secondary Indexes</a>
+<ul>
+<li>Lets you query the data in the table using an alternate key, in addition to queries against the primary key</li>
+<li>Global secondary index
+<ul>
+<li>An index with a partition key and sort key that can be different from those on the table</li>
+<li>20 global secondary indexes (default quota) per table</li>
+</ul>
+</li>
+<li>Local secondary index
+<ul>
+<li>An index that has the same partition key as the table, but a different sort key</li>
+<li>5 local secondary indexes per table<img src="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/images/HowItWorksGenreAlbumTitle.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><em>GenreAlbumTitle</em> index
+<ul>
+<li><em>Music</em> table, with a new index called <em>GenreAlbumTitle</em></li>
+<li>In the index, <em>Genre</em> is the partition key and <em>AlbumTitle</em> is the sort key</li>
+<li><em>Music</em> is the base table for the <em>GenreAlbumTitle</em> index</li>
+<li>Query the data by <em>Genre</em> and <em>AlbumTitle</em></li>
+<li>DynamoDB maintains indexes automatically.</li>
+<li>When you add, update, or delete an item in the base table, DynamoDB adds, updates, or deletes the corresponding item in any indexes that belong to that table</li>
+<li>You can query the <em>GenreAlbumTitle</em> index to find all albums of a particular genre (for example, all <em>Rock</em> albums). You can also query the index to find all albums within a particular genre that have certain album titles (for example, all <em>Country</em> albums with titles that start with the letter H)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Streams</strong>
+<ul>
+<li>Optional feature that captures data modification events in DynamoDB tables</li>
+<li>Each event is represented by a <em>stream record</em></li>
+<li>If you enable a stream on a table, DynamoDB Streams writes a stream record whenever one of the following events occurs
+<ul>
+<li>A new item is added to the table: The stream captures an image of the entire item, including all of its attributes</li>
+<li>An item is updated: The stream captures the “before” and “after” image of any attributes that were modified in the item</li>
+<li>An item is deleted from the table: The stream captures an image of the entire item before it was deleted</li>
+</ul>
+</li>
+<li>Each stream record also contains the name of the table, the event timestamp, and other metadata</li>
+<li><strong>Stream records have a lifetime of 24 hours</strong>; after that, they are automatically removed from the stream</li>
+<li>For example, consider a <em>Customers</em> table that contains customer information for a company. Suppose that you want to send a “welcome” email to each new customer. You could enable a stream on that table, and then associate the stream with a Lambda function. The Lambda function would run whenever a new stream record appears<img src="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/images/HowItWorksStreams.png" alt="enter image description here"></li>
+<li>Use cases
+<ul>
+<li>React to changes in real time</li>
+<li>Analytics</li>
+<li>Create derivative tables/views</li>
+<li>Insert into ElasticSearch</li>
+<li>Could implement cross region replications</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://docs.amazonaws.cn/en_us/amazondynamodb/latest/developerguide/DAX.html">DAX (DynamoDB Accelerator)</a>
+<ul>
+<li>Seamless cache, no application re-write</li>
+<li>Writes go through DAX to DynamoDB</li>
+<li>Micro second latency for cached reads &amp; queries</li>
+<li>Solves Hot Key problem (too many reads)</li>
+<li>5 mins TTL for cache by default</li>
+<li>Up to 10 nodes in the cluster</li>
+<li>Multi AZ (3 min nodes recommended)</li>
+<li>Secure (Encryption at rest with KMS, VPC, IAM etc.)<img src="https://d2908q01vomqb2.cloudfront.net/887309d048beef83ad3eabf2a79a64a389ab1c9f/2018/04/19/Arch-Diagram.jpg" alt="enter image description here"></li>
+</ul>
+</li>
+<li><a href="https://aws.amazon.com/blogs/aws/new-amazon-dynamodb-transactions/">Transaction</a>
+<ul>
+<li>Provide atomicity, consistency, isolation, and durability (ACID) across one or more tables within a single AWS account and region</li>
+<li>Use cases
+<ul>
+<li>Processing financial transactions</li>
+<li>Fulfilling and managing orders</li>
+<li>Building multiplayer game engines</li>
+<li>Coordinating actions across distributed components and services</li>
+</ul>
+</li>
+<li>Handling transactions using
+<ul>
+<li><code>TransactWriteItems</code>, a batch operation that contains a write set, with one or more <code>PutItem</code>, <code>UpdateItem</code>, and <code>DeleteItem</code> operations</li>
+<li><code>TransactGetItems</code>, a batch operation that contains a read set, with one or more <code>GetItem</code> operations</li>
+</ul>
+</li>
+<li>Items are not locked during a transaction. DynamoDB transactions provide serializable isolation. If an item is modified outside of a transaction while the transaction is in progress, the transaction is canceled and an exception is thrown with details about which item or items caused the exception</li>
+<li>Transactional operations work within one or more tables within a region, and are not supported across regions in global tables</li>
+<li>There is no additional cost to enable transactions for DynamoDB tables</li>
+</ul>
+</li>
+<li>Global tables
+<ul>
+<li>Replicate your DynamoDB tables automatically across your choice of AWS Region</li>
+<li>Eliminate the difficult work of replicating data between Regions and resolving update conflicts</li>
+<li>There are no upfront costs or commitments for using global tables, and you pay only for the resources provisioned<img src="https://d1.awsstatic.com/product-marketing/DynamoDB/DynamoDB_Global-Tables-01.dad2508b80e8b7c544fe1a94a2abd3f770b789da.png" alt="enter image description here" width="600" height="400"></li>
+</ul>
+</li>
+</ul>
+<h3 id="aws-api-gateway"><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html">AWS API Gateway</a></h3>
+<ul>
+<li>An API gateway is service that sits in front of an API (Application Programming Interface) and is the single-entry point for defined back-end APIs and microservices (which can be both internal and external)</li>
+<li>Sitting in front of APIs, the gateway acts as protector, enforcing security and ensuring scalability and high availability</li>
+<li>API Gateway acts as a “front door” for applications to access data, business logic, or functionality from your backend services, such as workloads running on Amazon Elastic Compute Cloud (Amazon EC2), code running on AWS Lambda, any web application, or real-time communication applications</li>
+<li><strong>Features</strong>
+<ul>
+<li>AWS Lambda + API Gateway = No infrastructure to manage</li>
+<li>Support for stateful (<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api.html">WebSocket</a>) and stateless (<a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html">HTTP</a> and <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-rest-api.html">REST</a>) APIs</li>
+<li>Powerful, flexible <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-control-access-to-api.html">authentication</a> mechanisms, such as AWS Identity and Access Management policies, Lambda authorizer functions, and Amazon Cognito user pools</li>
+<li><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/cloudtrail.html">CloudTrail</a> logging and monitoring of API usage and API changes</li>
+<li>CloudWatch access logging and execution logging, including the ability to set alarms</li>
+<li>Integration with <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-control-access-aws-waf.html">AWS WAF</a> for protecting your APIs against common web exploits</li>
+<li>Integration with <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-xray.html">AWS X-Ray</a> for understanding and triaging performance latencies</li>
+<li>Handles API versioning</li>
+<li>Swagger/Open API import to quickly define APIs</li>
+<li>Transform and validate requests and responses</li>
+<li>Generates SDK and API specification</li>
+<li>Cache API response</li>
+</ul>
+</li>
+<li><strong>Architecture</strong><img src="https://docs.aws.amazon.com/apigateway/latest/developerguide/images/Product-Page-Diagram_Amazon-API-Gateway-How-Works.png" alt="enter image description here"></li>
+<li><strong>Use cases</strong>
+<ul>
+<li><em>To create HTTP APIs</em>
+<ul>
+<li>HTTP APIs enable you to create RESTful APIs with lower latency and lower cost than REST APIs</li>
+<li>Send requests to AWS Lambda functions or to any publicly routable HTTP endpoint</li>
+<li>For example, you can create an HTTP API that integrates with a Lambda function on the backend. When a client calls your API, API Gateway sends the request to the Lambda function and returns the function’s response to the client</li>
+<li>HTTP APIs support <a href="https://openid.net/connect/">OpenID Connect</a> and <a href="https://oauth.net/2/">OAuth 2.0</a> authorization</li>
+<li>They come with built-in support for cross-origin resource sharing (CORS) and automatic deployments</li>
+<li>Works with Lambda and HTTP Backends</li>
+</ul>
+</li>
+<li><em>To create REST APIs</em>
+<ul>
+<li>An API Gateway REST API is made up of resources (logical entity that an app can access through a resource path) and methods (request that is submitted by the user of your API)</li>
+<li>For example, <code>/incomes</code> could be the path of a resource representing the income of the app user. A resource can have one or more operations that are defined by appropriate HTTP verbs such as GET, POST, PUT, PATCH, and DELETE. A combination of a resource path and an operation identifies a method of the API. For example, a <code>POST /incomes</code> method could add an income earned by the caller, and a <code>GET /expenses</code> method could query the reported expenses incurred by the caller</li>
+<li>In API Gateway REST APIs, the frontend is encapsulated by <em>method requests</em> and <em>method responses</em>. The API interfaces with the backend by means of <em>integration requests</em> and <em>integration responses</em></li>
+<li>For example, with DynamoDB as the backend, the API developer sets up the integration request to forward the incoming method request to the chosen backend. The setup includes specifications of an appropriate DynamoDB action, required IAM role and policies, and required input data transformation. The backend returns the result to API Gateway as an integration response<img src="https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b99f41ad8b103eff4b59/2020/03/04/api-gateway-sagemaker-2.png" alt="enter image description here"></li>
+<li>Support for generating SDKs and creating API documentation using API Gateway extensions to OpenAPI</li>
+<li>Throttling of HTTP requests</li>
+<li>Works with Lambda and HTTP, AWS Services</li>
+</ul>
+</li>
+<li><em>To create WebSocket APIs</em>
+<ul>
+<li>In a WebSocket API, the client and the server can both send messages to each other at any time</li>
+<li>Backend servers can easily push data to connected users and devices, avoiding the need to implement complex polling mechanisms</li>
+<li>For example, you could build a serverless application using an API Gateway WebSocket API and AWS Lambda to send and receive messages to and from individual users or groups of users in a chat room. Or you could invoke backend services such as AWS Lambda, Amazon Kinesis, or an HTTP endpoint based on message content<img src="https://d2908q01vomqb2.cloudfront.net/1b6453892473a467d07372d45eb05abc2031647a/2018/12/18/websockets-arch.png" alt="enter image description here"></li>
+<li>You can use API Gateway WebSocket APIs to build secure, real-time communication applications without having to provision or manage any servers to manage connections or large-scale data exchanges</li>
+<li>Targeted use cases include real-time applications such as the following
+<ul>
+<li>Chat applications</li>
+<li>Real-time dashboards such as stock tickers</li>
+<li>Real-time alerts and notifications</li>
+</ul>
+</li>
+<li>API Gateway provides WebSocket API management functionality such as the following
+<ul>
+<li>Monitoring and throttling of connections and messages</li>
+<li>Using AWS X-Ray to trace messages as they travel through the APIs to backend services</li>
+<li>Easy integration with HTTP/HTTPS endpoints</li>
+</ul>
+</li>
+<li>Works with Lambda and HTTP, AWS Services</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html"># Choosing between HTTP APIs and REST APIs</a></li>
+<li><strong>Endpoint type</strong>
+<ul>
+<li>Edge-Optimized (Default)
+<ul>
+<li>For global clients</li>
+<li>Request are routed through the CloudFront Edge locations (improves latency)</li>
+<li>Gateway still lives in only one region</li>
+</ul>
+</li>
+<li>Regional
+<ul>
+<li>For clients within same region</li>
+<li>Cloud manually combine with CloudFront (more control over the caching strategies and the distribution)</li>
+</ul>
+</li>
+<li>Private
+<ul>
+<li>Can only be accessed from your VPC using an interface VPC endpoint (ENI)</li>
+<li>Use a resource policy to define access</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Security</strong>
+<ul>
+<li>IAM Permissions
+<ul>
+<li>Create an IAM policy authorization and attach to User/Role</li>
+<li>API Gateway verifies IAM permissions passed by the calling applications</li>
+<li>Leverage “Sig v4” capability where IAM credential are in headers</li>
+</ul>
+</li>
+<li>Lambda Authorizer (Custom Authorizers)
+<ul>
+<li>Uses Lambda to validate the token in header being passed</li>
+<li>Option to cache result of authentication</li>
+<li>Helps to use OAuth/SAML/3rd party type of authentication</li>
+<li>Lambda must return an IAM policy for the user</li>
+</ul>
+</li>
+<li>Cognito user pools
+<ul>
+<li>Fully Manages user lifecycle</li>
+<li>You manage your own user pool (can be Facebook, google etc.)</li>
+<li>API gateway verifies identity automatically from AWS Cognito</li>
+<li>No custom implementation required</li>
+<li>Only helps with authentication, not authorization (must implement authorization in the backend)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="aws-cognito"><a href="https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html">AWS Cognito</a></h3>
+<ul>
+<li>Provides authentication, authorization, and user management for your web and mobile apps</li>
+<li>Your users can sign in directly with a user name and password, or through a third party such as Facebook, Amazon, Google or Apple</li>
+<li><strong>Cognito User Pools</strong>
+<ul>
+<li>It is a user directory that provide sign-up and sign-in options for your app users</li>
+<li>Whether your users sign in directly or through a third party, all members of the user pool have a directory profile that you can access through an SDK</li>
+<li>Sends backs Json Web Tokens (JWT)</li>
+<li>Integrates with API Gateway</li>
+</ul>
+</li>
+<li><strong>Cognito Identity Pools</strong> (Federated Identity)
+<ul>
+<li>Identity pools enable you to grant your users access to other AWS services</li>
+<li>With an identity pool, your users can obtain temporary AWS credentials to access AWS services, such as Amazon S3 and DynamoDB</li>
+<li>Identity pools support anonymous guest users, as well as federation through third-party IdPs</li>
+<li>Integrates with Cognito User pools as an identity provider</li>
+<li>Example: provide temporary access to write to S3 bucket using Facebook login</li>
+</ul>
+</li>
+<li><strong>Cognito Sync</strong> (Deprecated, current AWS AppSync)
+<ul>
+<li>Synchronize data from device to Cognito</li>
+<li>Store preferences, configuration, state of app</li>
+<li>Cross device synchronization</li>
+<li>Offline capability (synchronization when back offline)</li>
+<li>Requires Federated Identity Pool</li>
+<li>Data stored in datasets (up to 1MB) and up to 20 datasets to Synchronize</li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-scenarios.html">Scenarios</a>
+<ul>
+<li><em>Authenticate with a User Pool</em>
+<ul>
+<li>You can enable your users to authenticate with a user pool</li>
+<li>Your app users can sign in either directly through a user pool, or federate through a third-party identity provider (IdP)</li>
+<li>The user pool manages the overhead of handling the tokens that are returned from social sign-in through Facebook, Google, Amazon, and Apple, and from OpenID Connect (OIDC) and SAML IdPs</li>
+<li>After a successful authentication, your web or mobile app will receive user pool tokens from Amazon Cognito. You can use those tokens to retrieve AWS credentials that allow your app to access other AWS services, or you might choose to use them to control access to your server-side resources, or to the Amazon API Gateway</li>
+<li><img src="https://docs.aws.amazon.com/cognito/latest/developerguide/images/scenario-authentication-cup.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><em>Access Your Server-side Resources with a User Pool</em>
+<ul>
+<li>After a successful user pool sign-in, your web or mobile app will receive user pool tokens from Amazon Cognito</li>
+<li>You can use those tokens to control access to your server-side resource</li>
+<li><img src="https://docs.aws.amazon.com/cognito/latest/developerguide/images/scenario-standalone.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><em>Access Resources with API Gateway and Lambda with a User Pool</em>
+<ul>
+<li>API Gateway validates the tokens from a successful user pool authentication, and uses them to grant your users access to resources including Lambda functions, or your own API</li>
+<li>You can use groups in a user pool to control permissions with API Gateway by mapping group membership to IAM roles</li>
+<li><img src="https://docs.aws.amazon.com/cognito/latest/developerguide/images/scenario-api-gateway.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li>Access AWS Services with a User Pool and an Identity Pool
+<ul>
+<li>After a successful user pool authentication, your app will receive user pool tokens from Amazon Cognito. You can exchange them for temporary access to other AWS services with an identity pool</li>
+<li><img src="https://docs.aws.amazon.com/cognito/latest/developerguide/images/scenario-cup-cib.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><em>Authenticate with a Third Party and Access AWS Services with an Identity Pool</em>
+<ul>
+<li>You can enable your users access to AWS services through an identity pool</li>
+<li>An identity pool requires an IdP token from a user that’s authenticated by a third-party identity provider</li>
+<li><img src="https://docs.aws.amazon.com/cognito/latest/developerguide/images/scenario-identity-pool.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><em>Access AWS AppSync Resources with Amazon Cognito</em>
+<ul>
+<li>You can grant your users access to AWS AppSync resources with tokens from a successful Amazon Cognito authentication</li>
+<li><img src="https://docs.aws.amazon.com/cognito/latest/developerguide/images/scenario-appsync.png" alt="enter image description here"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="serverless-qa">Serverless Q&amp;A</h3>
+<p>Q: You have a Lambda function that will process data for 25 minutes before successfully completing. The code is working fine in your machine, but in AWS Lambda it just fails with a “timeout” issue after 3 seconds. What should you do?</p>
+<blockquote>
+<p>Run your code somewhere else than Lambda - the maximum timeout is 15 minutes</p>
+</blockquote>
+<p>Q: You’d like to have a dynamic DB_URL variable loaded in your Lambda code</p>
+<blockquote>
+<p>Environment variables allow for your Lambda to have dynamic variables from within</p>
+</blockquote>
+<p>Q: We have to provision the instance type for our DynamoDB database</p>
+<blockquote>
+<p>False, DynamoDB is a serverless service and as such we don’t provision an instance type for our database. We just say how much RCU and WCU we require for our table (or auto scaling)</p>
+</blockquote>
+<p>Q: A DynamoDB table has been provisioned with 10 RCU and 10 WCU. You would like to increase the RCU to sustain more read traffic. What is true about RCU and WCU?</p>
+<blockquote>
+<p>RCU and WCU are decoupled, so WCU can stay the same</p>
+</blockquote>
+<p>Q: You are about to enter the Christmas sale and you know a few items in your website are very popular and will be read often. Last year you had a <strong>ProvisionedThroughputExceededException.</strong> What should you do this year?</p>
+<blockquote>
+<p>Create DAX Cluster (A DynamoDB Accelerator (DAX) cluster is a cache that fronts your DynamoDB tables and caches the most frequently read values. They help offload the heavy reads on hot keys off of DynamoDB itself, hence preventing the ProvisionedThroughputExceededException)</p>
+</blockquote>
+<p>Q: You would like to automate sending welcome emails to the users who subscribe to the Users table in DynamoDB. How can you achieve that?</p>
+<blockquote>
+<p>Enable DynamoDB Streams and have the Lambda function receive the events in real-time</p>
+</blockquote>
+<p>Q: To make a serverless API, I should integrate API Gateway with</p>
+<blockquote>
+<p>Lambda (Lambda is a serverless technology)</p>
+</blockquote>
+<p>Q: You would like to provide a Facebook login before your users call your API hosted by API Gateway. You need seamlessly authentication integration, you will use</p>
+<blockquote>
+<p>Cognito User Pool (Cognito User Pools directly integration with Facebook Logins)</p>
+</blockquote>
+<p>Q: Your production application is leveraging DynamoDB as its backend and is experiencing smooth sustained usage. There is a need to make the application run in development as well, where it will experience unpredictable, sometimes high, sometimes low volume of requests. You would like to make sure you optimize for cost. What do you recommend?</p>
+<blockquote>
+<p>Provision WCU &amp; RCU and enable auto-scaling for production and use on-demand capacity for development</p>
+</blockquote>
+<h2 id="deployment">Deployment</h2>
+<h3 id="elastic-beanstalk"><a href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html">Elastic Beanstalk</a></h3>
+<ul>
+<li>Beanstalk, you can quickly deploy and manage applications in the AWS Cloud without having to learn about<br>
+the infrastructure that runs those applications.</li>
+<li>After you create and deploy your application, information about the application—including metrics, events, and<br>
+environment status—is available through the Elastic Beanstalk console, APIs, or Command Line Interfaces, including<br>
+the unified AWS CLI</li>
+<li>Developer centric</li>
+<li>Managed service, instance configuration and deployment auto handled <img src="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/images/clearbox-flow-00.png" alt="enter image description here"></li>
+<li>Models
+<ul>
+<li>Single instance development</li>
+<li>LB + ASG great for prd and pre-prd web apps</li>
+</ul>
+</li>
+<li>Components
+<ul>
+<li>Application</li>
+<li>Application version for each deployment</li>
+<li>Environment name</li>
+</ul>
+</li>
+<li>Rollback feature to previous version</li>
+<li>Full control over lifecycle of environments</li>
+</ul>
+<h2 id="solution-architecture-discussions">Solution Architecture Discussions</h2>
+<h3 id="classic">Classic</h3>
+<ul>
+<li>We’re considering 5 pillars for a well architect application: Cost, Performance, Reliability, Security &amp; Operational Excellence</li>
+<li><strong><a href="http://WhatIsTheTime.com">WhatIsTheTime.com</a> (Stateless)</strong>
+<ul>
+<li>Requirement
+<ul>
+<li>No Database</li>
+<li>Low latency selected</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>Setup private EC2 Instances
+<ul>
+<li>In different AZs for [Availability and Disaster recovery]</li>
+<li>with ASG  (we can add and remove instances at run time) [Better Costing]</li>
+<li>Setup SG (EC2 will on receive request for ELB) [Security]</li>
+<li>Reserving instance for minimum capacity [Better Costing]</li>
+</ul>
+</li>
+<li>Add Multi AZ ELB [Performance]</li>
+<li>Health Check [Performance]</li>
+<li>Use Route 53 to manage DNS queries [Reliability]</li>
+<li>Fully Automated like ASG, ELB and Route 53 [Operational Excellence]</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>MyClothes (Stateful)</strong>
+<ul>
+<li>Requirement
+<ul>
+<li>Database with hundreds of Users the same time</li>
+<li>Need vertically scaling</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>Introduce Route 53</li>
+<li>Introduce Multi AZ ELB</li>
+<li>Setup private EC2 Instances
+<ul>
+<li>In different AZs</li>
+<li>with ASG  (we can add and remove instances at run time)</li>
+<li>Setup SG (EC2 will on receive request for ELB)</li>
+<li>Reserving instance for minimum capacity</li>
+</ul>
+</li>
+<li>Introduce ElastiCache (Alt DynamoDB)
+<ul>
+<li>For storing user session data</li>
+<li>For caching data from RDS</li>
+<li>Multi AZ</li>
+</ul>
+</li>
+<li>Introduce RDS
+<ul>
+<li>For storing user data</li>
+<li>Read replicas for scaling reads</li>
+<li>Multi AZ for disaster recovery</li>
+</ul>
+</li>
+<li>Restrict traffic to EC2 SG from ELB</li>
+<li>Restrict traffic to ElastiCache SG from the EC2 SG</li>
+<li>Restrict traffic to RDS SG from the EC2 SG</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>MyWordPress (Stateful)</strong>
+<ul>
+<li>Requirement
+<ul>
+<li>Fully scalable</li>
+<li>Display images</li>
+<li>Has user data and blog content stored in MySQL</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>Introduce Route 53</li>
+<li>Introduce Multi AZ ELB</li>
+<li>Setup private EC2 Instances
+<ul>
+<li>In different AZs</li>
+<li>with ASG  (we can add and remove instances at run time)</li>
+<li>Setup SG (EC2 will on receive request for ELB)</li>
+<li>Reserving instance for minimum capacity</li>
+<li>Create ENI (Elastic network Interface) in each AZ to access EFS</li>
+</ul>
+</li>
+<li>Introduce EFS (EBS good for single instance only)
+<ul>
+<li>Elastic File System</li>
+<li>To store images in distributed application</li>
+</ul>
+</li>
+<li>Introduce RDS
+<ul>
+<li>For storing user data using MySQL</li>
+<li>Read replicas for scaling reads</li>
+<li>Multi AZ for disaster recovery</li>
+</ul>
+</li>
+<li>Restrict traffic to EC2 SG from ELB</li>
+<li>Restrict traffic to EFS SG from the EC2 SG</li>
+<li>Restrict traffic to RDS SG from the EC2 SG</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="serverless">Serverless</h3>
+<ul>
+<li><strong>MyTodoList</strong>
+<ul>
+<li>Requirement
+<ul>
+<li>Rest API with HTTPS</li>
+<li>Serverless</li>
+<li>User should able to directly interact with their own folder in S3</li>
+<li>User should authenticate through a managed serverless service</li>
+<li>User can write and read to-dos, but mostly read them</li>
+<li>Database should scale and have some high read throughput</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>Introduce REST API through API gateway</li>
+<li>Mobile client will authenticate using amazon Cognito which in turn verify authentication through API gateway</li>
+<li>API gateway will invoke Lambda function which in turn query DynamoDB</li>
+<li>Cognito will generate temp credentials for Client by calling AWS STS</li>
+<li>Client can use this temp credentials to access S3 bucket to store/retrieve files</li>
+<li>Use DAX Caching layer for increase RCUs</li>
+<li>Use API response caching</li>
+</ul>
+</li>
+<li><img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-mytodolist.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><strong><a href="http://MyBlog.com">MyBlog.com</a></strong>
+<ul>
+<li>Requirement
+<ul>
+<li>Should scale globally</li>
+<li>Rarely written, often read</li>
+<li>Some of the website is purely static files, the rest is a dynamic REST API</li>
+<li>Caching must be implemented</li>
+<li>New subscriber should receive a welcome mail</li>
+<li>Photo uploaded to the blog should have thumbnail generated</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>To serve static content globally use Amazon CloudFront Global distribution, interacting with edge locations</li>
+<li>To serve securely, use OAI (origin access identity) to access S3, Bucker policy will only allows request with OAI</li>
+<li>API gateway will invoke Lambda function which in turn query DynamoDB</li>
+<li>Use DAX Caching layer for increase RCUs</li>
+<li>Can use DynamoDB Global tables</li>
+<li>Use DynamoDB stream to invoke Lambda which will AWS Simple Message Service to send Email</li>
+<li>S3 will call Lambda which will generate thumbnail and save to S3 (optionally can push to SQS and SNS)</li>
+</ul>
+</li>
+<li><img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-myblog.com.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><strong>Micro Services</strong>
+<ul>
+<li>Requirement
+<ul>
+<li>Synchronous &amp; asynchronous patterns</li>
+<li>Serverless</li>
+<li>Pay per usage</li>
+</ul>
+</li>
+<li>Solutions
+<ul>
+<li>Synchronous using API Gateway and Load balancer</li>
+<li>Asynchronous using SQS, Kinesis, SNS and Lambda triggers (S3)</li>
+<li>Serverless using API Gateway, Lambda</li>
+</ul>
+</li>
+<li><img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-microservices.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><strong>Distributed Paid Content</strong>
+<ul>
+<li>Requirement
+<ul>
+<li>Sell videos online</li>
+<li>User have to pay to buy videos</li>
+<li>Distribute videos only to premium users</li>
+<li>Database for premium users</li>
+<li>Link we send to premium users should be short lived</li>
+<li>Global application</li>
+<li>Fully serverless</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>Premium User service, to store/retrieve premium users using DynamoDB Tables</li>
+<li>CloudFront to generate short lived signed URL using AWS SDK and lambda invoke</li>
+<li>S3 to store and retrieve videos files</li>
+<li>Cognito to verify AUTH</li>
+<li><em>S3 signed URL not efficient for global access</em></li>
+</ul>
+</li>
+<li><img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-severless-distributing-paid-content.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><strong>Software update distribution</strong>
+<ul>
+<li>Requirement
+<ul>
+<li>We have application running on EC2, that distributes software updates once in a while</li>
+<li>When a new software update is out, we get lot of requests as our content distributed in mass over the network (very costly)</li>
+<li>We don’t want to change application but want to optimize our cost and CPU</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>Use CloudFront, because
+<ul>
+<li>No change is architecture</li>
+<li>Will cache software updates files at the edge</li>
+<li>Software updates files are static</li>
+<li>EC2 instances are not serverless</li>
+<li>ASG will not scale as much, and we’ll save in EC2</li>
+<li>Will save in availability, network bandwidth cost etc.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serveless-software-update-offloading.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li><strong>Big Data Ingestion Pipeline</strong>
+<ul>
+<li>Requirement
+<ul>
+<li>Ingestion pipeline to be fully serverless</li>
+<li>Collect data in real time</li>
+<li>Transform data</li>
+<li>Query transformed data</li>
+<li>Load data to warehouse and create dashboards</li>
+</ul>
+</li>
+<li>Solution
+<ul>
+<li>IoT devices will send data to Kinesis Data Stream using AWS IoT Core</li>
+<li>Kinesis Data Stream will talk to Kinesis Data Firehouse which will upload our data to ingestion bucket every min</li>
+<li>Kinesis Data Firehouse also will talk to lambda function to cleanse or transform our data</li>
+<li>Ingestion bucket will call lambda function which will trigger Amazon Athena SQL query</li>
+<li>Amazon Athena will pull data using query from ingestion bucket and upload it to the reporting bucket</li>
+</ul>
+</li>
+<li><img src="https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-data-ingestion.png" alt="enter image description here"></li>
+</ul>
+</li>
+</ul>
+<h3 id="case-studies-qa">Case Studies Q&amp;A</h3>
+<p>Q:  You have an ASG that scales on demand based on the traffic going to your new website: <a href="http://TriangleSunglasses.Com">TriangleSunglasses.Com</a>. You      would like to optimize for cost, so you have selected an ASG that scales based on demand going through your ELB. Still,      you want your solution to be highly available so you have selected the minimum instances to 2. How can you further      optimize the cost while respecting the requirements?</p>
+<blockquote>
+<p>Reserve two EC2 instances (This is the way to save further costs as we know we will run 2 EC2 instances no matter what.)</p>
+</blockquote>
+<p>Q: Which of the following will <strong>NOT</strong> help make our application tier stateless?</p>
+<blockquote>
+<p>Storing shared data on EBS volumes (EBS volumes are created for a specific AZ and can only be attached to one EC2<br>
+instance at a time. This will not help make our application stateless)</p>
+</blockquote>
+<p>Q:  You are looking to store shared software updates data across 100s of EC2 instances. The software updates should be      dynamically loaded on the EC2 instances and shouldn’t require heavy operations. What do you suggest?</p>
+<blockquote>
+<p>Store the software updates on EFS and mount EFS as a network drive (EFS is a network file system (NFS) and allows to mount the same file system to 100s of EC2 instances. Publishing software updates their allow each EC2 instance to access them.)</p>
+</blockquote>
+<p>Q: As a solution architect managing a complex ERP software suite, you are orchestrating a migration to the AWS cloud. The     software traditionally takes well over an hour to setup on a Linux machine, and you would like to make sure your      application does leverage the ASG feature of auto scaling based on the demand. How do you recommend you speed up<br>
+the installation process?</p>
+<blockquote>
+<p>Use golden AMI (Golden AMI are a standard in making sure you snapshot a state after an application installation so that future instances can boot up from that AMI quickly.)</p>
+</blockquote>
+<p>Q: I am creating an application and would like for it to be running with minimal cost in a development environment with     Elastic Beanstalk. I should run it in</p>
+<blockquote>
+<p>Single Instance Mode (This will create one EC2 instance and one Elastic IP)</p>
+</blockquote>
+<p>Q: My deployments on Elastic Beanstalk have been painfully slow, and after looking at the logs, I realize this is due to the    fact that my dependencies are resolved on each EC2 machine at deployment time. How can I speed up my deployment     with the minimal impact?</p>
+<blockquote>
+<p>Create a Golden AMI that contains the dependencies and launch the EC2 instances from that. (Golden AMI are a standard in making sure save the state after the installation or pulling dependencies so that future instances can boot up from that AMI quickly)</p>
+</blockquote>
+<p>Q: As a solutions architect, you have been tasked to implement a fully Serverless REST API. Which technology choices do you recommend?</p>
+<blockquote>
+<p>API Gateway + AWS Lambda</p>
+</blockquote>
+<p>Q: Which technology does not have an out of the box caching feature?</p>
+<blockquote>
+<p>Lambda (Lambda does not have an out of the box caching feature (it’s often paired with API gateway for that))</p>
+</blockquote>
+<p>Q: Which service allows to federate mobile users and generate temporary credentials so that they can access their own S3 bucket sub-folder?</p>
+<blockquote>
+<p>Cognito (in combination with STS)</p>
+</blockquote>
+<p>Q: You would like to distribute your static content which currently lives in Amazon S3 to multiple regions around the world, such as the US, France and Australia. What do you recommend?</p>
+<blockquote>
+<p>CloudFront</p>
+</blockquote>
+<p>Q: You have hosted a DynamoDB table in ap-northeast-1 and would like to make it available in eu-west-1. What must be enabled first to create a DynamoDB Global Table?</p>
+<blockquote>
+<p>DynamoDB Streams (Streams enable DynamoDB to get a changelog and use that changelog to replicate data across regions)</p>
+</blockquote>
+<p>Q: A Lambda function is triggered by a DynamoDB stream and is meant to insert data into SQS for further long processing jobs. The Lambda function does seem able to read from the DynamoDB stream but isn’t able to store messages in SQS. What’s the problem?</p>
+<blockquote>
+<p>The lambda IAM role is missing permission</p>
+</blockquote>
+<p>Q: You would like to create a micro service whose sole purpose is to encode video files with your specific algorithm from S3 back into S3. You would like to make that micro-service reliable and retry upon failure. Processing a video may take over 25 minutes. The service is asynchronous and it should be possible for the service to be stopped for a day and resume the next day from the videos that haven’t been encoded yet. Which of the following service would you recommend to implement this service?</p>
+<blockquote>
+<p>SQS + EC2 (SQS allows you to retain messages for days and process them later, while we take down our EC2 instances)(Lambda has a 15 minutes timeout)</p>
+</blockquote>
+<p>Q: You would like to distribute paid software installation files globally for your customers that have indeed purchased the content. The software may be purchased by different users, and you want to protect the download URL with security including IP restriction. Which solution do you recommend?</p>
+<blockquote>
+<p>CloudFront Signed URL (This will have security including IP restriction)</p>
+</blockquote>
+<p>Q: You are a photo hosting service and publish every month a master pack of beautiful mountains images, that are over 15 GB in size and downloaded from all around the world. The content is currently hosted on EFS and distributed by ELB and EC2 instances. You are experiencing high load each month and very high network costs. What can you recommend that won’t force an application refactor and reduce network costs and EC2 load dramatically?</p>
+<blockquote>
+<p>Create CloudFront distribution (CloudFront can be used in front of an ELB)</p>
+</blockquote>
+<p>Q: You would like to deliver big data streams in real time to multiple consuming applications, with replay features. Which technology do you recommend?</p>
+<blockquote>
+<p>Kinesis Data Streams (Kinesis Data Streams has all these features)</p>
+</blockquote>
 <h2 id="aws-development">AWS Development</h2>
 <ul>
 <li><a href="https://docs.aws.amazon.com/cli/latest/reference/s3/">https://docs.aws.amazon.com/cli/latest/reference/s3/</a></li>
@@ -3711,7 +4614,7 @@ the installation process?</p>
 <li><a href="https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/id_roles_create_for-user.html">https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/id_roles_create_for-user.html</a></li>
 <li><a href="https://console.aws.amazon.com/iam">https://console.aws.amazon.com/iam</a></li>
 </ul>
-<hr>
+<h3 id="aws-development-qa">AWS Development Q&amp;A</h3>
 <p>Q: My EC2 Instance does not have the permissions to perform an API call PutObject on S3. What should I do?</p>
 <blockquote>
 <p>I should ask an administrator to attach a Policy to the IAM Role on my EC2 Instance that authorizes it to do the API call (IAM roles are the right way to provide credentials and permissions to an EC2 instance)</p>
