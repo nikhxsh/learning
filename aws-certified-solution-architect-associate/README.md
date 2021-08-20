@@ -1703,15 +1703,56 @@ right certificate for your clients?</p>
 <p>Target Tracking</p>
 </blockquote>
 <h2 id="aws-storage-services">AWS Storage Services</h2>
+<h3 id="intro">Intro</h3>
+<ul>
+<li>How to choose the right database based on your architecture
+<ul>
+<li>Ready Heavy, Write heavy or balanced workload? Thought put needs? Will it be change? Does it need to scale during the day?</li>
+<li>How much data to store and how long? Will it grow? Average object size? How are hey accessed?</li>
+<li>Data durability? Source of truth for the data?</li>
+<li>Latency requirements? Concurrent users?</li>
+<li>Data Model? How will you query the data? Join? Structured? Semi-structured?</li>
+<li>Strong schema? More flexibility? Reporting? Search? RBDMS? NoSQL?</li>
+<li>License costs?</li>
+</ul>
+</li>
+<li>Types
+<ul>
+<li>RDBMS (SQL/OLTP): RDS, Aurora - Great for joins, normalized data</li>
+<li>NoSQL
+<ul>
+<li>DynamoDB (JSON) - 400kb per row</li>
+<li>ElastiCache (Key-Value Pair) - High performance</li>
+<li>Neptune (Graph) - No joins and SQL</li>
+</ul>
+</li>
+<li>Object Store
+<ul>
+<li>S3 - For big objects (up to 5TB)</li>
+<li>Glaciers - For backups/archives</li>
+</ul>
+</li>
+<li>Data Warehouse (SQL Analytics/BI)
+<ul>
+<li>Redshift (OLAP)</li>
+<li>Athena - Used to query S3</li>
+</ul>
+</li>
+<li>Search - ElasticSearch (Json - free text, unstructured searches)</li>
+<li>Graphs - Neptune (Displays relationships between data)</li>
+</ul>
+</li>
+</ul>
 <h3 id="relative-database-service"><a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html">Relative Database Service</a></h3>
 <ul>
-<li>Managed SQL database service i.e. web service that makes it easier to set up, operate, and scale a relational database in the AWS Cloud.</li>
-<li>It provides cost-efficient, resizable capacity for an industry-standard relational database and  manages common database administration tasks.</li>
-<li>Automated provision and used SQL language</li>
 <li>Allows to create databases in cloud managed by AWS like Postgres, MySQL, MariaDB, Oracle, MSSQL and Aurora</li>
-<li>Multi AZ setup for DR</li>
+<li>Must provision an EC2 instance &amp; EBS volume type and size</li>
+<li>Supports for Read replicas and Multi AZ setup for DR</li>
+<li>Security through IAM, SG, KMS &amp; SSL in transit</li>
 <li>Scaling capabilities (Vertical and horizontal)</li>
-<li>Storage backed by EBS</li>
+<li>Backup/Snapshot/Point in time restore feature</li>
+<li>Managed and scheduled maintenance</li>
+<li>Monitoring through CloudWatch</li>
 <li>Can SSH into instances</li>
 <li><strong>Backup</strong>
 <ul>
@@ -1792,15 +1833,31 @@ encrypted and create DB out of it</li>
 Postgres using auth token obtained from IAM with 15 mins lifetime) and EC2 instance</li>
 </ul>
 </li>
+<li><strong>Use Cases</strong>
+<ul>
+<li>Store relational datasets (RDBMS/OLTP)</li>
+<li>Perform SQL queries</li>
+<li>Transactional inserts/update/delete is available</li>
+</ul>
+</li>
+<li><strong>For Solution Architect</strong>
+<ul>
+<li><em>Operations</em> - Small downtime when failover happens such as maintenance, scaling in read replicas/ec2 instance, while restore ELB or application changes</li>
+<li><em>Security</em> - AWS responsible for OS security, we are responsible for setting up KMS, SG, IAM policies, authorizing users in DB</li>
+<li><em>Reliability</em> - Multi AZ feature, failover in case of failures</li>
+<li><em>Performance</em> - Depends on EC2 instance type, ELB volume type, ability to add Read Replicas. Storage auto-scaling &amp; manual scaling of instances</li>
+<li><em>Cost</em> - Pay per hour based on provisioned EC2 and EBS</li>
+</ul>
+</li>
 </ul>
 <h3 id="aurora"><a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">Aurora</a></h3>
 <ul>
 <li>Not open sourced</li>
-<li>Fully managed relational database engine that’s compatible with MySQL and PostgreSQL.</li>
-<li>AWS Cloud optimized (5x performance improvement over MySQL, over 3x in Postgres),<br>
-supported by Postgres and MySQL</li>
+<li>Fully managed relational database engine with compatible API for MySQL and PostgreSQL.</li>
+<li>Cloud optimized (5x performance improvement over MySQL, over 3x in Postgres)</li>
+<li>Need to define EC2 instance type</li>
 <li>Automatically grows in increment of 10GB, up to 64TB</li>
-<li>Can have 15 replicas while MySQL has 5, replication process is faster</li>
+<li>Can Up to 15 read replicas (Only 5 in RDS), replication process is faster</li>
 <li>Cost more than RDS (20%) but more efficient</li>
 <li>Master instance take writes and failover in less than 30 secs</li>
 <li>Master + up to 15 read replicas (Auto scaling)</li>
@@ -1813,13 +1870,34 @@ supported by Postgres and MySQL</li>
 </li>
 <li>Backtrack: restore data at any point of time without using backups</li>
 <li>Security same as RDS</li>
-<li>We can define custom read endpoints for specific reads</li>
-<li>Serverless: Automated db instantiation and auto scaling, no capacity planning needed, pay per second</li>
-<li>Multi-Master: In case you want immediate failover for write node, every node does r/w<br>
+<li>We can define custom read endpoints for specific reads<img src="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/images/AuroraArch001.png" alt="enter image description here"></li>
+<li><strong>Features</strong>
+<ul>
+<li><em>Serverless</em>: Automated db instantiation and auto scaling, no capacity planning needed, pay per second</li>
+<li><em>Multi-Master</em>: In case you want immediate failover for write node, every node does r/w<br>
 or promoting a RR as the new master</li>
-<li>Cross Region RR: useful in disaster recovery, simple to put in place</li>
-<li>Global Database: 1 Primary region (r/w), 5 secondary (r only) region with &lt; 1sec replication lag, up to 16 RR per secondary region and promoting another region with RTO &lt; 1 min</li>
-<li>ML: prediction using SQL (SageMaker and Comprehend)</li>
+<li><em>Cross Region RR</em>: useful in disaster recovery, simple to put in place</li>
+<li><em>Global Database</em>: 1 Primary region (r/w), 5 secondary (r only) region with &lt; 1sec replication lag, up to 16 RR per secondary region and promoting another region with RTO &lt; 1 min <img src="https://d2908q01vomqb2.cloudfront.net/887309d048beef83ad3eabf2a79a64a389ab1c9f/2021/03/01/Screen-Shot-2021-03-01-at-17.37.29.png" alt="enter image description here"></li>
+<li><em>ML</em>: prediction using SQL (SageMaker and Comprehend)</li>
+</ul>
+</li>
+<li><strong>Use Cases</strong>
+<ul>
+<li>Store relational datasets (RDBMS/OLTP)</li>
+<li>Perform SQL queries</li>
+<li>Transactional inserts/update/delete is available</li>
+<li>Less maintenance and more performance</li>
+</ul>
+</li>
+<li><strong>For Solution Architect</strong>
+<ul>
+<li><em>Operations</em> - less operations, auto scaling storage</li>
+<li><em>Security</em> - AWS responsible for OS security, we are responsible for setting up KMS, SG, IAM policies, authorizing users in DB</li>
+<li><em>Reliability</em> - Multi AZ feature, highly available (more than RDS), Serverless option, Multi-Master option</li>
+<li><em>Performance</em> - 5x performance due to architectural optimization. Up to 15 read replicas (Only 5 in RDS)</li>
+<li><em>Cost</em> - Pay per hour based on provisioned EC2 and Storage Usage. Lower cost compared to Enterprise grade databases such as Oracle</li>
+</ul>
+</li>
 </ul>
 <h3 id="elasticache"><a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-use-cases.html">ElastiCache</a></h3>
 <ul>
