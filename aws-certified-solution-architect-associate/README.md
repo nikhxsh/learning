@@ -4,8 +4,8 @@
   * [Availability Zones](#availability-zones)
   * [Local Zones](#local-zones)
   * [Edge Network Locations](#edge-network-locations)
-  * [AWS Wavelength](#aws-wavelength)
-  * [AWS Outposts](#aws-outposts)
+  * [Wavelength](#aws-wavelength)
+  * [Outposts](#aws-outposts)
 - [IAM (Identity and Access Management)](#iam-identity-and-access-management)
   * [Users](#users)
   * [Groups](#-groups)
@@ -33,22 +33,26 @@
   * [Relative Database Service](#relative-database-service)
   * [Aurora](#aurora)
   * [ElastiCache](#elasticache)
-  * [AWS S3 (Simple Storage Service)](#aws-s3-simple-storage-service)
-  * [AWS Snow Family](#aws-snow-family)
-  * [Amazon S3 File Gateway](#amazon-s3-file-gateway)
+  * [S3 (Simple Storage Service)](#s3-simple-storage-service)
+  * [Athena](#athena)
+  * [RedShift](#redShift)
+  * [Neptune](#neptune)
+  * [ElasticSearch](#elasticSearch)
+  * [Snow Family](#snow-family)
+  * [S3 File Gateway](#s3-file-gateway)
   * [Q&N](#storage-services-qa)
 - [Route 53](#route-53)
   * [Q&N](#route-53-qa)
 - [CloudFront & AWS Global Accelerator](#cloudfront--aws-global-accelerator)
   * [CloudFront](#cloudfront)
-  * [AWS Global Accelerator](#aws-global-accelerator)
+  * [Global Accelerator](#global-accelerator)
   * [Q&N](#cloudfront--aws-global-accelerator-qn)
 - [Decoupling applications](#decoupling-applications)
-  * [Amazon SQS](#amazon-sqs)
-  * [Amazon SNS (Simple Notification Service)](#amazon-sns-simple-notification-service)
-  * [Amazon Kinesis](#amazon-kinesis)
+  * [SQS](#sqs)
+  * [SNS (Simple Notification Service)](#sns-simple-notification-service)
+  * [Kinesis](#kinesis)
   * [Data ordering for Kinesis vs SQS FIFO](#data-ordering-for-kinesis-vs-sqs-fifo)
-  * [Amazon MQ](#amazon-mq)
+  * [MQ](#mq)
   * [Q&N](#decoupling-applications-qa)
 - [Container on AWS](#container-on-aws)
   * [Docker](#docker)
@@ -57,10 +61,11 @@
   * [EKS (Elastic Kubernetes Service)](#eks-elastic-kubernetes-service)
   * [ECR (Elastic Container Registry)](#ecr-elastic-container-registry)
 - [Serverless in AWS](#serverless-in-aws)
-  * [AWS Lambda](#aws-lambda)
+  * [Lambda](#lambda)
   * [DynamoDB](#dynamodb)
-  * [AWS API Gateway](#aws-api-gateway)
-  * [AWS Cognito](#aws-cognito)
+  * [API Gateway](#api-gateway)
+  * [Cognito](#cognito)
+  * [Glue Data Catalog](#glue-data-catalog)
   * [Q&N](#serverless-qa)
 - [Deployment](#deployment)
   * [Elastic Beanstalk](#elastic-beanstalk)
@@ -99,10 +104,10 @@
 ### Edge Network Locations
 - 216 Point of Presence (205 edge locations & 11 Regional cache) in 84 cities across countries
 - Content delivered with lower latency
-### AWS Wavelength
+### Wavelength
 - Enables developers to build applications that deliver single-digit millisecond latencies to mobile devices and end-users 	  such as game and live video streaming, machine learning inference at the edge, and augmented and virtual reality
 - Application traffic can reach application servers running in Wavelength Zones without leaving the mobile provider’s	  network
-### AWS Outposts
+### Outposts
  - Bring native AWS services, infrastructure, and operating models to virtually any data center, co-location space, or on-premises facility
  - AWS Outposts is designed for connected environments and can be used to support workloads that need to remain on-premises due to low latency or local data processing needs   
 
@@ -1275,9 +1280,11 @@ Q: An application is deployed with an Application Load Balancer and an Auto Scal
 		- In memory
 		- Read replicas for Sharding
 	- *Cost* - Pay per hour based on EC2 and storage use
-### [AWS S3 (Simple Storage Service)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html)
+### [S3 (Simple Storage Service)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html)
 - Simple web services interface that you can use to store and retrieve any amount of data, at any time, from anywhere 
-- It gives any developer access to the same highly scalable, reliable, fast, inexpensive data storage infrastructure
+- Great for big objects, no so great for small objects
+- Serverless, scales infinitely, max object size 5TB
+- Strong consistency
 - **S3 Buckets**
 	- Has global unique name
 	- Defined at the region level (S3 is not global service but do provide global console)
@@ -1498,16 +1505,6 @@ Q: An application is deployed with an Application Load Balancer and an Auto Scal
 	- In Requester Pays Bucket - while download, Owner pays Storage cost and Requester pays Networking Cost
 	- Requester must be authenticated in AWS
 	- Helpful when you want to share large datasets with other accounts
-- [AWS Athena](https://aws.amazon.com/premiumsupport/knowledge-center/analyze-logs-athena/)
-	- Serverless service to perform analytics directly against S3 files  using SQL queries
-	- Has JDBC/ODBC driver
-	- Charged per Query 
-	- Supports CSV, JSON, ORC etc.
-	- Use cases
-		- Business Intelligence/Analytics/Reporting
-		- CloudTrails
-		- VPC Flow logs/ELB logs
-	- Analyze data directly on S3 > use Athena 
 - **S3 Lock policies & Glacier Vault Lock**
 	- *Glacier Vault Lock*
 		- To Adopt WORM (Write once Read Many) model
@@ -1523,7 +1520,151 @@ Q: An application is deployed with an Application Load Balancer and an Auto Scal
 		- *Modes*
 			- Governance mode - user cant overwrite or delete object version or alter lock settings unless special permission
 			- Compliance mode - protected object version cant be overwritten or deleted by any user, including root user, 				   when object locked in compliance mode, retention mode can't be changed and retention period can't be shortened
-###  [AWS Snow Family](https://docs.aws.amazon.com/snowball/)	
+- **Use cases**
+	- Static files
+	- Key value store for big files
+	- Static Website hosting
+-   **For Solution Architect**
+    -   _Operations_  
+	    - No operation needed
+    -   _Security_
+        - IAM
+        - Bucket policies
+        - ACL
+        - Encryption (Server/Client)
+        - SSL
+    -   _Reliability_ 
+	    - 99.9 % durability
+	    - 99.9% availability
+	    - Multi AZ
+	    - CRR
+    -   _Performance_
+        - Scales to thousand of reads/writes per second
+        - Transfer acceleration
+        - Multi-part for big files
+    -   _Cost_  
+	    -  Pay per storage use, network cost and number of requests
+###  [Athena](https://aws.amazon.com/premiumsupport/knowledge-center/analyze-logs-athena/)
+- Fully serverless database with SQL capabilities
+- Perform analytics directly against S3 files using SQL queries
+- Has JDBC/ODBC driver
+- Charged per Query 
+- Supports CSV, JSON, ORC etc.
+- Outputs results back to S3
+- Secured through IAM
+- Analyze data directly on S3 > use Athena 
+- Use cases
+	- One time SQL queries on S3
+	- Business Intelligence/Analytics/Reporting
+	- CloudTrails
+	- VPC Flow logs/ELB logs
+- **For Solution Architect**
+    - _Operations_  
+	    - No operation needed
+    - _Security_
+        - IAM + S3
+    - _Reliability_ 
+	    - Managed Service
+	    - Use presto engine, Highly available
+    - _Performance_
+        - Queries scale based on data size
+    - _Cost_  
+	    -  Pay per query, per TB of data scanned 
+###  [RedShift](https://docs.aws.amazon.com/redshift/latest/dg/welcome.html)
+- Based on PostgreSQL, but it's not used for OLTP (Online Transaction Processing)
+- It's OLAP (Online analytical processing) for analytics and data warehousing
+- 10x better performance than other data warehoused, scales to PBs of data
+- Columnar storage of data (instead of row)
+- Massive Parallel Query Execution (MPP)
+- Pay as you go based on the instance provisioned
+- Has SQL interface for performing queries
+- BI tools such as AWS QuickSight or Tableau integrates with it
+- Data loaded from S3, DynamoDB, DMS and other DBs
+- Leader node: for query planning, result aggregation
+- Compute node: for performing the queries, send result to leader
+- Redshift Spectrum: perform queries directly against S3 (no need to load)
+- Backup & restore facility
+- Security though VPC, IAM and KMS
+- ![enter image description here](https://d1.awsstatic.com/redshift/redshift-pdp/product-page-diagram_Redshift-Data-Sharing.cfb492d92166375ec67d5e73fcfa397e75fe9ea0.png)
+- **Snapshots & DR**
+	- Redshift has no "Multi-AZ" mode
+	- Snapshots are point-in-time backups of a cluster, stored into S3
+	- Snapshots are incremental (Only what has changed is saved)
+	- You can restore a snapshot into a new cluster
+	- *Automated* 
+		- Every 8 hours, every 5 GB or on a schedule
+		- Can set retention
+	- *Manual*
+		- Snapshot is retained until you delete it
+	- You can configure Amazon Redshift to automatically copy snapshot (automated or manual) of a cluster to another AWS region
+- **Redshift Spectrum**
+	- Query data that is already in S3 without loading it
+	- Must have a Redshift cluster available to start the query
+	- The query then submitted to thousands of Redshift Spectrum nodes
+	- ![enter image description here](https://d2908q01vomqb2.cloudfront.net/b6692ea5df920cad691c20319a6fffd7a4a766b8/2017/07/18/redshift_spectrum-1.gif)
+- Use cases
+	- Real-time analytics
+	- Combining multiple data sources
+	- Business intelligence
+	- Log analysis
+- **For Solution Architect**
+    -  _Operations_  
+	    - RDS
+    - _Security_
+        - IAM, VPC, KMS, SSL
+    - _Reliability_ 
+	    - Auto healing feature
+	    - Cross region snapshot copy
+    - _Performance_
+        - 10x performance vs other data warehousing
+        - Faster queries/joins/aggregations because of indexes
+    - _Cost_  
+	    -  Pay per node provisioned
+	    -  1/10th of the cost vs other warehouses
+###  [Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/intro.html)
+- Fully managed graph database
+- When do use
+	- High relationship between data
+	- Social networking
+	- Knowledge graphs (Wikipedia)
+- Highly available across 3 AZ, with up to 15 read replicas
+- Point-in-time recovery, continue backup to Amazon S3
+- Supports for KMS encryption at rest + HTTPS
+- **For Solution Architect**
+    -   _Operations_  
+	    - RDS
+    -   _Security_
+        - IAM, VPC, KMS, SSL
+    -   _Reliability_ 
+	    - Multi AZ
+	    - Clustering
+    -   _Performance_
+        - Best suited for graphs
+        - Clustering to improve performance
+    -   _Cost_  
+	    -  Pay per node provisioned
+###  [ElasticSearch](https://aws.amazon.com/opensearch-service/)
+- Can search any field, even partially matches
+- Common to use ElasticSearch as a complement to another database
+- Some usage for Big Data Applications
+- You can provision a cluster of instances
+- Built in integration for Kinesis Data Firehose, AWS IoT, CloudWatch logs
+- Comes with Kibana (visualization) & Logstash (log ingestion)
+- ![enter image description here](https://d1.awsstatic.com/product-page-diagram_HIW_Amazon-OpenSearch.bccd42c9b855877a40e4eb3c55511a8aae1002a4.png)
+- **For Solution Architect**
+    -   _Operations_  
+	    - RDS
+    -   _Security_
+        - Cognito, IAM, VPC, KMS, SSL
+    -   _Reliability_ 
+	    - Multi AZ
+	    - Clustering
+    -   _Performance_
+        - Based on ElasticSearch project (open source)
+        - Petabyte scaling
+    -   _Cost_  
+	    -  Pay per node provisioned
+###  [Snow Family](https://docs.aws.amazon.com/snowball/)	
 - Highly secure portable devices to collect and process data a the edge, and migrate data into or out of AWS
 - You can use these devices to locally and cost-effectively access the storage and compute power of the AWS Cloud in places where an internet connection might not be an option
 - **Data migration** devices
@@ -1602,7 +1743,7 @@ Q: An application is deployed with an Application Load Balancer and an Auto Scal
 	- Set of hybrid cloud services that gives you on-premises access to virtually unlimited cloud storage
 	- Bridge Between on-premise data and cloud data in S3
 	- Customers use Storage Gateway to integrate AWS Cloud storage with existing on-site workloads so they can simplify storage management and reduce costs for key hybrid cloud storage use cases
-###  [Amazon S3 File Gateway](https://aws.amazon.com/storagegateway/file/s3/)
+###  [S3 File Gateway](https://aws.amazon.com/storagegateway/file/s3/)
 - Configured S3 buckets are accessible using SMB or NFS protocol with local caching
 - Supports S3 standard, S3 IA, S3 One Zone IA
 - Access using IAM roles for each gateway
@@ -1776,6 +1917,31 @@ Q: Your EC2 Windows Servers need to share some data by having a Network File Sys
 Q: You would like to have a distributed POSIX compliant file system that will allow you to maximize the IOPS in order to perform some HPC and genomics computational research. That file system will have to scale easily to millions of IOPS. What do you recommend?
 > FSx for Lustre
 
+Q: Which database helps you store data in a relational format, with SQL language compatibility and capability of processing transactions?
+> RDS
+
+Q: Which database do you suggest to have caching capability with a Redis compatible API?
+> ElastiCache  (ElastiCache can create a Redis cache or a Memcached cache)
+
+Q: You are looking to perform OLTP, and would like to have the underlying storage with the maximum amount of replication and auto-scaling capability. What do you recommend?
+> Aurora (RDS does not have auto scaling capability)
+
+Q: As a solution architect, you plan on creating a social media website where users can be friends with each other, and like each other's posts. You plan on performing some complicated queries such as "What are the number of likes on the posts that have been posted by the friends of Mike?". What database do you suggest?
+> Neptune (This is AWS' managed graph database)
+
+Q: You would like to store big objects of 100 MB into a reliable and durable Key Value store. What do you recommend?
+> S3 (S3 is indeed a key value store! (where the key is the full path of the object in the bucket))
+
+Q: You would like to have a database which is efficient at performing analytical queries on large sets of columnar data. You would like to connect that Data Warehouse to a reporting and dashboard tool such as Amazon Quicksight. Which technology do you recommend?
+> Redshift
+
+Q: Your log data is currently stored in S3 and you would like to perform a quick analysis if possible serverless to filter the logs and find a user which may have completed an unauthorized action. Which technology do you recommend?
+> Athena
+
+Q: Your gaming website is currently running on top of DynamoDB. Users have been asking for a search feature to find other gamers by name, with partial matches if possible. Which technology do you recommend to implement that feature?
+> ElasticSearch (Anytime you see "search", think ElasticSearch)
+
+
     Important ports:
     FTP: 21
     SSH: 22
@@ -1936,7 +2102,7 @@ Q: You have purchased a domain on Godaddy and would like to use it with Route 53
 	 - Protect used sensitive data trough application stack
 	 - Adds an additional layers of security along with HTTPS
 	 - Encrypted at the edge close to user
-###  [AWS Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html) 
+###  [Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html) 
 - Service in which you create _accelerators_ to improve the performance of your applications for local and global users
 - Standard accelerator 
 	- You can improve availability of your internet applications that are used by a global audience
@@ -2005,7 +2171,7 @@ Q:What does this S3 bucket policy do?
 	- SQS - queue model
 	- SNS - pub/sub model
 	- Kinesis - real-time streaming model	
-###  [Amazon SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html)
+###  [SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html)
 - Offers a secure, durable, and available hosted queue that lets you integrate and decouple distributed software systems and components
 - Supports both standard and FIFO queues
 - **Feature**
@@ -2104,7 +2270,7 @@ Q:What does this S3 bucket policy do?
 	- Limited throughput (300 msg/s without batching, 3000 msg/s with batching)
 	- Exactly-once send capability
 	- Message are processed in order by consumer
-###  [Amazon SNS (Simple Notification Service)](https://docs.aws.amazon.com/sns/latest/dg/welcome.html)
+###  [SNS (Simple Notification Service)](https://docs.aws.amazon.com/sns/latest/dg/welcome.html)
 - Sends one message to many receivers 
 - Pub/Sub model
 - The *"event producer"* only sends message to one SNS topic
@@ -2160,7 +2326,7 @@ Q:What does this S3 bucket policy do?
 	- **Message Filtering**
 		- JSON policy used to filter messages sent to SNS topic's subscriptions
 		- If subscription doesn't have filter policy, it receive every message![enter image description here](https://event-driven-architecture.workshop.aws/4-sns/2-filtering/images/sns_arch_filtering.png?classes=border,shadow)
-### Amazon Kinesis
+### Kinesis
 - Collect, process and analyze streaming data in real-time
 - Ingest real time data such as Application logs, Metrics, Website clickstreams, IoT telemetry data
 - [Kinesis Data Streams](https://docs.aws.amazon.com/streams/latest/dev/introduction.html)
@@ -2226,7 +2392,7 @@ Q:What does this S3 bucket policy do?
 		- Will have 100 group ID
 		- So can have 100 Consumers (due to 100 group ID)
 		- Can have up to 300 messages per second (or 3000 if using batching)![enter image description here](https://miro.medium.com/max/1714/1*GPXkMjBqByYN3eD30FhsHw.png)
-###  [Amazon MQ](https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.html)
+###  [MQ](https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.html)
 - Managed message broker service that makes it easy to migrate to a message broker in the cloud
 - SQS, SNS are *cloud native* services, and they're using proprietary protocols from AWS
 - Traditional applications running from on-premise may use open protocols such as MQTT, AMQP, OpenWire etc.
@@ -2444,7 +2610,7 @@ Q: You have many microservices running on-premise and they currently communicate
 		- Cognito User Pools
 	- Can help you to run Lambda, API Gateway, DynamoDB locally
 	- Can use CodeDeploy to deploy Lambda functions
-###  [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
+###  [Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
  - Virtual Functions - service that lets you run code without provisioning or managing servers
  - Runs on demand - runs your function only when needed
  - You pay only for per request & compute time
@@ -2519,6 +2685,7 @@ Q: You have many microservices running on-premise and they currently communicate
 	- Delete expired items from tables automatically
 	- Low cost and auto scaling capabilities
 	- Amazon DMS can be used to migrate to DynamoDB from Mongo, Oracle, MySQL, S3 etc.
+	- Can query only on primary key, sort key or indexes
  - [Read/Write Capacity Mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html)
 	- On-Demand Mode
 		- No capacity planning needed (RCU/WCU)
@@ -2625,6 +2792,7 @@ Q: You have many microservices running on-premise and they currently communicate
 	- Multi AZ (3 min nodes recommended)
 	- Secure (Encryption at rest with KMS, VPC, IAM etc.)![enter image description here](https://d2908q01vomqb2.cloudfront.net/887309d048beef83ad3eabf2a79a64a389ab1c9f/2018/04/19/Arch-Diagram.jpg)
  - [Transaction](https://aws.amazon.com/blogs/aws/new-amazon-dynamodb-transactions/)
+	- From Nov 2018
 	- Provide atomicity, consistency, isolation, and durability (ACID) across one or more tables within a single AWS account and region
 	- Use cases
 		- Processing financial transactions
@@ -2642,12 +2810,33 @@ Q: You have many microservices running on-premise and they currently communicate
 	- Eliminate the difficult work of replicating data between Regions and resolving update conflicts
 	- There are no upfront costs or commitments for using global tables, and you pay only for the resources provisioned![enter image description here](https://d1.awsstatic.com/product-marketing/DynamoDB/DynamoDB_Global-Tables-01.dad2508b80e8b7c544fe1a94a2abd3f770b789da.png =600x400)
 - Use cases
+	- Serverless application development
+	- Distributed serverless cache
+	- SQL query language not available
 	- React to changes in real time
 	- Analytics
 	- Create derivative tables/views
 	- Insert into ElasticSearch
 	- Could implement cross region replications
-### [AWS API Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html)
+-   **For Solution Architect**
+    -   _Operations_  
+	    - No operations needed
+	    - Auto scaling capabilities
+	    - Serverless
+    -   _Security_
+        - IAM policies
+        - KMS encryption
+        - SSL in flight
+    -   _Reliability_  
+	    - Multi-AZ
+	    - Backups
+    -   _Performance_
+        -   Single digit millisecond latency
+        -   DAX for caching reads
+        -   Performance doesn't degraded if your application scales
+    -   _Cost_  
+	    - Pay per provisioned capacity and storage usage
+### [API Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html)
  - An API gateway is service that sits in front of an API (Application Programming Interface) and is the single-entry point for defined back-end APIs and microservices (which can be both internal and external)
  - Sitting in front of APIs, the gateway acts as protector, enforcing security and ensuring scalability and high availability
  - API Gateway acts as a "front door" for applications to access data, business logic, or functionality from your backend services, such as workloads running on Amazon Elastic Compute Cloud (Amazon EC2), code running on AWS Lambda, any web application, or real-time communication applications
@@ -2723,7 +2912,7 @@ Q: You have many microservices running on-premise and they currently communicate
 			 - API gateway verifies identity automatically from AWS Cognito
 			 - No custom implementation required
 			 - Only helps with authentication, not authorization (must implement authorization in the backend)
-### [AWS Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html)
+### [Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html)
  - Provides authentication, authorization, and user management for your web and mobile apps
  - Your users can sign in directly with a user name and password, or through a third party such as Facebook, Amazon, Google or Apple
  - **Cognito User Pools**
@@ -2769,6 +2958,19 @@ Q: You have many microservices running on-premise and they currently communicate
 	 - *Access AWS AppSync Resources with Amazon Cognito*
 		 - You can grant your users access to AWS AppSync resources with tokens from a successful Amazon Cognito authentication
 		 - ![enter image description here](https://docs.aws.amazon.com/cognito/latest/developerguide/images/scenario-appsync.png)
+###  [Glue](https://docs.aws.amazon.com/glue/latest/dg/what-is-glue.html)
+- Fully serverless service
+- Managed extract, transform, and load (ETL) service
+- Useful to prepare and transform data for analytics
+- ![enter image description here](https://d1.awsstatic.com/Products/product-name/diagrams/product-page-diagram_Glue_Event-driven-ETL-Pipelines.e24d59bb79a9e24cdba7f43ffd234ec0482a60e2.png)
+- [Glue Data Catalog](https://docs.aws.amazon.com/glue/latest/dg/populate-data-catalog.html)
+	- Catalog of datasets
+	- Serves as Central metadata repository
+	- Contains references to data that is used as sources and targets of your extract, transform, and load (ETL) jobs
+	- It is an index to the location, schema, and runtime metrics of your data
+	- Information in the Data Catalog is stored as metadata tables, where each table specifies a single data store
+	- ![enter image description here](https://docs.aws.amazon.com/glue/latest/dg/images/PopulateCatalog-overview.png)
+	- ![enter image description here](https://csharpcorner-mindcrackerinc.netdna-ssl.com/UploadFile/NewsImages/08192020072349AM/Glu1.png)
 
 ### Serverless Q&A
 Q: You have a Lambda function that will process data for 25 minutes before successfully completing. The code is working fine in your machine, but in AWS Lambda it just fails with a "timeout" issue after 3 seconds. What should you do?
