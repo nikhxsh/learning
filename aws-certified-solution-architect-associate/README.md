@@ -65,7 +65,7 @@
   * [DynamoDB](#dynamodb)
   * [API Gateway](#api-gateway)
   * [Cognito](#cognito)
-  * [Glue Data Catalog](#glue-data-catalog)
+  * [Glue](#glue)
   * [Q&N](#serverless-qa)
 - [Deployment](#deployment)
   * [Elastic Beanstalk](#elastic-beanstalk)
