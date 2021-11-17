@@ -95,7 +95,7 @@
 	- ap-southeast-2c
 - Each AZ is one or more discreet data centers with redundant power, network and connectivity
 - Each AZs separated from each other to isolate from disaster
-	- Ability to operate production applications and databases that are more highly available, fault tolerant, and scalable than 	   would be possible from a single data center.
+	- Ability to operate production applications and databases that are more highly available, fault tolerant, and scalable than would be possible from a single data center.
 	- Each AZs connected with high bandwidth, low latency network
 	- All traffic between AZs is encrypted
 ### Local Zones	
@@ -105,8 +105,8 @@
 - 216 Point of Presence (205 edge locations & 11 Regional cache) in 84 cities across countries
 - Content delivered with lower latency
 ### Wavelength
-- Enables developers to build applications that deliver single-digit millisecond latencies to mobile devices and end-users 	  such as game and live video streaming, machine learning inference at the edge, and augmented and virtual reality
-- Application traffic can reach application servers running in Wavelength Zones without leaving the mobile provider’s	  network
+- Enables developers to build applications that deliver single-digit millisecond latencies to mobile devices and end-users such as game and live video streaming, machine learning inference at the edge, and augmented and virtual reality
+- Application traffic can reach application servers running in Wavelength Zones without leaving the mobile provider’s network
 ### Outposts
  - Bring native AWS services, infrastructure, and operating models to virtually any data center, co-location space, or on-premises facility
  - AWS Outposts is designed for connected environments and can be used to support workloads that need to remain on-premises due to low latency or local data processing needs   
@@ -144,10 +144,10 @@
 		 - Resource-based policies grant permissions to the principal that is specified in the policy
 	 - Permissions boundaries
 		 - Use a managed policy as the permissions boundary for an IAM entity
-		 - Defines the maximum permissions that the identity-based policies can grant to an entity, but does not grant				permissions
+		 - Defines the maximum permissions that the identity-based policies can grant to an entity, but does not grant permissions
 	 - Organizations SCPs
 		 - Define the maximum permissions for account members of an organization or organizational unit (OU). 
-		 - SCPs limit permissions that identity-based policies or resource-based policies grant to entities (users or roles)			    within the account, but do not grant permissions.
+		 - SCPs limit permissions that identity-based policies or resource-based policies grant to entities (users or roles) within the account, but do not grant permissions.
 	 - ACLs
 		 - Control which principals in other accounts can access the resource to which the ACL is attached. 
 		 - Only policy type that does not use the JSON policy document structure ACLs are cross-account permissions policies			    that grant permissions to the specified principal. 
@@ -164,9 +164,228 @@
 	 - EC2 Instance role
 	 - Lambda function role
 	 - Roles for CloudFormation
+### [STS (Security Token Service)](https://docs.aws.amazon.com/STS/latest/APIReference/welcome.html)
+- Allows to grant IAM or Federated users a limited and temporary access to AWS resources
+- Token is valid for up to one hour and then must be refreshed
+- available as a global service, and all AWS STS requests go to a single endpoint at `https://sts.amazonaws.com`
+- [AssumeRole](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) 
+	- Returns a set of temporary security credentials that you can use to access AWS resources that you might not normally have access to
+	- *Within your own account* - for enhanced security (IAM _user_ A and IAM role B where IAM role B confers some higher permissions, e.g. the ability to read sensitive logs in an S3 bucket. The value of having to assume role B versus simply giving user A access to the bucket is that what IAM user credentials are long-term, while IAM role/STS credentials are short-term. Exposure of the STS credentials is lower risk. You can also require MFA when assuming role B whereas it might typically be onerous for the IAM user to supply MFA for everyday usage)
+	- *Cross Account Access* - assume role in target account to perform action there, find example [here](https://blog.container-solutions.com/how-to-create-cross-account-user-roles-for-aws-with-terraform)
+- [AssumeRoleWithSAML](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithSAML.html)
+	- Returns a set of temporary security credentials for users who have been authenticated via a SAML authentication response
+- [AssumeRoleWithWebIdentity](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithWebIdentity.html)
+	- Returns a set of temporary security credentials for users who have been authenticated in a mobile or web application with a web identity provider. 
+	- Example providers include Amazon Cognito, Login with Amazon, Facebook, Google, or any OpenID Connect-compatible identity provider
+	- AWS does not recommend to use above identity providers but using *Cognito* instead
+- [GetSessionToken](https://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html)
+	- Returns a set of temporary credentials for an AWS account or IAM user
+	- MFA-enabled IAM users would need to call `GetSessionToken` and submit an MFA code that is associated with their MFA device
+	- Using the temporary security credentials that are returned from the call, IAM users can then make programmatic calls to API operations that require MFA authentication
+- [Using STS to Assume a Role](https://aws.amazon.com/blogs/security/how-to-use-a-single-iam-user-to-easily-access-all-your-accounts-by-using-the-aws-cli/)
+	- Define IAM role within your account or cross-account
+	- Define which principle can access this IAM role
+	- Use STS to retrieve credentials and impersonate the IAM role you have access to (AssumeRole API) 
+	- Temporary credentials can be valid between 15 min to 1 hour
+
+### [Identity federation](https://aws.amazon.com/identity/federation/)
+- Identity federation is a system of trust between two parties for the purpose of authenticating users and conveying information needed to authorize their access to resources
+- Les users outside of AWS to assume temporary role for accessing AWS resources
+- These users assume identity provided access role
+- Using federation, you don't need to create IAM users (user management s outside of AWS)
+- Flavors
+	- [SAML 2.0 Federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html)
+		- To integrate AD/ADFS with AWS
+		- Provides access o AWS console or CLI (using temp creds)
+		- No need to create an IAM users for each of your employees
+		- Using SAML-based federation for API access to AWS ![enter image description here](https://docs.aws.amazon.com/IAM/latest/UserGuide/images/saml-based-federation.diagram.png)
+		- SAML-enabled single sign-on ![enter image description here](https://docs.aws.amazon.com/IAM/latest/UserGuide/images/saml-based-sso-to-console.diagram.png)
+		- AWS Federated Authentication with Active Directory Federation Services ([AD FS](https://aws.amazon.com/blogs/security/aws-federated-authentication-with-active-directory-federation-services-ad-fs/)) ![enter image description here](https://d1.awsstatic.com/security-center/SecurityBlog/federated_auth_with_adfs_25.dc86ecbfbbf80af3f553e7374d2a55ad1afb7016.png)
+		- Needs to setup a trust between IAM and SAML (both ways)
+		- SAML 2.0 enable web-based, cross domain SSO
+		- Uses the STS API:`AssumeRoleWithSAML`
+		- Federation through SAML is *the old way of doing SSO* and *Amazon SSO* is new managed and simpler way
+	- [Custom Identity Broker](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_federated-users.html)
+		- Use only if identity provider not compatible with SAML 2.0
+		- Identity broker must determine the appropriate IAM policy
+		- Uses the STS API: `AssumeRole` or `GetFederationToken` ![enter image description here](https://docs.aws.amazon.com/IAM/latest/UserGuide/images/enterprise-authentication-with-identity-broker-application.diagram.png) 
+	- [Web Identity Federation without Amazon Cognito](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WIF.html)
+		- Not recommended by AWS and use Cognito instead
+		- If you are writing an application targeted at large numbers of users, you can optionally use this for authentication and authorization
+		- It removes the need for creating individual IAM users. Instead, users can sign in to an identity provider and then obtain temporary security credentials from AWS Security Token Service (AWS STS)
+		- supports the identity providers *Amazon, Facebook & Google* ![enter image description here](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/images/wif-overview.png)
+	- Web Identity Federation with Amazon Cognito 
+		- Provides direct access to AWS resources from the client side (mobile & web app)
+		- Allows for anonymous users, data sync, MFA
+		- We don't want to create IAM users for our app users 
+		- We can log in to *federated identity provider* or remain anonymous. So we will get temporary AWS creds back from the *federated identity pool* which come with pre-defined IAM policy stating their permissions
+		- E.g. provide temporary access to write to S3 bucket suing Facebook login ![enter image description here](https://d2908q01vomqb2.cloudfront.net/1b6453892473a467d07372d45eb05abc2031647a/2017/06/18/CognitoDiagram.png)
+		- [Common Amazon Cognito Scenarios](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-scenarios.html)
+	- [Single Sign-On](https://aws.amazon.com/blogs/security/introducing-aws-single-sign-on/)
+		- Centrally manage Single Sign-On to access **multiple accounts** and **3rd party business applications**
+		- Integrated with AWS Organizations
+		- Integration with on-premise AD
+		- Centralized permission manager
+		- Centralized  Auditing ![enter image description here](https://d2908q01vomqb2.cloudfront.net/22d200f8670dbdb3e253a90eee5098477c95c23d/2017/12/07/AM_AWSSSOUseCases_120717a.png)
+	- Non-SAML with AWS Microsoft AD
+	
+### [Directory Service](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html)
+- Provides multiple ways to use Microsoft Active Directory (AD) with other AWS services
+- Directories store information about users, groups, and devices
+- Administrators use them to manage access to information and resources
+- [MS Active Directory](https://searchwindowsserver.techtarget.com/definition/Active-Directory)
+	- Found on any windows server with AD Domain service
+	- Database of objects: User Accounts, Computers, Printers, File Shares, Security groups
+	- Centralized security management, create account, assign permissions
+	- Object are organized in **trees**
+	- A group of tress is **forest** ![enter image description here](https://images.slideplayer.com/30/9527340/slides/slide_2.jpg)
+	- Directory services
+		- [AWS Managed Microsoft AD](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html)
+			- Create your own AD in AWS, manage users locally, supports MFA
+			- Establish "Trust" connections with your on-premise AD
+			- [Example](https://aws.amazon.com/blogs/security/enable-office-365-with-aws-managed-microsoft-ad-without-user-password-synchronization/)
+		- [Active Directory Connector](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_ad_connector.html)
+			- Directory gateway (proxy) to redirect to on-premise AD
+			- Users are managed on the on-premise AD
+			- [Example](https://aws.amazon.com/blogs/security/how-to-connect-your-on-premises-active-directory-to-aws-using-ad-connector/)
+		- [Simple Active Directory](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_simple_ad.html)
+			- AD-compatible managed directory on AWS
+			- Cannot be joined with on-premise AD
+		- [Which to choose](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html#cognito)
+
+### [Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html)
+- Global service
+- Allows to manage multiple AWS accounts
+- The main account is the master account - you can't change it
+- Other accounts are member accounts
+- Member accounts can only be part of one organization
+- Consolidated Billing across all accounts - single payment method
+- Pricing benefits from aggregated usage (volume discounts for EC2)
+- API availble to automate AWS account creation ![enter image description here](https://docs.aws.amazon.com/organizations/latest/userguide/images/AccountOuDiagram.png)
+- Multi Account Strategies
+	- Create accounts 
+		- per department
+		- per cost center
+		- per dev/test/prd
+		- based on regulatory restriction (using SCP)
+		- for better resource isolation (e.g. VPC)
+		- to have separate per-account service limits
+		- for isolated account for logging
+	- One account Multi VPC
+	- Use tagging standards for billing purpose
+	- Enable CloudTrail on all account, send logs to central S3 account
+	- Establish Cross Account Roles for Admin purposes
+- Organizational units
+	- Group accounts together to administer as a single unit
+	- You can attach a policy-based control to an OU, and all accounts within the OU automatically inherit the policy
+	- You can create multiple OUs within a single organization, and you can create OUs within other OUs
+	- Each OU can contain multiple accounts, and you can move accounts from one OU to another
+	- OU names must be unique within a parent OU or root ![enter image description here](https://miro.medium.com/max/624/1*MaXq4s60cUxlSe-ycmL-KA.png)
+- [Service Control Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html)
+	- Whitelist or blacklist IAM actions
+	- Applied at the OU or Account level
+	- Does not apply to the Master Account
+	- Applied to all the **Users** and **Roles** of the account, including **Root**
+	- Does not affect service-linked roles (service linked roles enable other AWS services to integrate with AWS *Organizations* and can't be restricted by SCPs)
+	- SCP must have an explicit Allow (does not allow anything by default)
+	- Use cases
+		- Restrict access to certain services 
+		- Enforce PCI compliance by explicitly disabling services
+	- SCP Hierarchy![enter image description here](https://d2908q01vomqb2.cloudfront.net/22d200f8670dbdb3e253a90eee5098477c95c23d/2018/03/28/service-control-policies-04.png)
+
+### [IAM Conditions](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html)
+- The `Condition` element (or `Condition`  _block_) lets you specify conditions for when a policy is in effect
+- E.g. restrict the client IP from which the API calls are being made
+	```json
+	{
+	    "Version": "2012-10-17",
+	    "Statement": {
+	        "Effect": "Deny",
+	        "Action": "*",
+	        "Resource": "*",
+	        "Condition": {
+	            "NotIpAddress": {
+	                "aws:SourceIp": [
+	                    "192.0.2.0/24",
+	                    "203.0.113.0/24"
+	                ]
+	            },
+	            "Bool": {"aws:ViaAWSService": "false"}
+	        }
+	    }
+	}
+	```
+- Find example of conditional policies [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_examples.html)
+
+### [IAM for S3](https://docs.aws.amazon.com/config/latest/developerguide/s3-bucket-policy.html)
+- Bucket level permissions
+	- `ListBucket` permission applies to `arn:aws:s3::test`
+	- E.g. 
+		```json
+		{
+		  "Version": "2012-10-17",
+		  "Statement": [
+		    {
+		      "Sid": "AWSConfigBucketPermissionsCheck",
+		      "Effect": "Allow",
+		      "Action": ["s3:ListBucket"],
+		      "Resource": ["arn:aws:s3:::test"],
+		      "Condition": { 
+		        "StringEquals": {
+		          "AWS:SourceAccount": "{sourceAccountID}"
+		        }
+		      }
+		    }
+		  ]
+	    }
+		```
+- Object level permission
+	- `GetObject`, `PutObject` and `DeleteObject` applies to `arn:aws:s3::test/*`
+	- E.g. 
+		```json
+		{
+		  "Version": "2012-10-17",
+		  "Statement": [
+		    {
+		      "Sid": "AWSConfigBucketPermissionsCheck",
+		      "Effect": "Allow",
+		      "Action": [
+			      "s3:GetObject",
+			      "s3:PutObject".
+			      "s3:DeleteObject"
+			   ],
+		      "Resource": ["arn:aws:s3:::test/*"],
+		      "Condition": { 
+		        "StringEquals": {
+		          "AWS:SourceAccount": "{sourceAccountID}"
+		        }
+		      }
+		    }
+		  ]
+	    }
+		```
+
+### IAM Roles vs Resource based policy
+- When you assume a role (user, application or service), you give up your original permissions and take the permission assigned to the role
+- When using a resource based policy, the principle doesn't have to give up his permissions. 
+	- E.g. A user in Account A needs to scan a DynamoDB table in Account A and dump it in an S3 bucket in Account B
+	- Supported by - S3 buckets, SNS topics, SQS
+
+### [IAM Permission Boundaries](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html)
+- Permissions boundaries are IAM restrictions that define the maximum allowed permissions for an IAM entity available within your AWS account
+- It enables you to delegate work to your trusted employees to perform tasks on your behalf within a specific boundary of permissions 
+![enter image description here](https://docs.aws.amazon.com/IAM/latest/UserGuide/images/EffectivePermissions-scp-boundary-id.png)
+- Check policy evaluation logic [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html)
+
+### [Resource Access Manager](https://docs.aws.amazon.com/ram/latest/userguide/what-is.html)
+- Helps you securely share your resources across AWS accounts, within your organization or organizational units (OUs) in AWS Organizations, and with IAM roles and IAM users for supported resource types
+- You can use RAM to share transit gateways, subnets, AWS License Manager license configurations, Amazon Route 53 Resolver rules, and more [resource types](https://docs.aws.amazon.com/ram/latest/userguide/shareable.html)
+![enter image description here](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/Resource-access-manager.png) 
+
 ###  Tools
  - Credentials Report (Account Level) that lists all your account's users and status of various credentials
  - Access Advisor (User level) shows the service permissions granted to the user and when those accessed
+ 
 ###  Best practices
  - Do not use root account
  - One AWS user = One Physical user
@@ -204,6 +423,299 @@ Q: Which principle should you apply regarding IAM Permissions?
 Q: What should you do to increase your root account security?
 > Enable MFA (You want to enable MFA in order to add a layer of security, so even if your password is stolen, lost or hacked your account is not compromised.)
 
+Q: You have a mobile application and would like to give your users access to their own personal space in the S3 bucket. How do you achieve that?
+> Use Amazon Cognito Identity Federation (used to federate mobile user accounts and provide them with their own IAM permissions, so they can be able to access their own personal space in the S3 bucket)
+
+Q: You have an on-premises identity provider that does not support SAML 2.0, and you want to give your on-premises users access to your resources in the AWS Accounts that you manage. What should you do?
+> Use a Custom Identity Broker to authenticate your users and get temporary credentials from AWS STS using `AssumeRole` or `GetFederationToken` STS API calls
+
+Q: You have strong regulatory requirements to only allow fully internally audited AWS services in production. You still want to allow your teams to experiment in a development environment while services are being audited. How can you best set this up?
+> Create an AWS Organization and create two Prod and Dev OUs, then Apply an SCP on the Prod OU
+
+Q: You have an on-premises Microsoft Active Directory setup and you would like to provide access for your on-premises AD users to the multiple AWS accounts you have. The solution should be scalable for adding accounts in the future. What do you recommend?
+> Setup AWS Single Sign-On
+
+Q: You are managing the AWS account for your company, and you want to give one of the developers access to read files from an S3 bucket. You have updated the bucket policy to this, but he still can't access the files in the bucket. What is the problem?
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+	 {
+        "Sid": "AllowsRead",
+        "Effect": "Allow",
+        "Principal": {
+            "AWS": "arn:aws:iam::123456789012:user/Dave"
+        },
+        "Action": "s3:GetObject",
+        "Resource": "arn:aws:s3:::static-files-bucket-xxx"
+     }
+   ]
+}
+```
+> You should change the resource to `arn:aws:s3:::static-files-bucket-xxx/*` , because this is an object-level permission
+
+Q: Which AWS Directory Service allows you to proxy requests to your on-premises Microsoft Active Directory?
+> AD Connector
+
+Q: Which AWS service allows you to share AWS resources in your AWS Account with other AWS Accounts?
+> Resource Access Manager (helps you securely share your AWS resources within your organization or organizational units (OUs) in AWS Organizations and with AWS Accounts. You can also share resources with IAM Roles and IAM Users)
+
+Q: You have 5 AWS Accounts that you manage using AWS Organizations. You want to restrict access to certain AWS services in each account. How should you do that?
+> Using AWS Organizations SCP
+
+## Monitoring & Audit
+### [CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_architecture.html)
+- Amazon CloudWatch is basically a metrics repository
+- An AWS service—such as Amazon EC2—puts metrics into the repository, and you retrieve statistics based on those metrics
+- If you put your own custom metrics into the repository, you can retrieve statistics on these metrics as well![enter image description here](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/images/CW-Overview.png)
+#### Metrics
+- [Concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html)
+	- *Metric* is a variable to monitor e.g. CPUUtilization, NetworkLoad etc.
+	- Metric belongs to *namespaces*
+	- A *namespace* is a container for CloudWatch *metrics*
+	- *Dimension* is an attribute of a *metric* (instance id, env etc.)
+	- A *dimension* is a name/value pair that is part of the identity of a metric
+	- You can assign up to 10 *dimensions* to a *metric*
+	- Up to 10 *dimensions* per *metric*
+	- Metrics have *timestamps*, each metric data point must be associated with a time stamp
+- Metrics retention
+	- Data points with a period of less than 60 seconds are available for 3 hours. These data points are high-resolution custom metrics
+	- Data points with a period of 60 seconds (1 minute) are available for 15 days
+	- Data points with a period of 300 seconds (5 minute) are available for 63 days
+	- Data points with a period of 3600 seconds (1 hour) are available for 455 days (15 months)
+- Can create CloudWatch dashboards of metrics
+- EC2 Detailed monitoring
+	- EC2 instance metrics have metrics "every 5 mins"
+	- With detailed monitoring (for a cost), you get data "every t mins"
+	- Use it if you want to scale faster for your ASG
+	- Free AWS tier allows us to have 10 detailed monitoring metrics
+- Custom
+	- Possibility to define and send your own metrics e.g. memory usage, disk space etc.
+	-  Use API call *PutMetricData*
+	- Ability to use dimensions to segmented metrics
+	- Metric resolution (StorageResolution API parameters)
+		- Standard 60 secs
+		- HR 1/5/10/30 sec (Higher cost)
+		- Accepts metric data points 2 weeks in the past and 2 hours in the future
+- Dashboards
+	- Can setup custom dashboards for quick access to metrics and alarms
+	- Global, can includes graphs from different AWS account and regions
+	- You can change time zone and range
+	- Can setup auto refresh (10s, 1m, 2m, 5m, 15m)
+	- Can be shared with people who don't have an AWS account (public, email address, 3rd party SSO provider through Cognito)
+	- 3 dashboards (up to 50 metrics)  are free
+	- $3 per dashboard per month afterwards
+#### CloudWatch logs
+- Monitor, store, and access your log files from EC2 instances, CloudTrail, Route 53, and other sources
+- Centralize the logs from all of your systems, applications, and AWS services that you use
+- **Features**
+	- Query your log data
+	- Monitor logs from Amazon EC2 instances
+	- Monitor AWS CloudTrail logged events
+	- Log retention
+	- Archive log data
+	- Log Route 53 DNS queries
+- [Concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogsConcepts.html)
+	- A *log event* is a record of some activity recorded by the application or resource being monitored
+	- *Log groups* define groups of log streams, usually represents application name
+	- A *log stream* is a sequence of log events that share the same source, basically instances within application, log files or containers
+	- You can use *metric filters* to extract metric observations from ingested events and transform them to data points in a CloudWatch metric
+- Can define log expiration policies (never expires, 30 days etc.)
+- Can be send logs to
+	- S3 (export)
+		- Can take up to 12 hours to become available for exports
+		- API call is *CreateExportTask*
+		- Not near real time, use *log subscription* instead
+	- Kinesis Data Streams
+	- Kinesis Data Firehose
+	- Lambda
+	- ElasticSearch
+- Logs subscription
+	- Real-time feed of log events from CloudWatch Logs
+	- Deliverers to other services such as an Amazon Kinesis stream, an Amazon Kinesis Data Firehose stream, or AWS Lambda for custom processing, analysis, or loading to other systems	![enter image description here](https://miro.medium.com/max/1838/1*RaSZJd2av4wo2monG6nyZg.png)
+	- You can use a subscription filter with *Kinesis, Lambda, or Kinesis Data Firehose*
+	- Logs that are sent to a receiving service through a *subscription filter* are *Base64* encoded and compressed with the *gzip* format
+- **Sources** 
+	- SDK, CloudWatch Logs Agents, CloudWatch Unified Agent
+	- Elastic Beanstalk - collection of logs from application
+	- ECS - collection from containers
+	- AWS Lambda - collection from function logs
+	- VPC flow logs
+	- API Gateway
+	- CloudTrail based on filter
+	- Route53 - log DNS queries
+- *Metric Filter* can be used to trigger CloudWatch alarms
+- CloudWatch *Logs insights* can be used to query logs and add queries to dashboards
+#### **Agent**
+- By default, no logs from your EC2 machine will go to CloudWatch
+- You need to run a *agent* on EC2 to push the log files you want
+- Make sure IAM permission given to *agent* to push logs to CloudWatch
+- Can be setup on-premise too
+- *Logs Agent*
+	- Old version of the agent
+	- Can only sends to *CloudWatch Logs*
+- *Unified Agent*
+	- Collect additional system level metrics such as RAM, processed etc. 
+	- Collect logs to sends to *CloudWatch Logs*
+	- Centralized configuration using SSM parameter store
+	- Metrics
+		- Collected directly on your Linux sever / ec2 instance
+		- CPU status
+		- RAM
+		- Disk metrics
+		- Netstat
+		- Processes
+		- Swap space
+#### Alarms
+- Used to trigger notification for any metrics![enter image description here](https://dmhnzl5mp9mj6.cloudfront.net/security_awsblog/images/notifications_illustration_p.png)
+- Has various options i.e. sampling, %, max, min, etc.
+- *States*
+	- OK
+	- INSUFFCIENT_DATA
+	- ALARM
+- *Period*
+	- Length of time in secs to evaluate the metric
+	- High resolution custom metrics - 10 sec, 30 sec or multiple of 60 sec
+- *Targets*
+	- EC2 - Stop, Terminates, reboot or recover an EC2 instance
+	- Auto Scaling - Triggering Auto scaling action i.e. scale in / scale out
+	- SNS - Send notification to SNS
+- EC2 instance recovery
+	- Status check - check EC2 VM
+	- System check - check underlaying hardware
+	- Created alarm will monitor EC2 instance which will look for metric (e.g. *StatusCheckFailed_System*) and if this alarm get triggered then EC2 instance recovery will be started (with same private, public, elastic IP, metadata and placement group)
+	- Send alert to SNS topic about recovery
+#### CloudWatch  Events
+- [CloudWatch  Events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/WhatIsCloudWatchEvents.html) delivers a near real-time stream of system events that describe changes in AWS resources
+- Using simple rules that you can quickly set up, you can match events and route them to one or more target functions or streams
+- Becomes aware of operational changes as they occur and takes corrective action as necessary, by sending messages to respond to the environment, activating functions, making changes, and capturing state information
+- Scheduled or Cron (e.g. create an event every 4 hours)
+- JSON payload is created from the event and passed to a *target*
+### [EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html)
+- Next evolution of CloudWatch Events. builds upon and extends CloudWatch Events
+- It uses the same service API and endpoint, and same underlaying service infrastructure
+- Is a serverless event bus service that you can use to connect your applications with data from a variety of sources
+- EventBridge receives an _[event](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-events.html)_, an indicator of a change in environment, and applies a [rule](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rules.html) to route the event to a [target](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html)
+- Rules match events to targets based on either the structure of the event, called an _[event pattern](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html)_, or on a schedule. For example, when an Amazon EC2 instance changes from pending to running, you can have a rule that sends the event to a Lambda function
+- All events that come to EventBridge are associated with an [event bus](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus.html). Rules are tied to a single event bus, so they can only be applied to events on that event bus
+- Your account has a default event bus which receives events from AWS services, and you can create custom event buses to send or receive events from a different account or Region
+- EventBridge _[API destinations](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-api-destinations.html)_ are HTTP endpoints that you can set as the target of a rule. By using API destinations, you can use REST API calls to route events between AWS services, integrated SaaS applications, and your applications outside of AWS
+- You can _[archive](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-archive-event.html)_, or save, events and then [replay](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-replay-archived-event.html) them at a later time from the archive
+- Supports [identity-based](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-use-identity-based.html) and [resource-based](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-use-resource-based.html) policies to control access to EventBridge
+- Types of bus
+	- _Default event bus_ - Generated by AWS services (CloudWatch Events)
+	- _Partner event bus_ - Receive events from SaaS service or applications (Auth0, Zendesk etc.)
+	- _custom event bus_ - For your own applications
+- Event buses can be accessed by other AWS accounts
+- _Schema Registry_
+	-  A schema defines the structure of _event_ that are sent to EventBridge
+	- Schema Registry allows you to generate code for your application that will know in advance how data is structured in the event bus
+	- Can be versioned
+- Over the time, *CloudWatch Events* name will be replaced with *EventBridge* (same thing but added capabilities)
+### [CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html)
+- Provide governance, compliance and audit for your AWS account
+- Enabled by default
+- Gets an history of events or API calls made within your account by Console, SDK, CLI and services
+- Can put logs from CloudTrail into CloudWatch Logs or S3
+- A trail can be applied to all regions or single region
+- If resource is deleted in AWS, investigate CloudTrail![enter image description here](https://miro.medium.com/max/1400/1*ejnlSrZ4eT1_BZPzT0WycA.png)
+- _Events_
+	-  Management events
+	   - Operations that are performed on resources
+	   - E.g. Configuring security (*IAM AttachRolePolicy*)
+	   - By default, trails are configured to log management events
+	   - Can separate *Read Events* from *Write Events*
+	-  Data Events 
+		- By default, data events are not logged due to high data volume
+		- e.g. S3 operations
+	- *Insights events*
+		-  Detects unusual activities like inaccurate resource provisioning, hitting service limits and bursts of AWS IAM actions
+		- Analyzes normal management events to create baseline and then continuously analyze write events to detect unusual patterns
+- *Retention*
+	- Stored for 90 days
+	- To keep beyond that period, log them to S3 and use Athena
+
+### [AWS Config](https://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html)
+- Helps with recording compliance and audit in your AWS account
+- Helps record configuration and changes over time like
+	- Is there unrestricted SSH access to my SG
+	- Do my buckets have any public access
+	- How has my ALB configuration changed over time?
+- You can receive alerts (SNS notification) for any changes
+- AWS config is per region service
+- Can be aggregated across region and accounts
+- **Config Rules**
+	- Can make custom config rules (must be defined in Lambda)
+		- E.g. evaluate if each EBS disk is of type gp2
+	- Rules can be evaluated / triggered
+		- For each config change
+		- And / Or at regular time intervals
+	- **It does not prevent actions from happening**
+	- We can automate remediation of non-compliant resource using SSM Automation Documents
+	- You can set Remediation Retries if the resource is still non-compliant  after Auto remediation 
+	- Use *EventBridge* to trigger notification when resource is non-compliant, has abilities to send configuration changes and compliance state notifications to SNS
+- **Config Resources**
+	- View compliance of a resource over time
+	- View configuration of a resource over time
+	- View CloudTrail API calls of a resource over time
+- No free tier, $0.003 per configuration item recorded per region and $0.001 per config rule evaluation per region
+### Case Study
+- For ELB
+	- CloudWatch
+		- Monitors incoming connection metrics
+		- Visualize errors codes as a % over time
+		- Makes a dashboard to get an idea of your load balancer performance
+	- CloudTrail
+		- Track who made any changes to the load balancer with API calls
+	- Config
+		- Track security group rules for the Load Balancer
+		- Track configuration changes for the Load Balancer
+		- Ensure an SSL certificate always assigned to the Load Balancer (Compliance)
+### Q&A
+Q: You have a couple of EC2 instances in which you would like their Standard CloudWatch Metrics to be collected every 1 minute. What should you do??
+> Enable detailed monitoring (This is a paid offering and is disabled by default. When enabled, the EC2 instance's metrics are available in 1-minute periods)
+
+Q: High-Resolution Custom Metrics can have a minimum resolution of
+> 1 Second
+
+Q: You have an RDS DB instance that's configured to push its database logs to CloudWatch. You want to create a CloudWatch alarm if there's an `**Error**` found in the logs. How would you do that?
+> Create a CloudWatch Logs Metric Filter that filter the logs for the keyword, then create a CloudWatch Alarm based on that Metric Filter
+
+Q: You have an application hosted on a fleet of EC2 instances managed by an Auto Scaling Group that you configured its minimum capacity to 2. Also, you have created a CloudWatch Alarm that is configured to scale in your ASG when CPU Utilization is below 60%. Currently, your application runs on 2 EC2 instances and has low traffic and the CloudWatch Alarm is in the **ALARM** state. What will happen?
+> The CloudWatch Alarm will remain in ALARM state but never decrease the number of EC2 instances in the ASG (The number of EC2 instances in an ASG can not go below the minimum capacity, even if the CloudWatch alarm would in theory trigger an EC2 instance termination)
+
+Q: How would you monitor your EC2 instance memory usage in CloudWatch?
+> Use the Unified CloudWatch Agent to push memory usage as a custom metric to CloudWatch
+
+Q: A CloudWatch Alarm set on a High-Resolution Custom Metric can be triggered as often as
+> 10 Seconds (If you set an alarm on a high-resolution metric, you can specify a high-resolution alarm with a period of 10 seconds or 30 seconds, or you can set a regular alarm with a period of any multiple of 60 seconds)
+
+Q: You have made a configuration change and would like to evaluate the impact of it on the performance of your application. Which AWS service should you use?
+> Amazon CloudWatch (is a monitoring service that allows you to monitor your applications, respond to system-wide performance changes, optimize resource utilization, and get a unified view of operational health. It is used to monitor your applications' performance and metrics)
+
+Q: Someone has terminated an EC2 instance in your AWS account last week, which was hosting a critical database that contains sensitive data. Which AWS service helps you find who did that and when?
+> AWS CloudTrail (allows you to log, continuously monitor, and retain account activity related to actions across your AWS infrastructure. It provides the event history of your AWS account activity, audit API calls made through the AWS Management Console, AWS SDKs, AWS CLI. So, the EC2 instance termination API call will appear here. You can use CloudTrail to detect unusual activity in your AWS accounts)
+
+Q: You have CloudTrail enabled for your AWS Account in all AWS Regions. What should you use to detect unusual activity in your AWS Account?
+> CloudTrail Insights
+
+Q: One of your teammates terminated an EC2 instance 4 months ago which has critical data. You don't know who made this so you are going to review all API calls within this period using CloudTrail. You already have CloudTrail set up and configured to send logs to the S3 bucket. What should you do to find out who made this?
+> Analyze CloudTrail logs in S3 bucket using Amazon Athena
+
+Q: You are running a website on a fleet of EC2 instances with OS that has a known vulnerability on port 84. You want to continuously monitor your EC2 instances if they have port 84 exposed. How should you do this?
+> Setup Config Rules
+
+Q: You would like to evaluate the compliance of your resource's configurations over time. Which AWS service will you choose?
+> AWS Config
+
+Q: Someone changed the configuration of a resource and made it non-compliant. Which AWS service can you use to find out who made the change?
+> CloudTrail 
+
+Q: You have enabled AWS Config to monitor Security Groups if there's unrestricted SSH access to any of your EC2 instances. Which AWS Config feature can you use to automatically re-configure your Security Groups to their correct state?
+> AWS Config Remediation
+
+Q: You are running a critical website on a set of EC2 instances with a tightened Security Group that has restricted SSH access. You have enabled AWS Config in your AWS Region and you want to be notified via email when someone modified your EC2 instances' Security Group. Which AWS Config feature helps you do this?
+> AWS Config Notifications
 
 ## [EC2 (Elastic Compute Cloud)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html)
 - Provides scalable computing capacity in the Amazon Web Services (AWS) Cloud
@@ -394,7 +906,8 @@ Q: What should you do to increase your root account security?
  	- An instance is a virtual server in the cloud
 	- Your instances keep running until you stop, hibernate, or terminate them, or until they fail
 	- AWS account has a limit on the number of instances that you can have running
-	- The root device for your instance contains the image used to boot the instance. The root device is either an EBS		   volume or an instance store volume
+	- The root device for your instance contains the image used to boot the instance. 
+	- The root device is either an EBS volume or an instance store volume
 - You can launch multiple instances of an AMI     
 - Built for specific region only (and can be copied across regions)
 - By default its private and locked for your account/region
