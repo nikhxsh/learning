@@ -2472,15 +2472,12 @@ Q: Your gaming website is currently running on top of DynamoDB. Users have been 
 
 ## Route 53
  - [Docs](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html)
- - DNS (Domain name system) is collection of rules and records which helps client to understand how to reach a server     
-   through its domain name
- - Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web service. You can use Route 53 
-    to perform three main functions in any combination: domain registration, DNS routing, and health checking.
+ - DNS (Domain name system) is collection of rules and records which helps client to understand how to reach a server through its domain name
+ - Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web service. You can use Route 53 to perform three main functions in any combination: domain registration, DNS routing, and health checking.
  - In aws, more common records are
 	 - A: Hostname to IPv4
 	 - AAAA: hostname to IPv6
-     - CNAME: hostname to hostname (only work for non root domain e.g. works for mydomain.root.com 
-   	  but not for root.com)
+     - CNAME: hostname to hostname (only work for non root domain e.g. works for mydomain.root.com but not for root.com)
 - Alias: hostname to AWS resource (free of charge and has native health check)
 - Web browser makes DNS request for myapp.domain.com to Route 53, and ot will send back IP for 	application server
 - Can be use to
@@ -2502,18 +2499,13 @@ Q: Your gaming website is currently running on top of DynamoDB. Users have been 
 	 - Can integrate with CloudWatch
 	 - can be linked with DNS queries
 - Routing Policy
-   - Simple: use when need to redirect single resource, can health check, if multiple values 
-   		  are returned then random one is chosen by the client
+   - Simple: use when need to redirect single resource, can health check, if multiple values are returned then random one is chosen by the client
    - Weighted: % of requests goes to specific endpoints, split traffic between regions
-   - Latency: redirect to server that has least latency close to us, useful when latency is 
-   		  a priority, evaluated in terms of user location to designated AWS region
-   - Failover: If health check of primary endpoint fails then DNS request redirected to disaster
-   		  recovery endpoint
+   - Latency: redirect to server that has least latency close to us, useful when latency is a priority, evaluated in terms of user location to designated AWS region
+   - Failover: If health check of primary endpoint fails then DNS request redirected to disaster recovery endpoint
    - Geolocation: Route traffic to your resource based on user location with default redirect
-   - Geoproximity: Route traffic to your resource based on the geographic locations of the users,
-   		  has ability to shift more on defined bias values, need Route 53 Traffic flow (advanced)
-   - Multi Value: Use when traffic to multi-resources with associated health checks, up to 8 healthy
-   		  records are returned for each multi-value query, not a substitute for ELB
+   - Geoproximity: Route traffic to your resource based on the geographic locations of the users, has ability to shift more on defined bias values, need Route 53 Traffic flow (advanced)
+   - Multi Value: Use when traffic to multi-resources with associated health checks, up to 8 healthy records are returned for each multi-value query, not a substitute for ELB
    - Route 53 also a Registrar which manage reserved internet domain (Domain name != Registrar)
 
 ### Route 53 Q&A	
@@ -3513,6 +3505,324 @@ Q: You would like to provide a Facebook login before your users call your API ho
 Q: Your production application is leveraging DynamoDB as its backend and is experiencing smooth sustained usage. There is a need to make the application run in development as well, where it will experience unpredictable, sometimes high, sometimes low volume of requests. You would like to make sure you optimize for cost. What do you recommend?
 > Provision WCU & RCU and enable auto-scaling for production and use on-demand capacity for development
 
+## Security
+### Encryption
+- *In flight (SSL)*
+	- Data is encrypted before sending and decrypted after receiving 
+	- SSL certificates helps with encryption (HTTPS)
+	- Encryptions in flight ensures no MITM (man in middle attack)
+- *Server side encryption at rest*
+	- Data is encrypted after being received by the server
+	- Data is decrypted before being sent
+	- It is stored in an encrypted form, thanks to a key (data key)
+	- The encryption/decryption key must be managed somewhere and the server must not have access to it
+- *Client side encryption*
+	- Data is encrypted by client and never decrypted by the server
+	- Data will be decrypted  by a receiving client
+	- Could leverage Envelope Encryption
+### [KMS](https://docs.aws.amazon.com/kms/latest/developerguide/overview.html)
+- Create and control the cryptographic keys that are used to protect your data
+- Fully integrated with IAM for authorization
+- Seamlessly integrated with
+	- EBS - Encrypt volumes
+	- S3 - Encrypt objects (sever side)
+	- Redshift - Encrypt data
+	- RDS - Encrypt data
+	- SSM - Parameter store
+- You can also use the CLI/SDK
+- Customer Master Key (CMK) types
+	- You can use a KMS key to encrypt, decrypt, and re-encrypt data
+	- It can also generate data keys that you can use outside of AWS KMS
+	- _KMS key_ is a logical representation of an encryption key
+	- In addition to the key material used to encrypt and decrypt data, a KMS key includes metadata, such as the key ID, creation date, description, and key state
+	- [Symmetric key (AES-256)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks)
+		- When you create an AWS KMS key, by default, you get a symmetric KMS key
+		- AWS services that are integrated with KMS use Symmetric CMKs
+		- Necessary for envelope encryption
+		- You never get access to the unencrypted key (you must call AWS KMS to get the key)
+	- [Asymmetric key (RSA & ECC pairs)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#asymmetric-keys-concept)
+		- Represents a mathematically related public key (encryption) and private key (decryption) pair (that's how SSL works)
+		- Used for Encrypt/Decrypt, or Sign/Verify operations
+		- You can download public key, however private key is not accessible
+		- Use Case - encryption outside of AWS by users who can't call the KMS API
+- Use KMS, anytime you need to share sensitive information like
+	- Database passwords
+	- Creds to external service
+	- Private Key of SSL certificates
+- KMS can only help in encrypting up to 4KB of data per call, if data > 4KB use envelope encryption
+- To give access to KMS to someone
+	- [Key Policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html) to allow the user
+		- Default - AWS account (root user) that owns the KMS key will have full access to the KMS key and enables IAM policies in the account to allow access to the KMS key
+			```json
+			{
+			  "Sid": "Enable IAM policies",
+			  "Effect": "Allow",
+			  "Principal": {
+			    "AWS": "arn:aws:iam::111122223333:root"
+			   },
+			  "Action": "kms:*",
+			  "Resource": "*"
+			}
+			```
+		- Custom - For users, roles. Also can define who can administer the key. useful for cross account access of your KMS key
+	- [IAM Policy](https://docs.aws.amazon.com/kms/latest/developerguide/iam-policies.html) to allow the API calls
+		- Attach a permissions policy to a user or a group
+		- Attach a permissions policy to a role for federation or cross-account permissions
+		- e.g. allow the IAM identities to which it is attached to list all KMS keys and alias
+			```json
+			{
+			  "Version": "2012-10-17",
+			  "Statement": {
+			    "Effect": "Allow",
+			    "Action": [
+			      "kms:ListKeys",
+			      "kms:ListAliases"
+			    ],
+			    "Resource": "*"
+			  }
+			} 
+			```
+- **Copying snapshot across accounts** (which using KMS encryption)
+	- You have EBS volume encrypted with CMK *Key A*
+	- Create a snapshot, encrypted with CMK *Key A*
+	- Attach a KMS key policy to authorize cross-account access (allow target to read our key)
+	- Share encrypted snapshot
+	- In target, create a copy of the snapshot, re-encrypt it with a new KMS *Key B* 
+	- Create volume encrypted from that snapshot with a new KMS *Key B* 
+	- More details are [here](https://aws.amazon.com/blogs/security/how-to-create-a-custom-ami-with-encrypted-amazon-ebs-snapshots-and-share-it-with-other-accounts-and-regions/) ![enter image description here](https://d2908q01vomqb2.cloudfront.net/22d200f8670dbdb3e253a90eee5098477c95c23d/2016/09/29/solutiondiagram_ey_AMIs_a.png)
+- [Key Rotation](https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html)
+	- For customer managed CMK (Not for AWS managed CMK)
+	- *Automatic rotation* 
+		- Key rotation happens every 1 year
+		- Previous key is kept active so you can decrypt old data
+		- New key has then same CMK ID (only the backing key is changed) ![enter image description here](https://docs.aws.amazon.com/kms/latest/developerguide/images/key-rotation-auto.png)
+	-  *Manual rotation*
+		- Key rotation can happen every 90 days, 180 days etc.
+		- New key has a different CMK ID
+		- Previous key is kept active so you can decrypt old data
+		- Better to use aliases in this case (to hide change of key id)
+		- Good solution to rotate CMK which can not be rotate automatically (like asymmetric CMK) ![enter image description here](https://docs.aws.amazon.com/kms/latest/developerguide/images/key-rotation-manual.png)
+### [SSM Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html)
+- Secure storage for configuration and secrets
+- Optional encryption using KMS
+- Serverless, scalable, durable, easy SDK
+- Versioning of configuration and secrets
+- Notification with CloudWatch Events
+- Integration with CloudFormation
+- Policies
+	- Allow to assign a TTL to a parameter (expiration date) to force updating or deleting sensitive data such as password
+	- Can assign multiple policies at a time
+	- *Expiration* - When the expiration date and time is reached, Parameter Store deletes the parameter
+		```json
+		{
+		  "Type":"Expiration",
+		  "Version":"1.0",
+		  "Attributes":{
+		     "Timestamp":"2018-12-02T21:34:33.000Z"
+		  }
+		}
+		```
+	- *ExpirationNotification* - This policy initiates an event in Amazon EventBridge (EventBridge) that notifies you about the expiration
+		```json
+		{
+		 "Type":"ExpirationNotification",
+		 "Version":"1.0",
+		 "Attributes":{
+		    "Before":"15",
+		    "Unit":"Days"
+		 }
+		}
+		```
+	- *NoChangeNotification* - This policy initiates an event in EventBridge if a parameter has _not_ been modified for a specified period of time
+		```json
+		{
+		   "Type":"NoChangeNotification",
+		   "Version":"1.0",
+		   "Attributes":{
+		      "After":"20",
+		      "Unit":"Days"
+		   }
+		}
+		```
+### [Secret Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html)
+-	New service, meant for storing secrets
+-	Capability to force *rotation of secrets* every X days
+-	Automate generation of secrets on rotation (uses Lambda)
+-	Has integration with RDS
+-	Secrets are encrypted using KMS
+-	Mostly meant for RDS integration
+-	In Secrets Manager, a _secret_ consists of a set of credentials, user name and password, and the connection details to access a database or other service
+-	A secret has metadata
+	-	ARN - `arn:aws:secretsmanager:<Region>:<AccountId>:secret:SecretName-<6RandomCharacters>`
+	-	The name of the secret, a description, a resource policy, and tags
+	-	The ARN for an _encryption key_, an AWS KMS key that Secrets Manager uses to encrypt and decrypt the secret value
+	-	Information about how to rotate the secret
+-	A secret has _versions_ which hold copies of the encrypted secret value ![enter image description here](https://res.cloudinary.com/practicaldev/image/fetch/s--VgHWgUbW--/c_limit,f_auto,fl_progressive,q_auto,w_880/https://thepracticaldev.s3.amazonaws.com/i/a25p0b9tmxsosoh4khj7.png)
+### [CloudHSM](https://docs.aws.amazon.com/crypto/latest/userguide/awscryp-service-hsm.html)
+- Service for creating and maintaining hardware security modules (HSM)
+- AWS provisions encryption hardware
+- Dedicated hardware (HSM)
+- You manage your own encryption keys entirely
+- HSM device is tamper resistant
+- Support both symmetric and asymmetric encryption
+- No free tier
+- Must use the CloudHSM Client software
+- Redshift supports CloudHSM for DB encryption and key management
+- Good option to use with SSE-C encryption
+- More details [here](https://aws.amazon.com/blogs/aws/aws-cloud-hsm-secure-key-storage-and-cryptographic-operations/)
+
+### [Shield](https://docs.aws.amazon.com/waf/latest/developerguide/ddos-overview.html)
+- Free service that is activated for every AWS customer
+- Provides protection from attacks such as SYN/UDP floods, reflection attacks and other layer3/layer4 attacks
+- Optional DDoS mitigation service ($3000/month/organization)
+- Protects against more sophisticated attack on EC2, ELB, CloudFront, Global Accelerator and Route 53
+- 24/7 access to AWS DDoS response team
+- Protect against higher fees during usage spikes due to DDoS
+
+### [Web Application Firewall (WAF)](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html)
+- Protects your web application from commo web exploits (Layer 7 i.e HTTP)
+- Deploy on ALB, API gateway and CloudFront only
+- Define Web ACL (Access Control List)
+	- Rules that can includes IP address, HTTP headers, HTTP Body or URI strings
+	- Protects from common attacks such SQL injection and Cross Site Scripting (XSS)
+	- Can define size constraint, geo-match (to block countries)
+	- Rate based rules for DDoS protection
+- WAF vs Shield ![enter image description here](https://static.wixstatic.com/media/7ac7b2_7af300d480324ef485e79912c21f4eb1~mv2.png/v1/fill/w_1000,h_543,al_c,usm_0.66_1.00_0.01/7ac7b2_7af300d480324ef485e79912c21f4eb1~mv2.png)
+
+### Guard​Duty
+- Intelligent Threat discovery to protect account
+- Uses ML algorithms, anomaly detection, 3rd party data
+- One click to enable (30 days trial)
+- Input data for *Guard​Duty* includes
+	- *CloudTrail Logs* - unusual API calls, unauthorized deployments
+	- *VPC flow logs* - unusual internal traffic, unusual IP address
+	- *DNS logs* - compromised EC2 instances sending encoded data within DNS queries
+- Can setup *CloudWatch Event* rules to be notified in case of findings
+- CloudWatch Event rules can target AWS Lambda or SNS
+- Can protect against *Cryptocurrency* attacks ![enter image description here](https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2018/05/15/GuardDuty-Integration.jpg)
+
+### Inspector
+- An automated security assessment service that helps improve the security and compliance of applications deployed on AWS
+- For EC2 instances only
+- Analyze the running OS against known vulnerabilities
+- Analyze against unintended network accessibility
+- To use, AWS inspector agent must be installed on underlaying OS of EC2 instance
+- After assessment, you get a report with a list of vulnerabilities
+- Possibility to send notifications to SNS ![enter image description here](https://d2908q01vomqb2.cloudfront.net/22d200f8670dbdb3e253a90eee5098477c95c23d/2017/11/18/part1-Step0-Overview-v2-a-1260x490.png)
+- *For network assessment*
+	- Agentless
+	- Check against network reachability
+- *For host assessment*
+	- With agent
+	- Check against common vulnerabilities and exposures
+	- Center for internet security benchmarks
+### Macie
+- Fully managed data security and data privacy service that uses machine learning and pattern matching to discover and protect your sensitive data in AWS
+- Macie automatically provides an inventory of Amazon S3 buckets including a list of unencrypted buckets, publicly accessible buckets, and buckets shared with AWS accounts outside those you have defined in AWS Organizations.
+- Then, Macie applies machine learning and pattern matching techniques to the buckets you select to identify and alert you to sensitive data, such as personally identifiable information (PII)
+- This can help you meet regulations, such as the Health Insurance Portability and Accountability Act (HIPAA) and General Data Privacy Regulation (GDPR) ![enter image description here](https://d1.awsstatic.com/product-marketing/macie/Product-Page-Diagram_AWS-Macie@2x.369dcc5a001e7a44b121d65637ff82b60b809148.png)
+
+### [Shared Responsibility](https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/shared-responsibility.html)
+- The responsibility for security and compliance is shared between AWS and you
+- *AWS responsibility*
+	- Security **of** the cloud
+	- Protecting infra (hardware, software, facilities and networking) that runs all the AWS services
+	- Managed services like S3, DynamoDB, RDS, etc.
+- *Customer responsibility*
+	- Security **in** the cloud
+	- For EC2 instance, customer responsible for management of guest OS. firewall & network configuration
+	- Encrypting application data
+- Shared control	- Patch management, Configuration Management, Awareness & training
+- Example, for RDS
+	- *AWS responsibility*
+		- Manage underlaying EC2 instances, disable SSH
+		- Automate DB patching
+		- Automate OS patching
+		- Audit the underlaying instance & disks
+	- *Customer responsibility*
+		- Check the ports/IP/SG inbound rules
+		- In database server creation and permission
+		- Creating database with or without public access
+		- Ensure parameter group or DB is configures to only allow SSL
+		- Database encryption setting
+-  Example, for S3
+	- 	*AWS responsibility*
+		- Guarantee you get unlimited storage
+		- Guarantee you get encryption
+		- Ensure separation of the data between different customers
+		- Ensure AWs employeed can't acess your data
+	- *Customer responsibility*
+		- Bucker configuration
+		- Bucket policy/public setting
+		- IAM user and roles
+		
+### Security Q&A
+Q: To enable In-flight Encryption (In-Transit Encryption), we need to have ...
+> an HTTPS endpoint with an SSL certificate (In-flight Encryption = HTTPS, and HTTPS can not be enabled without an SSL certificate)
+
+Q: Server-Side Encryption means that the data is sent encrypted to the server.
+> False (Server-Side Encryption means the server will encrypt the data for us. We don't need to encrypt it beforehand)
+
+Q: In Server-Side Encryption, where do the encryption and decryption happen?
+> Both Encryption and Decryption happen on the server (In Server-Side Encryption, we couldn't be able to decrypt the data ourselves as we can't have access to the corresponding encryption key)
+
+Q: In Client-Side Encryption, the server must know our encryption scheme before we can upload the data
+> False (With Client-Side Encryption, the server doesn't need to know any information about the encryption scheme being used, as the server will not perform any encryption or decryption operations)
+
+Q: You need to create KMS Keys in AWS KMS before you are able to use the encryption features for EBS, S3, RDS ...
+> False (You can use the AWS Managed Service keys in KMS, therefore we don't need to create our own KMS keys. However, you could also create your own keys for AWS to do the encryption, but it's not mandatory)
+
+Q: AWS KMS supports both symmetric and asymmetric KMS keys
+> True (KMS keys can be symmetric or asymmetric. A symmetric KMS key represents a 256-bit key used for encryption and decryption. An asymmetric KMS key represents an RSA key pair used for encryption and decryption or signing and verification, but not both. Or it represents an elliptic curve (ECC) key pair used for signing and verification)
+
+Q: When you enable Automatic Rotation on your KMS Key, the backing key is rotated every ...
+> 1 year
+
+Q: You have an AMI that has an encrypted EBS snapshot using KMS CMK. You want to share this AMI with another AWS account. You have shared the AMI with the desired AWS account, but the other AWS account still can't use it. How would you solve this problem?
+> You need to share the KMS CMK used to encrypt the AMI with the other AWS account
+
+Q: You have created a Customer-managed CMK in KMS that you use to encrypt both S3 buckets and EBS snapshots. Your company policy mandates that your encryption keys be rotated every 3 months. What should you do?
+> Rotate the KMS CMK manually. Create a new KMS CMK and use Key Aliases to reference the new KMS CMK. Keep the old KMS CMK so you can decrypt the old data
+
+Q: What should you use to control access to your KMS CMKs?
+> KMS key policies
+
+Q: You have a Lambda function used to process some data in the database. You would like to give your Lambda function access to the database password. Which of the following options is the most secure?
+> Have it as an encrypted environment variable and decrypt it at runtime
+
+Q: You have a secret value that you use for encryption purposes, and you want to store and track the values of this secret over time. Which AWS service should you use?
+> SSM Parameters Store (can be used to store secrets and has built-in version tracking capability. Each time you edit the value of a parameter, SSM Parameter Store creates a new version of the parameter and retains the previous versions. You can view the details, including the values, of all versions in a parameter's history)
+
+Q: According to AWS Shared Responsibility Model, what are you responsible for in RDS?
+> SG rules
+
+Q: Your user-facing website is a high-risk target for DDoS attacks and you would like to get 24/7 support in case they happen and AWS bill reimbursement for the incurred costs during the attack. What AWS service should you use?
+> AWS Shield Advanced
+
+Q: You would like to externally maintain the configuration values of your main database, to be picked up at runtime by your application. What's the best place to store them to maintain control and version history?
+> SSM Parameters Store
+
+Q: You would like to use a dedicated hardware module to manage your encryption keys and have full control over them. What do you recommend?
+> CloudHSM
+
+Q: AWS GuardDuty do not scans the following data sources ...
+> CloudWatch Logs
+
+Q: You have a website hosted on a fleet of EC2 instances fronted by an Application Load Balancer. What should you use to protect your website from common web application attacks (e.g., SQL Injection)?
+> WAF
+
+Q: You would like to analyze OS vulnerabilities from within EC2 instances. You need these analyses to occur weekly and provide you with concrete recommendations in case vulnerabilities are found. Which AWS service should you use?
+> Inspector
+
+Q: What is the most suitable AWS service for storing RDS DB passwords which also provides you automatic rotation?
+> Secret Manager
+
+Q: Which AWS service allows you to centrally manage EC2 Security Groups and AWS Shield Advanced across all AWS accounts in your AWS Organization?
+> AWS Firewall Manager (is a security management service that allows you to centrally configure and manage firewall rules across your accounts and applications in AWS Organizations. It is integrated with AWS Organizations so you can enable AWS WAF rules, AWS Shield Advanced protection, security groups, AWS Network Firewall rules, and Amazon Route 53 Resolver DNS Firewall rules)
+
+Q: Which AWS service helps you protect your sensitive data stored in S3 buckets?
+> Amazon Macie (is a fully managed data security service that uses Machine Learning to discover and protect your sensitive data stored in S3 buckets. It automatically provides an inventory of S3 buckets including a list of unencrypted buckets, publicly accessible buckets, and buckets shared with other AWS accounts. It allows you to identify and alert you to sensitive data, such as Personally Identifiable Information (PII))
+
 ## Deployment
 ### [Elastic Beanstalk](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html)
 - Beanstalk, you can quickly deploy and manage applications in the AWS Cloud without having to learn about 
@@ -3533,6 +3843,7 @@ Q: Your production application is leveraging DynamoDB as its backend and is expe
 - Full control over lifecycle of environments
 
 ## Solution Architecture Discussions
+
 ### Classic
 - We're considering 5 pillars for a well architect application: Cost, Performance, Reliability, Security & Operational Excellence
 - **WhatIsTheTime.com (Stateless)**
@@ -3612,8 +3923,7 @@ Q: Your production application is leveraging DynamoDB as its backend and is expe
 		- Cognito will generate temp credentials for Client by calling AWS STS 
 		- Client can use this temp credentials to access S3 bucket to store/retrieve files
 		- Use DAX Caching layer for increase RCUs
-		- Use API response caching
-	- ![enter image description here](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-mytodolist.png)
+		- Use API response caching![enter image description here](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-mytodolist.png)
 - **MyBlog.com**
 	- Requirement
 		- Should scale globally
@@ -3629,8 +3939,7 @@ Q: Your production application is leveraging DynamoDB as its backend and is expe
 		- Use DAX Caching layer for increase RCUs
 		- Can use DynamoDB Global tables
 		- Use DynamoDB stream to invoke Lambda which will AWS Simple Message Service to send Email
-		- S3 will call Lambda which will generate thumbnail and save to S3 (optionally can push to SQS and SNS)
-	- ![enter image description here](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-myblog.com.png)
+		- S3 will call Lambda which will generate thumbnail and save to S3 (optionally can push to SQS and SNS)![enter image description here](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-myblog.com.png)
 - **Micro Services**
 	- Requirement
 		- Synchronous & asynchronous patterns
@@ -3639,8 +3948,7 @@ Q: Your production application is leveraging DynamoDB as its backend and is expe
 	- Solutions
 		- Synchronous using API Gateway and Load balancer
 		- Asynchronous using SQS, Kinesis, SNS and Lambda triggers (S3)
-		- Serverless using API Gateway, Lambda
-	- ![enter image description here](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-microservices.png)
+		- Serverless using API Gateway, Lambda![enter image description here](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-microservices.png)
 - **Distributed Paid Content**
 	- Requirement
 		- Sell videos online
@@ -3669,8 +3977,7 @@ Q: Your production application is leveraging DynamoDB as its backend and is expe
 			- Software updates files are static
 			- EC2 instances are not serverless
 			- ASG will not scale as much, and we'll save in EC2
-			- Will save in availability, network bandwidth cost etc.
-	- ![enter image description here](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serveless-software-update-offloading.png)
+			- Will save in availability, network bandwidth cost etc.![enter image description here](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serveless-software-update-offloading.png)
 - **Big Data Ingestion Pipeline**
 	- Requirement
 		- Ingestion pipeline to be fully serverless
@@ -3683,9 +3990,7 @@ Q: Your production application is leveraging DynamoDB as its backend and is expe
 		- Kinesis Data Stream will talk to Kinesis Data Firehouse which will upload our data to ingestion bucket every min
 		- Kinesis Data Firehouse also will talk to lambda function to cleanse or transform our data
 		- Ingestion bucket will call lambda function which will trigger Amazon Athena SQL query
-		- Amazon Athena will pull data using query from ingestion bucket and upload it to the reporting bucket
-	- ![enter image description here](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-data-ingestion.png)
-
+		- Amazon Athena will pull data using query from ingestion bucket and upload it to the reporting bucket ![enter image description here](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-data-ingestion.png)
 ### Case Studies Q&A
 
 Q:  You have an ASG that scales on demand based on the traffic going to your new website: TriangleSunglasses.Com. You      would like to optimize for cost, so you have selected an ASG that scales based on demand going through your ELB. Still,      you want your solution to be highly available so you have selected the minimum instances to 2. How can you further      optimize the cost while respecting the requirements?
@@ -3746,7 +4051,6 @@ Q: You would like to deliver big data streams in real time to multiple consuming
  - https://cloud.google.com/storage-transfer/docs/using-iam-permissions-and-roles
  - https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/id_roles_create_for-user.html
  - https://console.aws.amazon.com/iam
-
 ### AWS Development Q&A
 
 Q: My EC2 Instance does not have the permissions to perform an API call PutObject on S3. What should I do?
