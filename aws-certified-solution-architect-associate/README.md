@@ -1108,7 +1108,7 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
     - Try to keep as much internet traffic within AWS to minimize cost
     - Following diagram illustrate how to reduce egress network traffic cost i.e. Direct connect location that are co-located in same AWS region result in lower cost for egress traffic ![](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-networking-cost-egress-traffic.png)
 - **S3 data transfer cost** - Following diagram illustrate different cost analysis for S3 ![](https://github.com/nikxsh/aws/blob/master/diagrams/aws-networking-cost-data-transfer.png?raw=true)
-- **NAT vs Gateway VPC endpoints** - Following diagram illustrate cost analysis for the same ![]()
+- **NAT vs Gateway VPC endpoints** - Following diagram illustrate cost analysis for the same ![](https://github.com/nikxsh/aws/blob/master/diagrams/aws-networking-cost-nat-enpoints.png?raw=true)
 ### VPC Q&A
 Q:  What does this CIDR `10.0.4.0/28` correspond to?
 > `10.0.4.0` to `10.0.4.15` (/28 means 16 IPs (=2^(32-28) = 2^4), means only the last digit can change)
