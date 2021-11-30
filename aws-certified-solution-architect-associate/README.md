@@ -990,39 +990,39 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
     - **Transit gateway**: 
         - A transit hub that can be used to interconnect your VPCs and on-premises networks
         - You use a transit gateway or virtual private gateway as the gateway for the Amazon side of the Site-to-Site VPN connection
-- [VPN CloudHub](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/aws-vpn-cloudhub.html)
-    - Provide secure communication between multiple sites, if you have multiple VPN connections
-    - Low cost hub-and-spoke model for primary or secondary network connectivity between different locations (VPN only)
-    - It's a VPN connection so it goes over the public internet
-    - To set it up, connect multiple VPN connections on the same VGW, setup dynamic routing and configure route table
-    - The following figure shows the AWS VPN CloudHub architecture ![](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/images/image12.png)
-- [Direct Connect (DX)](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html)
-    - Provides a dedicated private connection from remote network to your VPC
-    - Dedicated connection must be setup between your DC and AWS Direct Connect locations
-    - You need to setup a Virtual Private Gateway on your VPC
-    - Access public resources (S3) and private (EC2) on same location using Public/Private VIF
-    - Use case
-        - Increase bandwidth throughput - working with large data set (lower cost) 
-        - More consistent network experience - application using real-time data feeds
-        - Hybrid enviroments (on-prem + cloud)
-    - Support both IPv4 and IPv6
-    - The following are the key components that you use for AWS Direct Connec
-        - Connections 
-            - Create a connection in an AWS Direct Connect location to establish a network connection from your premises to an AWS Region
-        - Virtual interfaces (VIF)
-            - Create a virtual interface to enable access to AWS services
-            - A public virtual interface enables access to public services, such as Amazon S3
-            - A private virtual interface enables access to your VPC
-    - The following diagram shows how AWS Direct Connect interfaces with your network ![](https://docs.aws.amazon.com/directconnect/latest/UserGuide/images/direct-connect-overview.png)
-        -  Blue is private VIF and green is public VIF
-        -  AWS Direct Connect links your internal network to an AWS Direct Connect location over a standard Ethernet fiber-optic cable
-        -  One end of the cable is connected to your router, the other to an AWS Direct Connect router
-        -  With this connection, you can create VIF directly to public AWS services (for example, to Amazon S3) or to Amazon VPC, bypassing internet service providers in your network path
-        -  An AWS Direct Connect location provides access to AWS in the Region with which it is associated
-        -  You can use a single connection in a public Region or AWS GovCloud (US) to access public AWS services in all other public Regions
-    -  AWS Direct Connect has two billing elements: 
-        -  Port hours and outbound data transfer. Port hour pricing is determined by capacity and connection type (dedicated connection or hosted connection)
-        -  Data Transfer Out charges for private interfaces and transit virtual interfaces are allocated to the AWS account responsible for the Data Transfer. There are no additional charges to use a multi-account AWS Direct Connect gateway
+### [VPN CloudHub](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/aws-vpn-cloudhub.html)
+- Provide secure communication between multiple sites, if you have multiple VPN connections
+- Low cost hub-and-spoke model for primary or secondary network connectivity between different locations (VPN only)
+- It's a VPN connection so it goes over the public internet
+- To set it up, connect multiple VPN connections on the same VGW, setup dynamic routing and configure route table
+- The following figure shows the AWS VPN CloudHub architecture ![](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/images/image12.png)
+### [Direct Connect (DX)](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html)
+- Provides a dedicated private connection from remote network to your VPC
+- Dedicated connection must be setup between your DC and AWS Direct Connect locations
+- You need to setup a Virtual Private Gateway on your VPC
+- Access public resources (S3) and private (EC2) on same location using Public/Private VIF
+- Use case
+    - Increase bandwidth throughput - working with large data set (lower cost) 
+    - More consistent network experience - application using real-time data feeds
+    - Hybrid enviroments (on-prem + cloud)
+- Support both IPv4 and IPv6
+- The following are the key components that you use for AWS Direct Connec
+    - Connections 
+        - Create a connection in an AWS Direct Connect location to establish a network connection from your premises to an AWS Region
+    - Virtual interfaces (VIF)
+        - Create a virtual interface to enable access to AWS services
+        - A public virtual interface enables access to public services, such as Amazon S3
+        - A private virtual interface enables access to your VPC
+- The following diagram shows how AWS Direct Connect interfaces with your network ![](https://docs.aws.amazon.com/directconnect/latest/UserGuide/images/direct-connect-overview.png)
+    -  Blue is private VIF and green is public VIF
+    -  AWS Direct Connect links your internal network to an AWS Direct Connect location over a standard Ethernet fiber-optic cable
+    -  One end of the cable is connected to your router, the other to an AWS Direct Connect router
+    -  With this connection, you can create VIF directly to public AWS services (for example, to Amazon S3) or to Amazon VPC, bypassing internet service providers in your network path
+    -  An AWS Direct Connect location provides access to AWS in the Region with which it is associated
+    -  You can use a single connection in a public Region or AWS GovCloud (US) to access public AWS services in all other public Regions
+-  AWS Direct Connect has two billing elements: 
+    -  Port hours and outbound data transfer. Port hour pricing is determined by capacity and connection type (dedicated connection or hosted connection)
+    -  Data Transfer Out charges for private interfaces and transit virtual interfaces are allocated to the AWS account responsible for the Data Transfer. There are no additional charges to use a multi-account AWS Direct Connect gateway
 ### [Direct Connect Gateway](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-gateways-intro.html)
 - Use If you want to setup a DX to one or more VPC in many different region (same account)
 - You associate an AWS Direct Connect gateway with either of the following gateways:
@@ -1108,7 +1108,7 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
     - Try to keep as much internet traffic within AWS to minimize cost
     - Following diagram illustrate how to reduce egress network traffic cost i.e. Direct connect location that are co-located in same AWS region result in lower cost for egress traffic ![](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-networking-cost-egress-traffic.png)
 - **S3 data transfer cost** - Following diagram illustrate different cost analysis for S3 ![](https://github.com/nikxsh/aws/blob/master/diagrams/aws-networking-cost-data-transfer.png?raw=true)
-- **NAT vs Gateway VPC endpoints** - Following diagram illustrate cost analysis for the same ![](https://github.com/nikxsh/aws/blob/master/diagrams/aws-networking-cost-nat-enpoints.png?raw=true)
+- **NAT vs Gateway VPC endpoints** - Following diagram illustrate cost analysis for the same ![]()
 ### VPC Q&A
 Q:  What does this CIDR `10.0.4.0/28` correspond to?
 >> `10.0.4.0` to `10.0.4.15` (/28 means 16 IPs (=2^(32-28) = 2^4), means only the last digit can change)
