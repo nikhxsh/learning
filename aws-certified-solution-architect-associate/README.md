@@ -1111,73 +1111,73 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
 - **NAT vs Gateway VPC endpoints** - Following diagram illustrate cost analysis for the same ![]()
 ### VPC Q&A
 Q:  What does this CIDR `10.0.4.0/28` correspond to?
->> `10.0.4.0` to `10.0.4.15` (/28 means 16 IPs (=2^(32-28) = 2^4), means only the last digit can change)
+> `10.0.4.0` to `10.0.4.15` (/28 means 16 IPs (=2^(32-28) = 2^4), means only the last digit can change)
 
 Q: You have a corporate network of size 10.0.0.0/8 and a satellite office of size 192.168.0.0/16. Which CIDR is acceptable for your AWS VPC if you plan on connecting your networks later on?
->> `172.16.0.0/16` (CIDR not should overlap, and the max CIDR size in AWS is /16)
+> `172.16.0.0/16` (CIDR not should overlap, and the max CIDR size in AWS is /16)
 
 Q: You plan on creating a subnet and want it to have at least capacity for 28 EC2 instances. What's the minimum size you need to have for your subnet?
->> `/26` (Perfect size, 64 IPs as 5 are reserved IPs hence 64 > 28 + 5) 
+> `/26` (Perfect size, 64 IPs as 5 are reserved IPs hence 64 > 28 + 5) 
 **Note: 27 would have 32 IPs which are < 28 +5**
 
 Q:Security Groups operate at the ................. level while NACLs operate at the ................. level.
->> EC2 instance, Subnet
+> EC2 instance, Subnet
 
 Q: You have attached an Internet Gateway to your VPC, but your EC2 instances still don't have access to the internet. What is NOT a possible issue?
->> The Security Group does not allow traffic in (Security groups are stateful and if traffic can go out, then it can go back in)
+> The Security Group does not allow traffic in (Security groups are stateful and if traffic can go out, then it can go back in)
 
 Q: You would like to provide Internet access to your EC2 instances in private subnets with IPv4 while making sure this solution requires the least amount of administration and scales seamlessly. What should you use?
->> NAT Gateway
+> NAT Gateway
 
 Q: VPC Peering has been enabled between VPC A and VPC B, and the route tables have been updated for VPC A. But, the EC2 instances cannot communicate. What is the likely issue?
->> Check route table of VPC B (Route tables must be updated in both VPCs that are peered) 
+> Check route table of VPC B (Route tables must be updated in both VPCs that are peered) 
 
 Q: You have set up a Direct Connect connection between your corporate data center and your VPC A in your AWS account. You need to access VPC B in another AWS region from your corporate datacenter as well. What should you do?
->> Use Direct Connect Gateway (This is the main use case of Direct Connect Gateways)
+> Use Direct Connect Gateway (This is the main use case of Direct Connect Gateways)
 
 Q: When using VPC Endpoints, what are the only two AWS services that have a Gateway Endpoint instead of an Interface Endpoint?
->> S3 & DynamoDB (These two services have a VPC Gateway Endpoint (remember it), all the other ones have an Interface endpoint (powered by Private Link - means a private IP))
+> S3 & DynamoDB (These two services have a VPC Gateway Endpoint (remember it), all the other ones have an Interface endpoint (powered by Private Link - means a private IP))
 
 Q: AWS reserves 5 IP addresses each time you create a new subnet in a VPC. When you create a subnet with CIDR 10.0.0.0/24, the following IP addresses are reserved, EXCEPT ....................
->> `10.0.0.4` (Reserved are `10.0.0.1` to `10.0.0.3`)
+> `10.0.0.4` (Reserved are `10.0.0.1` to `10.0.0.3`)
 
 Q: You have created a new VPC with 4 subnets in it. You begin to launch a set of EC2 instances inside these subnets but you noticed that these EC2 instances don't get assigned public hostnames and DNS resolution isn't working. What should you do to resolve this issue?
->> Enable DNS Resolution and DNS Hostnames in your VPC
+> Enable DNS Resolution and DNS Hostnames in your VPC
 
 Q: You have 3 VPCs A, B, and C. You want to establish a VPC Peering connection between all the 3 VPCs. What should you do?
->> Establish 3 VPC Peering connections (A-B, A-C, B-C)
+> Establish 3 VPC Peering connections (A-B, A-C, B-C)
 
 Q: How can you capture information about IP traffic inside your VPCs?
->> Enable VPC Flow Logs (VPC Flow Logs is a VPC feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC)
+> Enable VPC Flow Logs (VPC Flow Logs is a VPC feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC)
 
 Q: If you want a 500 Mbps Direct Connect connection between your corporate datacenter to AWS, you would choose a .................. connection.
->> Hosted 
->> A Dedicated Direct Connect connection supports 1Gbps and 10Gbps
->> Hosted Direct Connect connection supports 50Mbps, 500Mbps, up to 10Gbps
+> Hosted 
+> A Dedicated Direct Connect connection supports 1Gbps and 10Gbps
+> Hosted Direct Connect connection supports 50Mbps, 500Mbps, up to 10Gbps
 
 Q: You have an internal web application hosted in a private subnet in your VPC that you want to be used by other customers. You don't want to expose the application to the Internet or open your whole VPC to other customers. What should you do?
->> Use VPC Endpoint Services (AWS PrivateLink) (Allows you to expose a private application to other AWS customers without making the application public to the Internet and without making a VPC Peering connection)
+> Use VPC Endpoint Services (AWS PrivateLink) (Allows you to expose a private application to other AWS customers without making the application public to the Internet and without making a VPC Peering connection)
 
 Q: When you set up an AWS Site-to-Site VPN connection between your corporate on-premises datacenter and VPCs in AWS Cloud, what are the two major components you want to configure for this connection?
->> Virtual Private Gateway and Customer Gateway
+> Virtual Private Gateway and Customer Gateway
 
 Q: Your company has created a REST API that it will sell to hundreds of customers as a SaaS. Your customers are on AWS and are using their own VPCs. You would like to allow your customers to access your SaaS without going through the public Internet while ensuring your infrastructure is not left exposed to network attacks. What do you recommend?
->> Create a PrivateLink (VPC Endpoint Services)
+> Create a PrivateLink (VPC Endpoint Services)
 
 Q: Your company has several on-premises sites across the USA. These sites are currently linked using private connections, but your private connections provider has been recently quite unstable, making your IT architecture partially offline. You would like to create a backup connection that will use the public Internet to link your on-premises sites, that you can failover in case of issues with your provider. What do you recommend?
->> AWS VPN CloudHub (allows you to securely communicate with multiple sites using AWS VPN. It operates on a simple hub-and-spoke model that you can use with or without a VPC)
+> AWS VPN CloudHub (allows you to securely communicate with multiple sites using AWS VPN. It operates on a simple hub-and-spoke model that you can use with or without a VPC)
 
 Q: You need to set up a dedicated connection between your on-premises corporate datacenter and AWS Cloud. This connection must be private, consistent, and traffic must not travel through the Internet. Which AWS service should you use?
->> AWS Direct Connect
+> AWS Direct Connect
 
 Q: Using a Direct Connect connection, you can access both public and private AWS resources.
->> True
+> True
 
 Q: You want to scale up an AWS Site-to-Site VPN connection throughput, established between your on-premises data and AWS Cloud, beyond a single IPsec tunnel's maximum limit of 1.25 Gbps. What should you do?
->> Use Transit Gateway
+> Use Transit Gateway
 
 Q: You have a VPC in your AWS account that runs in a dual-stack mode. You are continuously trying to launch an EC2 instance, but it fails. After further investigation, you have found that you are no longer have IPv4 addresses available. What should you do?
->> Add an additional IPv4 CIDR to your VPC
+> Add an additional IPv4 CIDR to your VPC
 
 ## [EC2 (Elastic Compute Cloud)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html)
 - Provides scalable computing capacity in the Amazon Web Services (AWS) Cloud
