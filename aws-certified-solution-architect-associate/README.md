@@ -13,7 +13,48 @@
   * [Policies](#policies)
   * [Roles](#roles)
   * [Tools](#tools)
+  * [STS](#sts-security-token-service)
+  * [Identity federation](#identity-federation)
+  * [Directory Service](#directory-service)
+  * [Organizations](#organizations)
+  * [IAM Conditions](#iam-conditions)
+  * [IAM for S3](#iam-for-s3)
+  * [IAM Permission Boundaries](#iam-permission-boundaries)
+  * [Resource Access Manager](#resource-access-manager)
   * [Best practices](#best-practices)
+- [Monitoring & Audit](#monitoring--audit)
+  * [CloudWatch](#cloudwatch)
+  * [Metrics](#metrics)
+  * [CloudWatch logs](#cloudwatch-logs)
+  * [Agent](#agent)
+  * [Alarms](#alarms)
+  * [CloudWatch Events](#cloudwatch--events)
+  * [EventBridge](#eventbridge)
+  * [CloudTrail](#cloudtrail)
+  * [AWS Config](#aws-config)
+- [VPC](#vpc-virtual-private-cloud)
+  * [Public vs Private IP (IPv4)](#public-vs-private-ip-ipv4)
+  * [CIDR](#cidr)
+  * [VPC and subnet](#aws-vpc-and-subnet)
+  * [Internet Gateway](#internet-gateway)
+  * [Route Table](#route-table)
+  * [Bastion host](#bastion-host)
+  * [NAT](#nat-network-address-translation)
+  * [DNS Support](#dns-support)
+  * [Security](#security)
+  * [Reachability Analyzer](#vpc-reachability-analyzer)
+  * [Peering](#vpc-peering)
+  * [Endpoints](#vpc-endpoints)
+  * [Flow logs](#vpc-flow-logs)
+  * [Site-to-Site VPN](#site-to-site-vpn)
+  * [Cloudhub](#vpn-cloudhub)
+  * [Direct Connect](#direct-connect-dx)
+  * [Direct Connect Gateway](#direct-connect-gateway)
+  * [Transit Gateway](#transit-gateway)
+  * [Egress-only internet gateways](#egress-only-internet-gateways)
+  * [Traffic Mirroring](#traffic-mirroring)
+  * [In nutshell](#vpc-in-nutshell)
+  * [Costing](#network-costing)
 - [EC2 (Elastic Compute Cloud)](#ec2-elastic-compute-cloud)
   * [Features](#features)
   * [Instances](#instances)
@@ -44,22 +85,34 @@
   * [Global Accelerator](#global-accelerator)
 - [Decoupling applications](#decoupling-applications)
   * [SQS](#sqs)
-  * [SNS (Simple Notification Service)](#sns-simple-notification-service)
+  * [SNS](#sns-simple-notification-service)
   * [Kinesis](#kinesis)
-  * [Data ordering for Kinesis vs SQS FIFO](#data-ordering-for-kinesis-vs-sqs-fifo)
+  * [Data Ordering](#data-ordering-for-kinesis-vs-sqs-fifo)
   * [MQ](#mq)
 - [Container on AWS](#container-on-aws)
   * [Docker](#docker)
-  * [ECS (Elastic Container Service)](#ecs-elastic-container-service)
+  * [ECS](#ecs-elastic-container-service)
   * [Fargate](#fargate)
-  * [EKS (Elastic Kubernetes Service)](#eks-elastic-kubernetes-service)
-  * [ECR (Elastic Container Registry)](#ecr-elastic-container-registry)
+  * [EKS](#eks-elastic-kubernetes-service)
+  * [ECR](#ecr-elastic-container-registry)
 - [Serverless in AWS](#serverless-in-aws)
   * [Lambda](#lambda)
   * [DynamoDB](#dynamodb)
   * [API Gateway](#api-gateway)
   * [Cognito](#cognito)
   * [Glue](#glue)
+- [Security](#security-1)
+  * [Encryption](#encryption)
+  * [KMS](#kms)
+  * [Parameter Store](#ssm-parameter-store)
+  * [Secret Manager](#secret-manager)
+  * [CloudHSM](#cloudhsm)
+  * [Shield](#shield)
+  * [WAF](#web-application-firewall-waf)
+  * [Guard​Duty](#guardduty)
+  * [Inspector](#inspector)
+  * [Macie](#macie)
+  * [Shared Responsibility](#shared-responsibility)
 - [Deployment](#deployment)
   * [Elastic Beanstalk](#elastic-beanstalk)
 - [Solution Architecture Discussions](#solution-architecture-discussions)
@@ -381,7 +434,7 @@
  - Use Access keys for programmatic access (CLI/SDK)
  - Audit permissions of your account using Credentials Report
  - Never share IAM users and Access keys
-### IAM Q&A
+### Q&A
 Q: You are getting started with AWS and your manager wants things to remain simple yet secure. He wants the management of engineers to be easy, and not re-invent the wheel every time someone joins your company. What will you do?
 > I'll create multiple IAM users and groups, and assign policies to groups. New users will be 
   added to groups
@@ -1109,7 +1162,7 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
     - ![](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-networking-cost-egress-traffic.png)
 - **S3 data transfer cost** - Following diagram illustrate different cost analysis for S3 ![](https://github.com/nikxsh/aws/blob/master/diagrams/aws-networking-cost-data-transfer.png?raw=true)
 - **NAT vs Gateway VPC endpoints** - Following diagram illustrate cost analysis for the same ![](https://github.com/nikxsh/aws/blob/master/diagrams/aws-networking-cost-nat-enpoints.png?raw=true)
-### VPC Q&A
+### Q&A
 Q:  What does this CIDR `10.0.4.0/28` correspond to?
 > `10.0.4.0` to `10.0.4.15` (/28 means 16 IPs (=2^(32-28) = 2^4), means only the last digit can change)
 
@@ -1752,7 +1805,7 @@ Q: You have a VPC in your AWS account that runs in a dual-stack mode. You are co
 	     - http://169.254.169.254/latest/meta-data
 		     >  ... All metadata ...
 		     
-### EC2 Q&A 
+### Q&A 
 
 Q: Your administrator launched a Linux EC2 instance and gives you the EC2 Key Pair so you can SSH into it. After getting into the EC2 instance, you want to get the EC2 instance ID. What is the best way to do this?
 > Query the metadata at `http://169.254.169.254/latest/meta-data`
@@ -2060,7 +2113,7 @@ Q: You are running a high-performance database that requires an IOPS of 310,000 
 		- (Scale In) > Terminating [ Lifecycle hooks >> Terminating:wait > Terminating: Proceed] > Terminated
 		- Launch configuration: Legacy, must be created every time vs Launch Template: newer, can have multi-versions, parameter subsets and provision for both On-Demand and Spot instances
 
-### Scalability & Availability Q&A
+### Q&A
 Q: Load Balancers provide a	
 > Static DNS name we can used n our application
 
@@ -2893,7 +2946,7 @@ Q: A company has an Auto Scaling Group where random EC2 instances suddenly crash
  - AWS Storage options![enter image description here](https://d2908q01vomqb2.cloudfront.net/cb4e5208b4cd87268b208e49452ed6e89a68e0b8/2018/03/20/aws-storage-soutions.jpg)
 ![enter image description here](https://miro.medium.com/max/1838/1*02FpTqeqNH6XzcrBUqjR_w.png =600x600 )
 
-### Storage Services Q&A
+### Q&A
 Q: My company would like to have a MySQL database internally that is going to be available even in  case of a disaster in the AWS Cloud. I should setup	
 > Multi-AZ (In this question, we consider a disaster to be an entire Availability Zone going down. In
    which case Multi-AZ will help. If we want to plan against an entire region going down, backups and
@@ -3292,7 +3345,7 @@ Q: Which of the following are NOT valid Route 53 Health Checks?
 	- HTTP use cases that require deterministic, fast regional failover
 - ![enter image description here](https://miro.medium.com/max/1200/1*1iQaCMjicPnfR7LsFZ2hrg.png)
 
-### CloudFront & AWS Global Accelerator Q&N
+### Q&N
 
 Q: Which features allows us to distribute paid content from S3 securely, globally, if the S3 bucket is secured to only exchange data with CloudFront?
 > CloudFront Signed URL (CloudFront Signed URL are commonly used to distribute paid content through dynamic CloudFront Signed URL generation)
@@ -4829,7 +4882,7 @@ Q: You have a lot of static files stored in an S3 bucket that you want to distri
     MariaDB: 3306 (same as MySQL)
     Aurora: 5432 (if PostgreSQL compatible) or 3306 (if MySQL compatible)
  
-### AWS Development Q&A
+### Q&A
 Q: My EC2 Instance does not have the permissions to perform an API call PutObject on S3. What should I do?
 > I should ask an administrator to attach a Policy to the IAM Role on my EC2 Instance that authorizes it to do the API call (IAM roles are the right way to provide credentials and permissions to an EC2 instance)
 
