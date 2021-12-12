@@ -14,7 +14,6 @@
   * [Roles](#roles)
   * [Tools](#tools)
   * [Best practices](#best-practices)
-  * [Q&N](#iam-qa)
 - [EC2 (Elastic Compute Cloud)](#ec2-elastic-compute-cloud)
   * [Features](#features)
   * [Instances](#instances)
@@ -24,12 +23,10 @@
   * [EC2 Storage](#ec2-storage)
   * [Notes](#notes)
   * [Dev](#dev)
-  * [Q&N](#ec2-qa)
 - [Scalability and High Availability](#scalability-and-high-availability)
   * [Scalability](#scalability)
   * [High Availability](#high-availability)
   * [Load Balancer](#load-balancer)
-  * [Q&N](#scalability--availability-qa)
 - [AWS Storage Services](#aws-storage-services)
   * [Relative Database Service](#relative-database-service)
   * [Aurora](#aurora)
@@ -41,20 +38,16 @@
   * [ElasticSearch](#elasticSearch)
   * [Snow Family](#snow-family)
   * [S3 File Gateway](#s3-file-gateway)
-  * [Q&N](#storage-services-qa)
 - [Route 53](#route-53)
-  * [Q&N](#route-53-qa)
 - [CloudFront & AWS Global Accelerator](#cloudfront--aws-global-accelerator)
   * [CloudFront](#cloudfront)
   * [Global Accelerator](#global-accelerator)
-  * [Q&N](#cloudfront--aws-global-accelerator-qn)
 - [Decoupling applications](#decoupling-applications)
   * [SQS](#sqs)
   * [SNS (Simple Notification Service)](#sns-simple-notification-service)
   * [Kinesis](#kinesis)
   * [Data ordering for Kinesis vs SQS FIFO](#data-ordering-for-kinesis-vs-sqs-fifo)
   * [MQ](#mq)
-  * [Q&N](#decoupling-applications-qa)
 - [Container on AWS](#container-on-aws)
   * [Docker](#docker)
   * [ECS (Elastic Container Service)](#ecs-elastic-container-service)
@@ -67,15 +60,12 @@
   * [API Gateway](#api-gateway)
   * [Cognito](#cognito)
   * [Glue](#glue)
-  * [Q&N](#serverless-qa)
 - [Deployment](#deployment)
   * [Elastic Beanstalk](#elastic-beanstalk)
 - [Solution Architecture Discussions](#solution-architecture-discussions)
   * [Classic](#classic)
   * [Serverless](#serverless)
-  * [Q&N](#case-studies-qa)
 - [AWS Development](#aws-development)
-  * [Q&N](#aws-development-qa)
 
 ## AWS regions and Availability zones
 ### Regions
@@ -416,6 +406,15 @@ Q: Which principle should you apply regarding IAM Permissions?
 
 Q: What should you do to increase your root account security?
 > Enable MFA (You want to enable MFA in order to add a layer of security, so even if your password is stolen, lost or hacked your account is not compromised.)
+
+Q: IAM User Groups can contain IAM Users and other User Groups.
+> False (IAM User Groups can contain only IAM Users)
+
+Q: An IAM policy consists of one or more statements. A statement in an IAM Policy consists of the following, EXCEPT
+> Version (A statement in an IAM Policy consists of Sid, Effect, Principal, Action, Resource, and Condition. Version is part of the IAM Policy itself, not the statement)
+
+Q: According to the AWS Shared Responsibility Model, which of the following is AWS responsibility?
+> AWS Infra
 
 Q: You have a mobile application and would like to give your users access to their own personal space in the S3 bucket. How do you achieve that?
 > Use Amazon Cognito Identity Federation (used to federate mobile user accounts and provide them with their own IAM permissions, so they can be able to access their own personal space in the S3 bucket)
@@ -1753,7 +1752,11 @@ Q: You have a VPC in your AWS account that runs in a dual-stack mode. You are co
 	     - http://169.254.169.254/latest/meta-data
 		     >  ... All metadata ...
 		     
-### EC2 Q&A  	
+### EC2 Q&A 
+
+Q: Your administrator launched a Linux EC2 instance and gives you the EC2 Key Pair so you can SSH into it. After getting into the EC2 instance, you want to get the EC2 instance ID. What is the best way to do this?
+> Query the metadata at `http://169.254.169.254/latest/meta-data`
+
 Q: You are launching an EC2 instance in us-east-1 using this Python script snippet: (we will see SDK in a later section, for now just look at the code reference ImageId) ec2.create_instances(ImageId='ami-b23a5e7', MinCount=1, MaxCount=1) It works well, so you decide to deploy your script in us-west-1 as well. There, the script does not work and fails with "ami not found" error. What's the problem?
 > AMI is region locked and the same ID cannot be used across regions
 	
@@ -1776,7 +1779,7 @@ Q: You built and published an AMI in the ap-southeast-2 region, and your colleag
 > An AMI created for a region can only seen in that region
 
 Q: Which EC2 Purchasing Option can provide the biggest discount, but is not suitable for critical jobs or databases?
-> Spot Instances (Spot Instances are good for short workloads, but are less reliable.)
+> Spot Instances (Spot Instances are good for short workloads and this is the cheapest EC2 Purchasing Option. But, they are less reliable because you can lose your EC2 instance)
 
 Q: Which network security tool can you use to control traffic in and out of EC2 Instances?
 > Security Groups (Security Groups operate at instance level and can control traffic.)	
@@ -1810,6 +1813,57 @@ Q: You would like to have a high-performance cache for your application that mus
 
 Q: You are running a high-performance database that requires an IOPS of 210,000 for its underlying filesystem. What do you recommend?
 > Instance Store (Is running a DB on EC2 instance store possible? It is possible to run a database on EC2. It is also possible to use instance store, but there are some considerations to have. The data will be lost if the instance is stopped, but it can be restarted without problems. One can also set up a replication mechanism on another EC2 instance with instance store to have a standby copy. One can also have back-up mechanisms. It's all up to how you want to set up your architecture to validate your requirements. In this case, it's around IOPS, and we build an architecture of replication and back up around it)
+
+Q: You have just terminated an EC2 instance in us-east-1a, and its attached EBS volume is now available. Your teammate tries to attach it to an EC2 instance in us-east-1b but he can't. What is a possible cause for this?
+> EBS volumes are locked to an Availability Zone (EBS Volumes are created for a specific AZ. It is possible to migrate them between different AZs using EBS Snapshots)
+
+Q: You have launched an EC2 instance that will host a NodeJS application. After installing all the required software and configured your application, you noted down the EC2 instance public IPv4 so you can access it. Then, you stopped and then started your EC2 instance to complete the application configuration. After restart, you can't access the EC2 instance, and you found that the EC2 instance public IPv4 has been changed. What should you do to assign a fixed public IPv4 to your EC2 instance?
+> Allocate an Elastic IP and assign it to your EC2 instance (Elastic IP is a public IPv4 that you own as long as you want and you can attach it to one EC2 instance at a time)
+
+Q: You want to run a batch job that requires a set of EC2 instances. This batch job should run for about 4 hours and must not be interrupted. Which EC2 Purchasing Option should you choose to run this batch job with the lowest cost?
+> By using Spot Block Instances, you reserve a set of Spot EC2 instances for a specified duration (1-6 hours) without interruption
+
+Q: Spot Fleet is a set of Spot Instances and optionally ....
+> On demand instances (Spot Fleet is a set of Spot Instances and optionally On-demand Instances. It allows you to automatically request Spot Instances with the lowest price)
+
+Q: You have an application performing big data analysis hosted on a fleet of EC2 instances. You want to ensure your EC2 instances have the highest networking performance while communicating with each other. Which EC2 Placement Group should you choose?
+> Cluster Placement Groups place your EC2 instances next to each other which gives you high-performance computing and networking
+
+Q: You have a critical application hosted on a fleet of EC2 instances in which you want to achieve maximum availability when there's an AZ failure. Which EC2 Placement Group should you choose?
+> Spread Placement Group places your EC2 instances on different physical hardware across different AZs
+
+Q: Elastic Network Interface (ENI) can be attached to EC2 instances in another AZ
+> False (Elastic Network Interfaces (ENIs) are bounded to a specific AZ. You can not attach an ENI to an EC2 instance in a different AZ)
+
+Q: The following are true regarding EC2 Hibernate, EXCEPT
+> EC2 Instance Root Volume must be an Instance Store volume (To enable EC2 Hibernate, the EC2 Instance Root Volume type must be an EBS volume and must be encrypted to ensure the protection of sensitive content)
+
+Q: You have just terminated an EC2 instance in us-east-1a, and its attached EBS volume is now available. Your teammate tries to attach it to an EC2 instance in us-east-1b but he can't. What is a possible cause for this?
+> EBS volumes are locked to an Availability Zone (EBS Volumes are created for a specific AZ. It is possible to migrate them between different AZs using EBS Snapshots)
+
+Q: You have launched an EC2 instance with two EBS volumes, Root volume type and the other EBS volume type to store the data. A month later you are planning to terminate the EC2 instance. What's the default behavior that will happen to each EBS volume?
+> The Root volume type will be deleted and the EBS volume type will not be deleted (By default, the Root volume type will be deleted as its "Delete On Termination" attribute checked by default. Any other EBS volume types will not be deleted as its "Delete On Termination" attribute disabled by default)
+
+Q: You can use an AMI in N.Virginia Region us-east-1 to launch an EC2 instance in any AWS Region
+> False (AMIs are built for a specific AWS Region, they're unique for each AWS Region. You can't launch an EC2 instance using an AMI in another AWS Region, but you can copy the AMI to the target AWS Region and then use it to create your EC2 instances)
+
+Q: Which of the following EBS volume types can be used as boot volumes when you create EC2 instances?
+> When creating EC2 instances, you can only use the following EBS volume types as boot volumes: gp2, gp3, io1, io2, and Magnetic (Standard)
+
+Q: What is EBS Multi-Attach?
+> Attach the same EBS volume to multiple EC2 instances in the same AZ (Using EBS Multi-Attach, you can attach the same EBS volume to multiple EC2 instances in the same AZ. Each EC2 instance has full read/write permissions)
+
+Q: You would like to encrypt an unencrypted EBS volume attached to your EC2 instance. What should you do?
+> Create an EBS snapshot of your EBS volume. Copy the snapshot and tick the option to encrypt the copied snapshot. Then, use the encrypted snapshot to create a new EBS volume
+
+Q: You have a fleet of EC2 instances distributes across AZs that process a large data set. What do you recommend to make the same data to be accessible as an NFS drive to all of your EC2 instances?
+> Use EFS (EFS is a network file system (NFS) that allows you to mount the same file system on EC2 instances that are in different AZs)
+
+Q: You would like to have a high-performance local cache for your application hosted on an EC2 instance. You don't mind losing the cache upon the termination of your EC2 instance. Which storage mechanism do you recommend as a Solutions Architect?
+> EC2 Instance Store provides the best disk I/O performance
+
+Q: You are running a high-performance database that requires an IOPS of 310,000 for its underlying storage. What do you recommend?
+> You can run a database on an EC2 instance that uses an Instance Store, but you'll have a problem that the data will be lost if the EC2 instance is stopped (it can be restarted without problems). One solution is that you can set up a replication mechanism on another EC2 instance with an Instance Store to have a standby copy. Another solution is to set up backup mechanisms for your data. It's all up to you how you want to set up your architecture to validate your requirements. In this use case, it's around IOPS, so we have to choose an EC2 Instance Store
 
 ## Scalability and High Availability
 ### **Scalability**
@@ -2022,7 +2076,7 @@ Q: You quickly created an ELB and it turns out your users are complaining about 
 Q: You are designing a high performance application that will require millions of connections to be handled, as well as low latency. The best Load Balancer for this is
 > Network Load balancer
 
-Question 6: Application Load Balancers handle all these protocols except
+Q: Application Load Balancers handle all these protocols except
 > TCP (NLB support TCP)
 
 Q: The application load balancer can route to different target groups based on all these
@@ -2075,6 +2129,57 @@ Q: Your Application Load Balancer (ALB) currently is routing to two target group
 
 Q: An application is deployed with an Application Load Balancer and an Auto Scaling Group. Currently,  the scaling of the Auto Scaling Group is done manually and you would like to define a scaling  policy that will ensure the average number of connections to your EC2 instances is averaging at around 1000. Which scaling policy should you use?
 > Target Tracking
+
+Q: Elastic Load Balancers provide a .....
+> static DNS name we can use in our application (The reason being that AWS wants your load balancer to be accessible using a static endpoint, even if the underlying infrastructure that AWS manages changes)
+
+Q: You are running a website on 10 EC2 instances fronted by an Elastic Load Balancer. Your users are complaining about the fact that the website always asks them to re-authenticate when they are moving between website pages. You are puzzled because it's working just fine on your machine and in the Dev environment with 1 EC2 instance. What could be the reason?
+> The Elastic Load Balancer does not have Sticky Sessions enabled (ELB Sticky Session feature ensures traffic for the same client is always redirected to the same target (e.g., EC2 instance). This helps that the client does not lose his session data)
+
+Q: You are using an Application Load Balancer to distribute traffic to your website hosted on EC2 instances. It turns out that your website only sees traffic coming from private IPv4 addresses which are in fact your Application Load Balancer's IP addresses. What should you do to get the IP address of clients connected to your website?
+> Modify your website's backend to get the client IP address from the `X-Forwarded-For` header (When using an Application Load Balancer to distribute traffic to your EC2 instances, the IP address you'll receive requests from will be the ALB's private IP addresses. To get the client's IP address, ALB adds an additional header called "X-Forwarded-For" contains the client's IP address)
+
+Q: You hosted an application on a set of EC2 instances fronted by an Elastic Load Balancer. A week later, users begin complaining that sometimes the application just doesn't work. You investigate the issue and found that some EC2 instances crash from time to time. What should you do to protect users from connecting to the EC2 instances that are crashing?
+> ELB Health Checks (When you enable ELB Health Checks, your ELB won't send traffic to unhealthy (crashed) EC2 instances)
+
+Q: You are working as a Solutions Architect for a company and you are required to design an architecture for a high-performance, low-latency application that will receive millions of requests per second. Which type of Elastic Load Balancer should you choose?
+> Network Load Balancer (provides the highest performance and lowest latency if your application needs it)
+
+Q: Application Load Balancers support the following protocols, EXCEPT
+> TCP (Application Load Balancers support HTTP, HTTPS and WebSocket)
+
+Q: Application Load Balancers can route traffic to different Target Groups based on the following, EXCEPT
+> Client's Location (Geography) (ALBs can route traffic to different Target Groups based on URL Path, Hostname, HTTP Headers, and Query Strings)
+
+Q: For compliance purposes, you would like to expose a fixed static IP address to your end-users so that they can write firewall rules that will be stable and approved by regulators. What type of Elastic Load Balancer would you choose?
+> Network Load Balancer has one static IP address per AZ and you can attach an Elastic IP address to it. Application Load Balancers and Classic Load Balancers have a static DNS name (You cannot attache Elastic IP address to ALB)
+
+Q: You want to create a custom application-based cookie in your Application Load Balancer. Which of the following you can use as a cookie name?
+> APPUSERC (The following cookie names are reserved by the ELB (AWSALB, AWSALBAPP, AWSALBTG))
+
+Q: You have a Network Load Balancer that distributes traffic across a set of EC2 instances in us-east-1. You have 2 EC2 instances in us-east-1b AZ and 5 EC2 instances in us-east-1e AZ. You have noticed that the CPU utilization is higher in the EC2 instances in us-east-1b AZ. After more investigation, you noticed that the traffic is equally distributed across the two AZs. How would you solve this problem?
+> Enable Cross-Zone Load Balancing (When Cross-Zone Load Balancing is enabled, ELB distributes traffic evenly across all registered EC2 instances in all AZs)
+
+Q: Which feature in both Application Load Balancers and Network Load Balancers allows you to load multiple SSL certificates on one listener?
+> Server Name Indication (SNI)
+
+Q: You have an Application Load Balancer that is configured to redirect traffic to 3 Target Groups based on the following hostnames: users.example.com, api.external.example.com, and checkout.example.com. You would like to configure HTTPS for each of these hostnames. How do you configure the ALB to make this work?
+> Use SNI (Server Name Indication (SNI) allows you to expose multiple HTTPS applications each with its own SSL certificate on the same listener. Read more here: https://aws.amazon.com/blogs/aws/new-application-load-balancer-sni/)
+
+Q: A web application hosted on a fleet of EC2 instances managed by an Auto Scaling Group. You are exposing this application through an Application Load Balancer. Both the EC2 instances and the ALB are deployed on a VPC with the following CIDR 192.168.0.0/18. How do you configure the EC2 instances' security group to ensure only the ALB can access them on port 80?
+> Add an Inbound Rule with port 80 and ALB's Security Group as the source (This is the most secure way of ensuring only the ALB can access the EC2 instances. Referencing by security groups in rules is an extremely powerful rule and many questions at the exam rely on it. Make sure you fully master the concepts behind it!)
+
+Q: There is an Auto Scaling Configured running in eu-west-2 region, that's configured to spawns two Availability Zones eu-west-2a and eu-west-2b. Currently, 3 EC2 instances running in eu-west-2a and 4 EC2 instances running in eu-west-2b. The ASG is about to scale in. Which EC2 instance will get terminated?
+> The EC2 instance in eu-west-2b with the oldest Launch Template version
+
+Q: An application is deployed with an Application Load Balancer and an Auto Scaling Group. Currently, you manually scale the ASG and you would like to define a Scaling Policy that will ensure the average number of connections to your EC2 instances is around 1000. Which Scaling Policy should you use?
+> Target Tracking Policy
+
+Q: Your application hosted on EC2 instances managed by an Auto Scaling Group suddenly receives a spike in traffic which triggers your ASG to scale out and a new EC2 instance has been launched. The traffic continuously increases but the ASG doesn't launch any new EC2 instances immediately but after 5 minutes. What is a possible cause for this behavior?
+> Cooldown Period (For each Auto Scaling Group, there's a Cooldown Period after each scaling activity. In this period, the ASG doesn't launch or terminate EC2 instances. This gives time to metrics to stabilize. The default value for the Cooldown Period is 300 seconds (5 minutes))
+
+Q: A company has an Auto Scaling Group where random EC2 instances suddenly crashed in the past month. They can't troubleshoot why the EC2 instances crash as the ASG terminates the unhealthy EC2 instances and replaces them with new EC2 instances. What will you do to troubleshoot the issue and prevent unhealthy instances from being terminated by the ASG?
+> Use ASG Lifecycle Hooks to pause the EC2 instance in the Terminating state for troubleshooting
 
 ## AWS Storage Services
 ### Intro
@@ -2281,24 +2386,37 @@ Q: An application is deployed with an Application Load Balancer and an Auto Scal
 	- Easy to role back in case of accidental delete
 	- Normal delete just add delete-marker on object and hide them, you have delete versions for permenent delete
 - **S3 Encryption**
-	- *SSE-S3* Encrypts objects using keys handled & managed by AWS
+    - *Default* 
+        - All new objects are encrypted when they are stored in the bucket
+        - Bucket policies are evaluated before "default" encryption
+        - The objects are encrypted using server-side encryption with either Amazon S3-managed keys (SSE-S3) or AWS KMS keys stored in AWS Key Management Service (AWS KMS) (SSE-KMS)
+        - To encrypt your existing Amazon S3 objects, you can use Amazon S3 Batch Operations
+        - You can also encrypt existing objects using the Copy Object API
+	- *SSE-S3* 
+	    - Encrypts objects using keys handled & managed by AWS
 		- Encrypted at server side 
 		- Encrypted with AES-256 & S3 managed data key
 		- Must set header "x-amz-server-side-encryption":"AES256" in request
-	- *SSE-KMS* Encrypts objects using keys from KMS
+	- *SSE-KMS* 
+	    - Encrypts objects using keys from KMS
 		- Encrypted at server side
 		- Encrypted using keys managed by KMS
 		- Must set header "x-amz-server-side-encryption":"aws:kms" in request
 		- Has user control and audit trails
 		- KMS can caused performance issue as it calls KMS API GenerateDataKey while upload and Decrypt while download
-	- *SSE-C* With own encryption keys
+	- *SSE-C* 
+	    - With own encryption keys
 		- Encrypted at server side
 		- Encrypted using keys managed by customer outside AWS
 		- HTTPS must be used
 		- Key must be provided in HTTP headers for every request
-	- *Client side* encryption
+	- *Client side* 
+	    - Encrypting your data locally to ensure its security as it passes to the Amazon S3 service
 		- Encrypted at client side
-		- Customer uploads encrypted object 
+		- Customer uploads encrypted object
+		- To enable client-side encryption, you have the following options:
+		    - Use a key stored in AWS Key Management Service (AWS KMS)
+		    - Use a key that you store within your application
 	- *In transit (SSL/TLS)*
 		- S3 exposed 
 			- HTTP endpoint which is non-encrypted
@@ -2640,7 +2758,7 @@ Q: An application is deployed with an Application Load Balancer and an Auto Scal
         - Petabyte scaling
     -   _Cost_  
 	    -  Pay per node provisioned
-###  [Snow Family](https://docs.aws.amazon.com/snowball/)	
+### [Snow Family](https://docs.aws.amazon.com/snowball/)	
 - Highly secure portable devices to collect and process data a the edge, and migrate data into or out of AWS
 - You can use these devices to locally and cost-effectively access the storage and compute power of the AWS Cloud in places where an internet connection might not be an option
 - **Data migration** devices
@@ -2719,7 +2837,7 @@ Q: An application is deployed with an Application Load Balancer and an Auto Scal
 	- Set of hybrid cloud services that gives you on-premises access to virtually unlimited cloud storage
 	- Bridge Between on-premise data and cloud data in S3
 	- Customers use Storage Gateway to integrate AWS Cloud storage with existing on-site workloads so they can simplify storage management and reduce costs for key hybrid cloud storage use cases
-###  [S3 File Gateway](https://aws.amazon.com/storagegateway/file/s3/)
+### [S3 File Gateway](https://aws.amazon.com/storagegateway/file/s3/)
 - Configured S3 buckets are accessible using SMB or NFS protocol with local caching
 - Supports S3 standard, S3 IA, S3 One Zone IA
 - Access using IAM roles for each gateway
@@ -2813,22 +2931,25 @@ Q: You would like to ensure you have a database available in another region if a
 Q: How can you enhance the security of your Redis cache to force users to enter a password?
 > Use Redis Auth
 
-Q: Your company has a production Node.js application that is using RDS MySQL 5.6 as its data backend.  A new application programmed in Java will perform some heavy analytics workload to create a  dashboard, on a regular hourly basis. You want to the final solution to minimize costs and have minimal disruption on the production application, what should you do?
+Q: Your company has a production Node.js application that is using RDS MySQL 5.6 as its database. A new application programmed in Java will perform some heavy analytics workload to create a dashboard on a regular hourly basis. What is the most cost-effective solution you can implement to minimize disruption for the main application?
 > Create a Read Replica in a different AZ and run the analytics workload on the replica database
 
 Q: You would like to create a disaster recovery strategy for your RDS PostgreSQL database so that in case of a regional outage, a database can be quickly made available for Read and Write workload in another region. The DR database must be highly available. What do you recommend?
-> Create a Read Replica in a different region and enable multi-AZ on the main database
+> Create a Read Replica in a different region and enable multi-AZ on the Read Replica
 
 Q: You are managing a PostgreSQL database and for security reasons, you would like to ensure users are authenticated using short-lived credentials. What do you suggest doing?
 > Use PostgreSQL for RDS and authenticate using a token obtained through the RDS service. 
    (In this case, IAM is leveraged to obtain the RDS service token, so this is the IAM 
    authentication use case.)
 
-Q: Which RDS database technology does NOT support IAM authentication?
+Q: Which RDS database technology does NOT support IAM Database Authentication?
 > Oracle
 
 Q: An application is running in production, using an Aurora database as its backend. Your development team would like to run a version of the application in a scaled-down application, but still, be able to perform some heavy workload on a need-basis. Most of the time, the application will be unused. Your CIO has tasked you with helping the team while minimizing costs. What do you suggest?
 > Use Aurora Serverless
+
+Q: An application hosted on an EC2 instance wants to upload objects to an S3 bucket using the PutObject API call, but it lacks the required permissions. What should you do?
+> Ask an administrator to attach an IAM Policy to the IAM Role on your EC2 instance that authorizes it to do the required API call (IAM Roles are the right way to provide credentials and permissions to an EC2 instance)
 
 Q: You're trying to upload a 25 GB file on S3 and it's not working
 > Should use multipart upload for file bigger than 5GB (Multi Part Upload is also recommended as soon as the file is over 100MB)
@@ -2842,8 +2963,8 @@ Q: You've added files in your bucket and then enabled versioning. The files you'
 Q: Your client wants to make sure the encryption is happening in S3, but wants to fully manage the encryption keys and never store them in AWS. You recommend
 > SSE-C (Here you have full control over the encryption keys, and let AWS do the encryption)
 
-Q: Your company wants data to be encrypted in S3, and maintain control of the rotation policy for the encryption keys, but not know the encryption keys values. You recommend
-> SSE-KMS (With SSE-KMS you let AWS manage the encryption keys but you have full control of the key rotation policy)
+Q: A company you're working for wants their data stored in S3 to be encrypted. They don't mind the encryption keys stored and managed by AWS, but they want to maintain control over the rotation policy of the encryption keys. You recommend them to use .....
+> SSE-KMS (With SSE-KMS, the encryption happens in AWS, and the encryption keys are managed by AWS but you have full control over the rotation policy of the encryption key. Encryption keys stored in AWS)
 
 Q: Your company does not trust S3 for encryption and wants it to happen on the application. You recommend
 > Client Side Encryption (With Client Side Encryption you perform the encryption yourself and send the encrypted data to AWS directly. AWS does not know your encryption keys and cannot decrypt your data.)
@@ -2880,18 +3001,66 @@ Q: Which of the following is a Serverless data analysis service allowing you to 
 
 Q: You are looking to build an index of your files in S3, using Amazon RDS PostgreSQL. To build this index, it is necessary to read the first 250 bytes of each object in S3, which contains some metadata about the content of the file itself. There is over 100,000 files in your S3 bucket, amounting to 50TB of data. how can you build this index efficiently?
 > Create an application that will traverse the S3 bucket, issue a Byte Range Fetch for the first 250 bytes, and store that information in RDS.
+
+Q: You have updated an S3 bucket policy to allow IAM users to read/write files in the S3 bucket, but one of the users complain that he can't perform a PutObject API call. What is a possible cause for this?
+> The IAM user must have an explicit DENY in the attached IAM Policy (Explicit DENY in an IAM Policy will take precedence over an S3 bucket policy)
+
+Q: You want the content of an S3 bucket to be fully available in different AWS Regions. That will help your team perform data analysis at the lowest latency and cost possible. What S3 feature should you use?
+> S3 Replication allows you to replicate data from an S3 bucket to another in the same/different AWS Region
+
+Q: You have 3 S3 buckets. One source bucket A, and two destination buckets B and C in different AWS Regions. You want to replicate objects from bucket A to both bucket B and C. How would you achieve this?
+> Configure replication from bucket A to bucket B, then from bucket A to bucket C
+
+Q: Which of the following is NOT a Glacier Deep Archive retrieval mode?
+> Expedited (1-5 mins)
+
+Q: How can you be notified when there's an object uploaded to your S3 bucket?
+> S3 Event Notifications
+
+Q: You have an S3 bucket that has S3 Versioning enabled. This S3 bucket has a lot of objects, and you would like to remove old object versions to reduce costs. What's the best approach to automate the deletion of these old object versions?
+> S3 Lifecycle Rules - Expiration Actions
+
+Q: While you're uploading large files to an S3 bucket using Multi-part Upload, there are a lot of unfinished parts stored in the S3 bucket due to network issues. You are not using these unfinished parts and they cost you money. What is the best approach to remove these unfinished parts?
+> Use an S3 Lifecycle Policy to automate old/unfinished parts deletion
+
+Q: You are looking to get recommendations for S3 Lifecycle Rules. How can you analyze the optimal number of days to move objects between different storage tiers?
+> S3 Analytics
+
+Q: For compliance reasons, your company has a policy mandate that database backups must be retained for 4 years. It shouldn't be possible to erase them. What do you recommend?
+> Glacier Vaults with Vault Lock Policies
+
+Q: You have a large dataset stored on-premises that you want to upload to the S3 bucket. The dataset is divided into 10 GB files. You have good bandwidth but your Internet connection isn't stable. What is the best way to upload this dataset to S3 and ensure that the process is fast and avoid any problems with the Internet connection?
+> Use S3 Multi-part Upload & S3 Transfer Acceleration
+
+Q: You would like to retrieve a subset of your dataset stored in S3 with the .csv format. You would like to retrieve a month of data and only 3 columns out of 10, to minimize compute and network costs. What should you use?
+> S3 Select
 	
-Q: You need to move hundreds of Terabytes into the cloud in S3, and after that pre-process it using many EC2 instances in order to clean the data. You have a 1 Gbit/s broadband and would like to optimize the process of moving the data and pre-processing it, in order to save time. What do you recommend?
+Q: You need to move hundreds of Terabytes into Amazon S3, then process the data using a fleet of EC2 instances. You have a 1 Gbit/s broadband. You would like to move the data faster and possibly processing it while in transit. What do you recommend?
 > Use Snowball Edge (Snowball Edge is the right answer as it comes with computing capabilities and allows use to pre-process the data while it's being moved in Snowball, so we save time on the pre-processing side as well)
 
 Q: You want to expose a virtually infinite storage for your tape backups. You want to keep the same software as today and want a iSCSI compatible interface. What do you use?
-> Tape Gateway
+> AWS Storage Gateway > Tape Gateway
 
 Q: Your EC2 Windows Servers need to share some data by having a Network File System mounted, that respect the Windows security mechanisms and has integration with Active Directory. What do you recommend putting in place as an NFS?
 > FSx for windows
 
 Q: You would like to have a distributed POSIX compliant file system that will allow you to maximize the IOPS in order to perform some HPC and genomics computational research. That file system will have to scale easily to millions of IOPS. What do you recommend?
 > FSx for Lustre
+
+Q: You have hundreds of Terabytes that you want to migrate to AWS S3 as soon as possible. You tried to use your network bandwidth and it will take around 3 weeks to complete the upload process. What is the recommended approach to using in this situation?
+> AWS Snowball Edge
+
+Q: You have a large dataset stored in S3 that you want to access from on-premises servers using the NFS or SMB protocol. Also, you want to authenticate access to these files through on-premises Microsoft AD. What would you use?
+> AWS Storage Gateway > File Gateway
+
+Q: You are planning to migrate your company's infrastructure from on-premises to AWS Cloud. You have an on-premises Microsoft Windows File Server that you want to migrate. What is the most suitable AWS service you can use?
+> FSx for windows
+
+Q: Which deployment option in the FSx file system provides you with long-term storage that's replicated within AZ?
+> Persistent File System (Provides long-term storage where data is replicated within the same AZ. Failed files were replaced within minutes)
+
+Q: Which of the following protocols is NOT supported by AWS Transfer Family?
+> TLS (AWS Transfer Family is a managed service for file transfers into and out of S3 or EFS using the FTP protocol, thus TLS is not supported)
 
 Q: Which database helps you store data in a relational format, with SQL language compatibility and capability of processing transactions?
 > RDS
@@ -2917,27 +3086,60 @@ Q: Your log data is currently stored in S3 and you would like to perform a quick
 Q: Your gaming website is currently running on top of DynamoDB. Users have been asking for a search feature to find other gamers by name, with partial matches if possible. Which technology do you recommend to implement that feature?
 > ElasticSearch (Anytime you see "search", think ElasticSearch)
 
+Q: Amazon RDS supports the following databases, EXCEPT
+> MongoDB (RDS supports MySQL, PostgreSQL, MariaDB, Oracle, MS SQL Server, and Amazon Aurora)
 
-    Important ports:
-    FTP: 21
-    SSH: 22
-    SFTP: 22 (same as SSH)
-    HTTP: 80
-    HTTPS: 443
-    vs RDS Databases ports:
-    PostgreSQL: 5432
-    MySQL: 3306
-    Oracle RDS: 1521
-    MSSQL Server: 1433
-    MariaDB: 3306 (same as MySQL)
-    Aurora: 5432 (if PostgreSQL compatible) or 3306 (if MySQL compatible)
+Q: You're planning for a new solution that requires a MySQL database that must be available even in case of a disaster in one of the Availability Zones. What should you use?
+> Multi-AZ helps when you plan a disaster recovery for an entire AZ going down. If you plan against an entire AWS Region going down, you should use backups and replication across AWS Regions
 
+Q: We have an RDS database that struggles to keep up with the demand of requests from our website. Our million users mostly read news, and we don't post news very often. Which solution is NOT adapted to this problem?
+> RDS Multi-AZ
+
+Q: You have set up read replicas on your RDS database, but users are complaining that upon updating their social media posts, they do not see their updated posts right away. What is a possible cause for this?
+> Read Replicas have Asynchronous Replication, therefore it's likely your users will only read Eventual Consistency
+
+Q: Your application running on a fleet of EC2 instances managed by an Auto Scaling Group behind an Application Load Balancer. Users have to constantly log back in and you don't want to enable Sticky Sessions on your ALB as you fear it will overload some EC2 instances. What should you do?
+> Storing Session Data in ElastiCache is a common pattern to ensuring different EC2 instances can retrieve your user's state if needed
+
+Q: An analytics application is currently performing its queries against your main production RDS database. These queries run at any time of the day and slow down the RDS database which impacts your users' experience. What should you do to improve the users' experience?
+> Read Replicas will help as your analytics application can now perform queries against it, and these queries won't impact the main production RDS database
+
+Q: You have migrated the MySQL database from on-premises to RDS. You have a lot of applications and developers interacting with your database. Each developer has an IAM user in the company's AWS account. What is a suitable approach to give access to developers to the MySQL RDS DB instance instead of creating a DB user for each one?
+> Enable IAM database Authentication
+
+Q: Which of the following statement is true regarding replication in both RDS Read Replicas and Multi-AZ?
+> Read Replica uses Asynchronous Replication and Multi-AZ uses Synchronous Replication
+
+Q: How do you encrypt an unencrypted RDS DB instance?
+> Create a snapshot of the unencrypted RDS DB instance, copy the snapshot and tick "Enable encryption", then restore the RDS DB instance from the encrypted snapshot
+
+Q:For your RDS database, you can have up to ............ Read Replicas
+> 5
+
+Q: You have an un-encrypted RDS DB instance and you want to create Read Replicas. Can you configure the RDS Read Replicas to be encrypted?
+> No (You can not create encrypted Read Replicas from an unencrypted RDS DB instance)
+
+Q: An application running in production is using an Aurora Cluster as its database. Your development team would like to run a version of the application in a scaled-down application with the ability to perform some heavy workload on a need-basis. Most of the time, the application will be unused. Your CIO has tasked you with helping the team to achieve this while minimizing costs. What do you suggest?
+> Use Aurora Serverless
+
+Q: How many Aurora Read Replicas can you have in a single Aurora DB Cluster?
+> 15
+
+Q: Amazon Aurora supports both .......................... databases
+> MySQL and PostgreSQL
+
+Q: You work as a Solutions Architect for a gaming company. One of the games mandates that players are ranked in real-time based on their score. Your boss asked you to design then implement an effective and highly available solution to create a gaming leaderboard. What should you use?
+> Use ElastiCache for Redis - Sorted Sets
 
 ## Route 53
  - [Docs](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html)
  - DNS (Domain name system) is collection of rules and records which helps client to understand how to reach a server through its domain name
+    - DNS, or the Domain Name System, translates human readable domain names (for example, www.amazon.com) to machine readable IP addresses (for example, 192.0.2.44)
+    - A DNS service such as Amazon Route 53 is a globally distributed service that translates human readable names like www.example.com into the numeric IP addresses like 192.0.2.1 that computers use to connect to each other
+    - The following diagram gives an overview of how recursive and authoritative DNS services work together to route an end user to your website or application
+    - ![](https://d1.awsstatic.com/Route53/how-route-53-routes-traffic.8d313c7da075c3c7303aaef32e89b5d0b7885e7c.png)
  - Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web service. You can use Route 53 to perform three main functions in any combination: domain registration, DNS routing, and health checking.
- - In aws, more common records are
+ - In Route53, more common records are
 	 - A: Hostname to IPv4
 	 - AAAA: hostname to IPv6
      - CNAME: hostname to hostname (only work for non root domain e.g. works for mydomain.root.com but not for root.com)
@@ -2972,21 +3174,14 @@ Q: Your gaming website is currently running on top of DynamoDB. Users have been 
    - Route 53 also a Registrar which manage reserved internet domain (Domain name != Registrar)
 
 ### Route 53 Q&A	
-Q: You have purchased "mycoolcompany.com" on the AWS registrar and would like for it to point to 
-   `lb1-1234.us-east-2.elb.amazonaws.com` . What sort of Route 53 record is **NOT POSSIBLE** to set 
-   up for this?
-> CNAME (The DNS protocol does not allow you to create a CNAME record for the top node of a DNS
-   namespace (mycoolcompany.com), also known as the zone apex)
+Q: You have purchased mycoolcompany.com on Amazon Route 53 Registrar and would like the domain to point to your Elastic Load Balancer my-elb-1234567890.us-west-2.elb.amazonaws.com. Which Route 53 Record type must you use here?
+> Alias
 	  
 Q: You have deployed a new Elastic Beanstalk environment and would like to direct 5% of your  production traffic to this new environment, in order to monitor for CloudWatch metrics and  ensuring no bugs exist. What type of Route 53 records allows you to do so?
-> Weighted  (Weighted allows you to redirect a part of the traffic based on a weight 
-   (hence a percentage). It's common to use to send a part of a traffic to a new application 
-   you're deploying
+> Weighted  (Weighted allows you to redirect a part of the traffic based on a weight (hence a percentage). It's common to use to send a part of a traffic to a new application you're deploying
    
-Q: After updating a Route 53 record to point "myapp.mydomain.com" from an old Load Balancer to a new load balancer, it looks like the users are still not redirected to your new load balancer. You are wondering why...
-> Becuase of TTL (DNS records have a TTL (Time to Live) in order for clients to know for how long 
-   to caches these values and not overload the DNS with DNS requests. TTL should be set to strike a
-   balance between how long the value should be cached vs how much pressure should go on the DNS.)
+Q: You have updated a Route 53 Record's myapp.mydomain.com value to point to a new Elastic Load Balancer, but it looks like users are still redirected to the old ELB. What is a possible cause for this behavior?
+> Becuase of TTL (DNS records have a TTL (Time to Live) in order for clients to know for how long to caches these values and not overload the DNS with DNS requests. TTL should be set to strike a balance between how long the value should be cached vs how much pressure should go on the DNS.)
    
 Q: You want your users to get the best possible user experience and that means minimizing the response time from your servers to your users. Which routing policy will help?
 > Latency (Latency will evaluate the latency results and help your users get a DNS response that 
@@ -2996,10 +3191,13 @@ Q: You have a legal requirement that people in any country but France should not
 > Geolocation
 
 Q: You have purchased a domain on Godaddy and would like to use it with Route 53. What do you need to change to make this work?
-> Create a public hosted zone and update the 3rd party registrar NS records (Private hosted 
-   zones are meant to be used for internal network queries and are not publicly accessible. 
-   Public Hosted Zones are meant to be used for people requesting your website through the 
-   public internet. Finally, NS records must be updated on the 3rd party registrar.)
+> Create a public hosted zone and update the 3rd party registrar NS records (Public Hosted Zones are meant to be used for people requesting your website through the Internet. Finally, NS records must be updated on the 3rd party Registrar)
+   
+Q: You have an application that's hosted in two different AWS Regions us-west-1 and eu-west-2. You want your users to get the best possible user experience by minimizing the response time from application servers to your users. Which Route 53 Routing Policy should you choose?
+> Latency (Latency Routing Policy will evaluate the latency between your users and AWS Regions, and help them get a DNS response that will minimize their latency (e.g. response time))
+
+Q: Which of the following are NOT valid Route 53 Health Checks?
+> Health Check that monitor SQS Queue
 
 ## CloudFront & AWS Global Accelerator
 ### [CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html)
@@ -3106,14 +3304,23 @@ Q: How can you ensure that only users who access our website through Canada are 
 > Use CloudFront Geo Restriction
 
 Q: You would like to provide your users access to hundreds of private files in your CloudFront distribution, which is fronting an HTTP web server behind an application load balancer. What should you use?
-> CloudFront Signed Cookies (Allows you to access many files)
+> CloudFront Signed Cookies (Allows you to access many files) **(Signed URL is for indivisual files)
 
 Q: You are creating an application that is going to expose an HTTP REST API. There is a need to provide request routing rules at the HTTP level. Due to security requirements, your application can only be exposed through the use of two static IPs. How can you create a solution that validates these requirements?
 > Use Global Accelerator and an Application Load Balancer (Global Accelerator will provide us with the two static IP, and the ALB will provide use with the HTTP routing rules)
 
-Q:What does this S3 bucket policy do?
+Q: You have a paid content that is stored in the S3 bucket. You want to distribute that content globally, so you have set up a CloudFront Distribution and configured the S3 bucket to only exchange data with your CloudFront Distribution. Which CloudFront feature allows you to securely distribute this paid content?
+> CloudFront Signed URLs are commonly used to distribute paid content through dynamically generated signed URLs
 
-    {
+Q: You have a CloudFront Distribution that serves your website hosted on a fleet of EC2 instances behind an Application Load Balancer. All your clients are from the United States, but you found that some malicious requests are coming from other countries. What should you do to only allow users from the US and block other countries?
+> Use CloudFront Geo Restriction
+
+Q: You have a static website hosted on an S3 bucket. You have created a CloudFront Distribution that points to your S3 bucket to better serve your requests and improve performance. After a while, you noticed that users can still access your website directly from the S3 bucket. You want to enforce users to access the website only through CloudFront. How would you achieve that?
+> Configure your CloudFront Distribution and create an Origin Access Identity, then update your S3 Bucket Policy to only accept requests from your CloudFront Distribution OAI user.
+
+Q:What does this S3 bucket policy do?
+```json
+{
 	"Version": "2012-10-17",
 	"Id": "Mystery policy",
 	"Statement": [
@@ -3126,9 +3333,9 @@ Q:What does this S3 bucket policy do?
 			"Action": "s3:GetObject",
 			"Resource": "arn:aws:s3:::examplebucket/*"
 		}
-	  ]
-    }
-    
+	 ]
+}
+```    
 > Only allows the S3 bucket content to be accessed from your CloudFront distribution origin identity
 
 ## Decoupling applications
@@ -3176,54 +3383,59 @@ Q:What does this S3 bucket policy do?
 		- Similar to S3 bucket policies
 		- Cross Account Access - create queue account policy
 		- Publish S3 Event Notifications to SQS queue - create queue account policy with source bucket condition (json)
-```javascript	
-// Cross Account Access
-{
-   "Version": "2012-10-17",
-   "Id": "Queue1_Policy_UUID",
-   "Statement": [{
-      "Sid":"Queue1_AllActions",
-      "Effect": "Allow",
-      "Principal": {
-         "AWS": [
-            "arn:aws:iam::111122223333:role/role1",
-            "arn:aws:iam::111122223333:user/username1"
-         ]
-      },
-      "Action": "sqs:*",
-      "Resource": "arn:aws:sqs:us-east-2:123456789012:queue1"
-   }]
-}	
-// Publish S3 Event Notifications to SQS queue
-{
-   "Version": "2012-10-17",
-   "Id": "example-ID",
-   "Statement": [{
-	  "Sid": "example-statement-ID",
-      "Effect": "Allow",
-      "Principal": {"AWS": "*" },
-      "Action": "SQS:SendMessage",
-      "Resource": "arn:aws:sqs:us-east-2:123456789012:queue1"
-      "Condition": {
-	      "ArnLike": { "aws:SourceArn":"arn:aws:s3:*:*:bucket1"},
-	      "StringEquals": { "aws:SourceAcount":"<Bucket-Owner-Account-Id>" }
-      }
-   }]
-}
-```
--	**Message visibility timeout**
-	-	Once message read by consumer it will invisible to other consumer (for 30 secs)
-	-	That means the message has 30 secs to get processed
-	-	Else it will be available after visibility timeout expired
-	-	If message is not processed within visibility timeout, it will process twice
-	-	Consumer can call the *ChangeMessageVisibility* API to get more time so it will be no visible soon
--	**Dead Letter Queue (DLQ)**
-	-	We can set a threshold of how many times a message can go back to the queue
-	-	After the *MaximumReceives* threshold is exceed, the message goes to into the DLQ
-	-	Helpful for debugging
-	-	Good to set retention period of 14+ days
--	![enter image description here](https://funnelgarden.com/wp-content/uploads/2020/01/AWS-SQS-Simple-Queue-Service-1024x379.png =800x300)
--	[Request Response Pattern (virtual queues)](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-temporary-queues.html#request-reply-messaging-pattern)
+            ```json	
+            // Cross Account Access
+            {
+               "Version": "2012-10-17",
+               "Id": "Queue1_Policy_UUID",
+               "Statement": [{
+                  "Sid":"Queue1_AllActions",
+                  "Effect": "Allow",
+                  "Principal": {
+                     "AWS": [
+                        "arn:aws:iam::111122223333:role/role1",
+                        "arn:aws:iam::111122223333:user/username1"
+                     ]
+                  },
+                  "Action": "sqs:*",
+                  "Resource": "arn:aws:sqs:us-east-2:123456789012:queue1"
+               }]
+            }	
+            // Publish S3 Event Notifications to SQS queue
+            {
+               "Version": "2012-10-17",
+               "Id": "example-ID",
+               "Statement": [{
+            	  "Sid": "example-statement-ID",
+                  "Effect": "Allow",
+                  "Principal": {"AWS": "*" },
+                  "Action": "SQS:SendMessage",
+                  "Resource": "arn:aws:sqs:us-east-2:123456789012:queue1"
+                  "Condition": {
+            	      "ArnLike": { "aws:SourceArn":"arn:aws:s3:*:*:bucket1"},
+            	      "StringEquals": { "aws:SourceAcount":"<Bucket-Owner-Account-Id>" }
+                  }
+               }]
+            }
+            ```
+- **Message visibility timeout**
+	- Once message read by consumer it will invisible to other consumer (for 30 secs)
+	- That means the message has 30 secs to get processed
+	- Else it will be available after visibility timeout expired
+	- If message is not processed within visibility timeout, it will process twice
+	- Consumer can call the *ChangeMessageVisibility* API to get more time so it will be no visible soon
+- **Long Polling**
+    - When consumer request message from the queue, it can optionally "wait" for messages to arrive if there are none in the queue
+    - This is called long polling
+    - LongPolling decreases the number of API calls made to SQS while increasing the efficiency and latency of your application
+    - The wait time can be between 1sec to 20sec
+    - Can be enabled at queue level or at API level using `WaitTimeSeconds`
+- **Dead Letter Queue (DLQ)**
+	- We can set a threshold of how many times a message can go back to the queue
+	- After the *MaximumReceives* threshold is exceed, the message goes to into the DLQ
+	- Helpful for debugging
+	- Good to set retention period of 14+ days ![](https://funnelgarden.com/wp-content/uploads/2020/01/AWS-SQS-Simple-Queue-Service-1024x379.png)
+- [Request Response Pattern (virtual queues)](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-temporary-queues.html#request-reply-messaging-pattern)
 	-	Temporary queues help you save development time and deployment costs when using common message patterns such as _request-response_
 	-	Most common use case for temporary queues is the _request-response_ messaging pattern
 	-	Requester creates a _temporary queue_ for receiving each response message
@@ -3370,7 +3582,7 @@ Q:What does this S3 bucket policy do?
 - Runs on dedicated machine
 - Has both **queue feature and topic feature**![enter image description here](https://d1.awsstatic.com/product-marketing/Amazon-MQ/Amazon%20MQ%20HIW%20Diagram.78e380e8a97064c8f751c1569481a304644490b5.jpg)
 
-### Decoupling applications Q&A
+### Q&A
 Q: You are preparing for the biggest day of sale of the year, where your traffic will increase by 100x. You have already setup SQS standard queue. What should you do?
 > 	Do nothing, SQS scales automatically
 
@@ -3402,8 +3614,40 @@ Q: You want to send email notifications to your users. You should use
 > SNS
 
 Q: You have many microservices running on-premise and they currently communicate using a message broker that supports the MQTT protocol. You would like to migrate these applications and the message broker to the cloud without changing the application logic. Which technology allows you to get a managed message broker that supports the MQTT protocol?
-> Amazon MQ (Supports JMS, NMS, AMQP, STOMP, MQTT, and WebSocket)
+> Amazon MQ (supports industry-standard APIs such as JMS and NMS, and protocols for messaging, including AMQP, STOMP, MQTT, and WebSocket)
 
+Q: You have an e-commerce website and you are preparing for Black Friday which is the biggest sale of the year. You expect that your traffic will increase by 100x. Your website already using an SQS Standard Queue, and you're running a fleet of EC2 instances in an Auto Scaling Group to consume SQS messages. What should you do to prepare your SQS Queue?
+> Do nothing, SQS scales automatically
+
+Q: How would you configure your SQS messages to be processed by consumers only after 5 minutes of being published to your SQS Queue?
+> Increase `DelaySeconds` (SQS Delay Queues is a period of time during which Amazon SQS keeps new SQS messages invisible to consumers. In SQS Delay Queues, a message is hidden when it is first added to the queue. (default: 0 mins, max.: 15 mins))
+
+Q: You have an SQS Queue where each consumer polls 10 messages at a time and finishes processing them in 1 minute. After a while, you noticed that the same SQS messages are received by different consumers resulting in your messages being processed more than once. What should you do to resolve this issue?
+> Increase Visibility Timeout (SQS Visibility Timeout is a period of time during which Amazon SQS prevents other consumers from receiving and processing the message again. In Visibility Timeout, a message is hidden only after it is consumed from the queue. Increasing the Visibility Timeout gives more time to the consumer to process the message and prevent duplicate reading of the message. (default: 30 sec., min.: 0 sec., max.: 12 hours))
+
+Q: You have a fleet of EC2 instances (consumers) managed by an Auto Scaling Group that used to process messages in an SQS Standard Queue. Lately, you have found a lot of messages processed twice and after further investigation, you found that these messages can not be processed successfully. How would you troubleshoot (debug) why these messages fail?
+> DLQ (SQS Dead Letter Queue is where other SQS queues (source queues) can send messages that can't be processed (consumed) successfully. It's useful for debugging as it allows you to isolate problematic messages so you can debug why their processing doesn't succeed)
+
+Q: Which SQS Queue type allows your messages to be processed exactly once and in order?
+> SQS FIFO (First-In-First-Out) Queues have all the capabilities of the SQS Standard Queue, plus the following two features. First, The order in which messages are sent and received are strictly preserved and a message is delivered once and remains available until a consumer process and deletes it. Second, duplicated messages are not introduced into the queue
+
+Q: You have 3 different applications that you'd like to send them the same message. All 3 applications are using SQS. What is the best approach would you choose?
+> Use SNS + SQS Fan Out Pattern (This is a common pattern where only one message is sent to the SNS topic and then "fan-out" to multiple SQS queues. This approach has the following features: it's fully decoupled, no data loss, and you have the ability to add more SQS queues (more applications) over time)
+
+Q: You have a Kinesis data stream with 6 shards provisioned. This data stream usually receiving 5 MB/s of data and sending out 8 MB/s. Occasionally, your traffic spikes up to 2x and you get a ProvisionedThroughputExceeded exception. What should you do to resolve the issue?
+> Add more shards (The capacity limits of a Kinesis data stream are defined by the number of shards within the data stream. The limits can be exceeded by either data throughput or the number of reading data calls. Each shard allows for 1 MB/s incoming data and 2 MB/s outgoing data. You should increase the number of shards within your data stream to provide enough capacity)
+
+Q: You have a website where you want to analyze clickstream data such as the sequence of clicks a user makes, the amount of time a user spends, and where the navigation begins and how it ends. You decided to use Amazon Kinesis, so you have configured the website to send these clickstream data all the way to a Kinesis data stream. While you checking the data sent to your Kinesis data stream, you found that the users' data is not ordered and the data for one individual user is spread across many shards. How would you fix this problem?
+> For each record sent to Kinesis add a partition key that represents the identity of the user (Kinesis Data Stream uses the partition key associated with each data record to determine which shard a given data record belongs to. When you use the identity of each user as the partition key, this ensures the data for each user is ordered hence sent to the same shard)
+
+Q: Which AWS service is most appropriate when you want to perform real-time analytics on streams of data?
+> Kinesis Data Analytics
+
+Q: You are running an application that produces a large amount of real-time data that you want to load into S3 and Redshift. Also, these data need to be transformed before being delivered to their destination. What is the best architecture would you choose?
+> Kinesis Data Streams + Kinesis Data Firehose (This is a perfect combo of technology for loading data near real-time data into S3 and Redshift. Kinesis Data Firehose supports custom data transformations using AWS Lambda)
+
+Q: Which of the following is NOT a supported subscriber for AWS SNS?
+> Kinesis Data Firehose is now supported, but not Kinesis Data Streams (Other supported are SQS, HTTP Endpoints, Lambda)
 
 ## Container on AWS
 ### Docker
@@ -3548,9 +3792,28 @@ Q: You have many microservices running on-premise and they currently communicate
 - You can control access to your repositories and the images within them with *repository policies*
 - You can push and pull *container images* to your repositories
 - Supports image vulnerability scanning, version, tag, image lifecycle ![enter image description here](https://d1.awsstatic.com/diagrams/product-page-diagrams/Product-Page-Diagram_Amazon-ECR.bf2e7a03447ed3aba97a70e5f4aead46a5e04547.png)
-			 
-			 
+### Q&A
+Q: You have multiple Docker-based applications hosted on-premises that you want to migrate to AWS. You don't want to provision or manage any infrastructure, you just want to run your containers on AWS. Which AWS service should you choose?
+> AWS Fargate allows you to run your containers on AWS without managing any servers
 
+Q: Amazon Elastic Container Service (ECS) has two Launch Types: ..... and .....
+> Amazon EC2 Launch Type and Fargate Launch Type
+
+Q: You have an application hosted on an ECS Cluster (EC2 Launch Type) where you want your ECS tasks to upload files to an S3 bucket. Which IAM Role for your ECS Tasks should you modify?
+> ECS Task Role is the IAM Role used by the ECS task itself. Use when your container wants to call other AWS services like S3, SQS, etc.
+
+Q: You're planning to migrate a WordPress website running on Docker containers from on-premises to AWS. You have decided to run the application in an ECS Cluster, but you want your docker containers to access the same WordPress website content such as website files, images, videos, etc. What do you recommend to achieve this?
+> EFS volume (EFS volume can be shared between different EC2 instances and different ECS Tasks. It can be used as a persistent multi-AZ shared storage for your containers)
+
+Q: You are deploying an application on an ECS Cluster made of EC2 instances. Currently, the cluster is hosting one application that is issuing API calls to DynamoDB successfully. Upon adding a second application, which issues API calls to S3, you are getting authorization issues. What should you do to resolve the problem and ensure proper security?
+> Create an IAM task role for the new application
+
+Q: Which feature allows an Application Load Balancer to redirect traffic to multiple ECS Tasks running on the same ECS Container instance?
+> Dynamic Port Mapping
+
+Q: You are migrating your on-premises Docker-based applications to Amazon ECS. You were using Docker Hub Container Image Library as your container image repository. Which is an alternative AWS service which is fully integrated with Amazon ECS?
+> Amazon ECR is a fully managed container registry that makes it easy to store, manage, share, and deploy your container images. It won't help in running your Docker-based applications
+			 
 ## Serverless in AWS
  - A [serverless architecture](https://aws.amazon.com/lambda/serverless-architectures-learn-more/) is a way to build and run applications and services without having to manage infrastructure
  - Application still runs on servers, but all the server management is done by AWS
@@ -3939,7 +4202,8 @@ Q: You have many microservices running on-premise and they currently communicate
 	- Information in the Data Catalog is stored as metadata tables, where each table specifies a single data store
 	- ![enter image description here](https://docs.aws.amazon.com/glue/latest/dg/images/PopulateCatalog-overview.png)
 	- ![enter image description here](https://csharpcorner-mindcrackerinc.netdna-ssl.com/UploadFile/NewsImages/08192020072349AM/Glu1.png)
-### Serverless Q&A
+### Q&A
+
 Q: You have a Lambda function that will process data for 25 minutes before successfully completing. The code is working fine in your machine, but in AWS Lambda it just fails with a "timeout" issue after 3 seconds. What should you do?
 > Run your code somewhere else than Lambda - the maximum timeout is 15 minutes
 
@@ -3950,22 +4214,40 @@ Q: We have to provision the instance type for our DynamoDB database
 > False, DynamoDB is a serverless service and as such we don't provision an instance type for our database. We just say how much RCU and WCU we require for our table (or auto scaling)
 
 Q: A DynamoDB table has been provisioned with 10 RCU and 10 WCU. You would like to increase the RCU to sustain more read traffic. What is true about RCU and WCU?
-> RCU and WCU are decoupled, so WCU can stay the same
-
-Q: You are about to enter the Christmas sale and you know a few items in your website are very popular and will be read often. Last year you had a **ProvisionedThroughputExceededException.** What should you do this year?
-> Create DAX Cluster (A DynamoDB Accelerator (DAX) cluster is a cache that fronts your DynamoDB tables and caches the most frequently read values. They help offload the heavy reads on hot keys off of DynamoDB itself, hence preventing the ProvisionedThroughputExceededException)
-
-Q: You would like to automate sending welcome emails to the users who subscribe to the Users table in DynamoDB. How can you achieve that?
-> Enable DynamoDB Streams and have the Lambda function receive the events in real-time
+> Increase RCU and keep WCU the same (RCU and WCU are decoupled, so you can increase/decrease each value separately)
 
 Q: To make a serverless API, I should integrate API Gateway with
 > Lambda (Lambda is a serverless technology)
 
 Q: You would like to provide a Facebook login before your users call your API hosted by API Gateway. You need seamlessly authentication integration, you will use
-> Cognito User Pool (Cognito User Pools directly integration with Facebook Logins)
+> Cognito User Pool (Amazon Cognito User Pools integrate with Facebook to provide authenticated logins for your application users)
 
-Q: Your production application is leveraging DynamoDB as its backend and is experiencing smooth sustained usage. There is a need to make the application run in development as well, where it will experience unpredictable, sometimes high, sometimes low volume of requests. You would like to make sure you optimize for cost. What do you recommend?
-> Provision WCU & RCU and enable auto-scaling for production and use on-demand capacity for development
+Q: You are running an application in production that is leveraging DynamoDB as its datastore and is experiencing smooth sustained usage. There is a need to make the application run in development mode as well, where it will experience the unpredictable volume of requests. What is the most cost-effective solution that you recommend?
+> Use Provisioned Capacity Mode with Auto Scaling enabled for production and use On-Demand Capacity Mode for development
+
+Q: You have created a Lambda function that typically will take around 1 hour to process some data. The code works fine when you run it locally on your machine, but when you invoke the Lambda function it fails with a "timeout" error after 3 seconds. What should you do?
+> Lambda's maximum execution time is 15 minutes. You can run your code somewhere else such as an EC2 instance or use Amazon ECS
+
+Q: Which of the following is the best way to inject a dynamic DB_URL variable into your Lambda function's code?
+> Lambda's Environment Variables allows you to adjust your function's behavior without updating code
+
+Q: Before you create a DynamoDB table, you need to provision the EC2 instance the DynamoDB table will be running on
+> False (DynamoDB is serverless with no servers to provision, patch, or manage and no software to install, maintain or operate. It automatically scales tables up and down to adjust for capacity and maintain performance. It provides both provisioned (specify RCU &amp; WCU) and on-demand (pay for what you use) capacity modes)
+
+Q: You have an e-commerce website where you are using DynamoDB as your database. You are about to enter the Christmas sale and you have a few items which are very popular and you expect that they will be read often. Unfortunately, last year due to the huge traffic you had the ProvisionedThroughputExceededException exception. What would you do to prevent this error from happening again?
+> Create DAX cluster (DynamoDB Accelerator (DAX) is a fully managed, highly available, in-memory cache for DynamoDB that delivers up to 10x performance improvement. It caches the most frequently used data, thus offloading the heavy reads on hot keys off your DynamoDB table, hence preventing the "ProvisionedThroughputExceededException" exception)
+
+Q: You have developed a mobile application that uses DynamoDB as its datastore. You want to automate sending welcome emails to new users after they sign up. What is the most efficient way to achieve this?
+> Enable DynamoDB Streams and configure it to invoke a Lambda function to send emails (DynamoDB Streams allows you to capture a time-ordered sequence of item-level modifications in a DynamoDB table. It's integrated with AWS Lambda so that you create triggers that automatically respond to events in real-time)
+
+Q: When you are using an Edge-Optimized API Gateway, your API Gateway lives in CloudFront Edge Locations across all AWS Regions
+> False (An Edge-Optimized API Gateway is best for geographically distributed clients. API requests are routed to the nearest CloudFront Edge Location which improves latency. The API Gateway still lives in one AWS Region)
+
+Q: You have an application that is served globally using CloudFront Distribution. You want to authenticate users at the CloudFront Edge Locations instead of authentication requests go all the way to your origins. What should you use to satisfy this requirement?
+> Lambda@Edge is a feature of CloudFront that lets you run code closer to your users, which improves performance and reduces latency
+
+Q: The maximum size of an item in a DynamoDB table is .....
+> 400KB
 
 ## Security
 ### Encryption
@@ -4212,7 +4494,7 @@ Q: Your production application is leveraging DynamoDB as its backend and is expe
 		- Bucker configuration
 		- Bucket policy/public setting
 		- IAM user and roles
-### Security Q&A
+### Q&A
 Q: To enable In-flight Encryption (In-Transit Encryption), we need to have ...
 > an HTTPS endpoint with an SSL certificate (In-flight Encryption = HTTPS, and HTTPS can not be enabled without an SSL certificate)
 
@@ -4446,26 +4728,24 @@ Q: Which AWS service helps you protect your sensitive data stored in S3 buckets?
 		- Kinesis Data Firehouse also will talk to lambda function to cleanse or transform our data
 		- Ingestion bucket will call lambda function which will trigger Amazon Athena SQL query
 		- Amazon Athena will pull data using query from ingestion bucket and upload it to the reporting bucket ![enter image description here](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-serverless-data-ingestion.png)
-### Case Studies Q&A
+### Q&A
 
-Q:  You have an ASG that scales on demand based on the traffic going to your new website: TriangleSunglasses.Com. You      would like to optimize for cost, so you have selected an ASG that scales based on demand going through your ELB. Still,      you want your solution to be highly available so you have selected the minimum instances to 2. How can you further      optimize the cost while respecting the requirements?
+Q: You have an ASG that scales on demand based on the traffic going to your new website: TriangleSunglasses.Com. You would like to optimize for cost, so you have selected an ASG that scales based on demand going through your ELB. Still, you want your solution to be highly available so you have selected the minimum instances to 2. How can you further optimize the cost while respecting the requirements?
 > Reserve two EC2 instances (This is the way to save further costs as we know we will run 2 EC2 instances no matter what.)
 
 Q: Which of the following will **NOT** help make our application tier stateless?
-> Storing shared data on EBS volumes (EBS volumes are created for a specific AZ and can only be attached to one EC2
-      instance at a time. This will not help make our application stateless)
+> Storing shared data on EBS volumes (EBS volumes are created for a specific AZ and can only be attached to one EC2      instance at a time. This will not help make our application stateless)
       
-Q:  You are looking to store shared software updates data across 100s of EC2 instances. The software updates should be      dynamically loaded on the EC2 instances and shouldn't require heavy operations. What do you suggest?
+Q: You are looking to store shared software updates data across 100s of EC2 instances. The software updates should be      dynamically loaded on the EC2 instances and shouldn't require heavy operations. What do you suggest?
 > Store the software updates on EFS and mount EFS as a network drive (EFS is a network file system (NFS) and allows to mount the same file system to 100s of EC2 instances. Publishing software updates their allow each EC2 instance to access them.)
 
-Q: As a solution architect managing a complex ERP software suite, you are orchestrating a migration to the AWS cloud. The     software traditionally takes well over an hour to setup on a Linux machine, and you would like to make sure your      application does leverage the ASG feature of auto scaling based on the demand. How do you recommend you speed up
-     the installation process?
+Q: As a solution architect managing a complex ERP software suite, you are orchestrating a migration to the AWS cloud. The  software traditionally takes well over an hour to setup on a Linux machine, and you would like to make sure your application does leverage the ASG feature of auto scaling based on the demand. How do you recommend you speed up the installation process?
  > Use golden AMI (Golden AMI are a standard in making sure you snapshot a state after an application installation so that future instances can boot up from that AMI quickly.)
 
 Q: I am creating an application and would like for it to be running with minimal cost in a development environment with     Elastic Beanstalk. I should run it in
 > Single Instance Mode (This will create one EC2 instance and one Elastic IP)
 
-Q: My deployments on Elastic Beanstalk have been painfully slow, and after looking at the logs, I realize this is due to the    fact that my dependencies are resolved on each EC2 machine at deployment time. How can I speed up my deployment     with the minimal impact?
+Q: My deployments on Elastic Beanstalk have been painfully slow, and after looking at the logs, I realize this is due to the fact that my dependencies are resolved on each EC2 machine at deployment time. How can I speed up my deployment with the minimal impact?
 > Create a Golden AMI that contains the dependencies and launch the EC2 instances from that. (Golden AMI are a standard in making sure save the state after the installation or pulling dependencies so that future instances can boot up from that AMI quickly)
 
 Q: As a solutions architect, you have been tasked to implement a fully Serverless REST API. Which technology choices do you recommend?
@@ -4493,10 +4773,40 @@ Q: You would like to distribute paid software installation files globally for yo
 > CloudFront Signed URL (This will have security including IP restriction)
 
 Q: You are a photo hosting service and publish every month a master pack of beautiful mountains images, that are over 15 GB in size and downloaded from all around the world. The content is currently hosted on EFS and distributed by ELB and EC2 instances. You are experiencing high load each month and very high network costs. What can you recommend that won't force an application refactor and reduce network costs and EC2 load dramatically?
-> Create CloudFront distribution (CloudFront can be used in front of an ELB)
+> Create CloudFront distribution (Amazon CloudFront is a fast content delivery network (CDN) service that securely delivers data, videos, applications, and APIs to customers globally with low latency, high transfer speeds. Amazon CloudFront can be used in front of an Application Load Balancer)
 
 Q: You would like to deliver big data streams in real time to multiple consuming applications, with replay features. Which technology do you recommend?
-> Kinesis Data Streams (Kinesis Data Streams has all these features)
+> Kinesis Data Streams (Amazon Kinesis Data Streams (KDS) is a massively scalable and durable real-time data streaming service. It can continuously capture gigabytes of data per second from hundreds of sources such as website clickstreams, database event streams, financial transactions, social media feeds, IT logs, and location-tracking events)
+
+Q: Your website TriangleSunglasses.com is hosted on a fleet of EC2 instances managed by an Auto Scaling Group and fronted by an Application Load Balancer. Your ASG has been configured to scale on-demand based on the traffic going to your website. To reduce costs, you have configured the ASG to scale based on the traffic going through the ALB. To make the solution highly available, you have updated your ASG and set the minimum capacity to 2. How can you further reduce the costs while respecting the requirements?
+> Reserve 2 EC2 instances (This is the way to save further costs as we will run 2 EC2 instances no matter what)
+
+Q: Which of the following will NOT help us while designing a STATELESS application tier?
+> Store session data on EBS (EBS volumes are created in a specific AZ and can only be attached to one EC2 instance at a time)
+
+Q: You want to install software updates on 100s of Linux EC2 instances that you manage. You want to store these updates on shared storage which should be dynamically loaded on the EC2 instances and shouldn't require heavy operations. What do you suggest?
+> Store the software updates on EFS and mount EFS as a network drive at startup (EFS is a network file system (NFS) that allows you to mount the same file system to 100s of EC2 instances. Storing software updates on an EFS allows each EC2 instance to access them)
+
+Q: As a Solutions Architect, you're planning to migrate a complex ERP software suite to AWS Cloud. You're planning to host the software on a set of Linux EC2 instances managed by an Auto Scaling Group. The software traditionally takes over an hour to set up on a Linux machine. How do you recommend you speed up the installation process when there's a scale-out event?
+> Use Golden AMI (Golden AMI is an image that contains all your software installed and configured so that future EC2 instances can boot up quickly from that AMI)
+
+Q: You're developing an application and would like to deploy it to Elastic Beanstalk with minimal cost. You should run it in .....
+> Single Instance Mode (The question mentions that you're still in the development stage and you want to reduce costs. Single Instance Mode will create one EC2 instance and one Elastic IP)
+
+Q: You're deploying your application to an Elastic Beanstalk environment but you notice that the deployment process is painfully slow. After reviewing the logs, you found that your dependencies are resolved on each EC2 instance each time you deploy. How can you speed up the deployment process with minimal impact?
+> Create a Golden AMI that contains the dependencies and use that image to launch the EC2 instances (Golden AMI is an image that contains all your software, dependencies, and configurations, so that future EC2 instances can boot up quickly from that AMI)
+
+Q: A startup company plans to run its application on AWS. As a solutions architect, the company hired you to design and implement a fully Serverless REST API. Which technology stack do you recommend?
+> API Gateway + AWS Lambda
+
+Q: The following AWS services have an out of the box caching feature, EXCEPT .......
+> Lambda does not have an out-of-the-box caching feature (Correct - API Gateway, DynamoDB)
+
+Q: You are running a mobile application where you want each registered user to upload/download images to/from his own folder in the S3 bucket. Also, you want to give your users to sign-up and sign in using their social media accounts (e.g., Facebook). Which AWS service should you choose?
+> Amazon Cognito lets you add user sign-up, sign-in, and access control to your web and mobile apps quickly and easily. Amazon Cognito scales to millions of users and supports sign-in with social identity providers, such as Apple, Facebook, Google, and Amazon, and enterprise identity providers via SAML 2.0 and OpenID Connect
+
+Q: You have a lot of static files stored in an S3 bucket that you want to distribute globally to your users. Which AWS service should you use?
+> Amazon CloudFront is a fast content delivery network (CDN) service that securely delivers data, videos, applications, and APIs to customers globally with low latency, high transfer speeds. This is a perfect use case for Amazon CloudFront.
 
 ## AWS Development
  - https://docs.aws.amazon.com/cli/latest/reference/s3/
@@ -4505,6 +4815,20 @@ Q: You would like to deliver big data streams in real time to multiple consuming
  - https://cloud.google.com/storage-transfer/docs/using-iam-permissions-and-roles
  - https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/id_roles_create_for-user.html
  - https://console.aws.amazon.com/iam
+ - Important ports:
+    FTP: 21
+    SSH: 22
+    SFTP: 22 (same as SSH)
+    HTTP: 80
+    HTTPS: 443
+    vs RDS Databases ports:
+    PostgreSQL: 5432
+    MySQL: 3306
+    Oracle RDS: 1521
+    MSSQL Server: 1433
+    MariaDB: 3306 (same as MySQL)
+    Aurora: 5432 (if PostgreSQL compatible) or 3306 (if MySQL compatible)
+ 
 ### AWS Development Q&A
 Q: My EC2 Instance does not have the permissions to perform an API call PutObject on S3. What should I do?
 > I should ask an administrator to attach a Policy to the IAM Role on my EC2 Instance that authorizes it to do the API call (IAM roles are the right way to provide credentials and permissions to an EC2 instance)
