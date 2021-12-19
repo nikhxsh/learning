@@ -562,16 +562,16 @@ Q: You have 5 AWS Accounts that you manage using AWS Organizations. You want to 
 	- Archive log data
 	- Log Route 53 DNS queries
 - [Concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogsConcepts.html)
-	- A *log event* is a record of some activity recorded by the application or resource being monitored
-	- *Log groups* define groups of log streams, usually represents application name
-	- A *log stream* is a sequence of log events that share the same source, basically instances within application, log files or containers
-	- You can use *metric filters* to extract metric observations from ingested events and transform them to data points in a CloudWatch metric
+	- A **log event** is a record of some activity recorded by the application or resource being monitored
+	- **Log groups** define groups of log streams, usually represents application name
+	- A **log stream** is a sequence of log events that share the same source, basically instances within application, log files or containers
+	- You can use **metric filters** to extract metric observations from ingested events and transform them to data points in a CloudWatch metric
 - Can define log expiration policies (never expires, 30 days etc.)
 - Can be send logs to
 	- S3 (export)
 		- Can take up to 12 hours to become available for exports
-		- API call is *CreateExportTask*
-		- Not near real time, use *log subscription* instead
+		- API call is `CreateExportTask`
+		- Not near real time, use **log subscription** instead
 	- Kinesis Data Streams
 	- Kinesis Data Firehose
 	- Lambda
@@ -597,12 +597,12 @@ Q: You have 5 AWS Accounts that you manage using AWS Organizations. You want to 
 - You need to run a *agent* on EC2 to push the log files you want
 - Make sure IAM permission given to *agent* to push logs to CloudWatch
 - Can be setup on-premise too
-- *Logs Agent*
+- **Logs Agent**
 	- Old version of the agent
-	- Can only sends to *CloudWatch Logs*
-- *Unified Agent*
+	- Can only sends to **CloudWatch Logs**
+- **Unified Agent**
 	- Collect additional system level metrics such as RAM, processed etc. 
-	- Collect logs to sends to *CloudWatch Logs*
+	- Collect logs to sends to **CloudWatch Logs**
 	- Centralized configuration using SSM parameter store
 	- Metrics
 		- Collected directly on your Linux sever / ec2 instance
@@ -615,14 +615,14 @@ Q: You have 5 AWS Accounts that you manage using AWS Organizations. You want to 
 #### Alarms
 - Used to trigger notification for any metrics![enter image description here](https://dmhnzl5mp9mj6.cloudfront.net/security_awsblog/images/notifications_illustration_p.png)
 - Has various options i.e. sampling, %, max, min, etc.
-- *States*
+- **States**
 	- OK
 	- INSUFFCIENT_DATA
 	- ALARM
-- *Period*
+- **Period**
 	- Length of time in secs to evaluate the metric
 	- High resolution custom metrics - 10 sec, 30 sec or multiple of 60 sec
-- *Targets*
+- **Targets**
 	- EC2 - Stop, Terminates, reboot or recover an EC2 instance
 	- Auto Scaling - Triggering Auto scaling action i.e. scale in / scale out
 	- SNS - Send notification to SNS
@@ -821,20 +821,20 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
 	- A VPC spans all of the Availability Zones in the Region. The following diagram shows a new VPC with an IPv4 CIDR block ![name](https://docs.aws.amazon.com/vpc/latest/userguide/images/vpc-diagram.png)
 - [Default VPC](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html)
 	- All new AWS account have a default VPC
-	- New EC2 instances are launched into the default VPC if no subbet is specified
-	- Default VPC has internet connectivity and all EC2 instances inside it have public IPv4 addresses
+	- New EC2 instances are launched into the default VPC if no subnet is specified
+	- **Default VPC has internet connectivity and all EC2 instances inside it have public IPv4 addresses**
 	- We also get a public and private IPv4 DNS names ![enter image description here](https://docs.aws.amazon.com/vpc/latest/userguide/images/default-vpc-diagram.png)
 - Subnets
     - After you create a VPC, you can add one or more subnets in each Availability Zone
-    - A *subnet* is a range of IP addresses in your VPC
-    - AWS reserves 5 IP addresses (1st 4 & last 1) in each subnet, and those are not available for use i.e. cant be assigned to EC2 instances
-    - E.g.if CIDR block `10.0.0.0/24`, then reserved IP addresses are
+    - A **subnet** is a range of IP addresses in your VPC
+    - AWS **reserves 5 IP addresses (first 4 & last 1) in each subnet, and those are not available for use** i.e. cant be assigned to EC2 instances
+    - E.g. if CIDR block `10.0.0.0/24`, then reserved IP addresses are
         - `10.0.0.1` - Network address
         - `10.0.0.2` - for the VPC router
         - `10.0.0.3` - for the mapping to Amazon provided DNS
         - `10.0.0.4` - for the future use
         - `10.0.0.255` - for Network broadcast address
-        - *If you nedd 29 IP addresses for EC2 instances then you need to choose a sunbet size `/26` becuase 64 IP addresses then 64 - 5 = 59 which is greater than 29 where as for `/27` it would be 32 - 5 = 27 which is less than 29*
+        *If you nedd 29 IP addresses for EC2 instances then you need to choose a sunbet size `/26` becuase 64 IP addresses then 64 - 5 = 59 which is greater than 29 where as for `/27` it would be 32 - 5 = 27 which is less than 29*
     - When you create a subnet, you specify the IPv4 CIDR block for the subnet, which is a subset of the VPC CIDR block. Each subnet must reside entirely within one Availability Zone and cannot span zones
     - You can launch AWS resources, such as EC2 instances, into a specific subnet
     - By launching instances in separate Availability Zones, you can protect your applications from the failure of a single zone
@@ -850,13 +850,13 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
 - An internet gateway serves two purposes
     - To provide a target in your VPC route tables for internet-routable traffic
     - To perform network address translation (NAT) for instances that have been assigned public IPv4 addresses
-- IGW on their own do not allow internet access. To enable internet access:
+- **IGW on their own do not allow internet access. To enable internet access:**
     - Create an internet gateway and attach it to your VPC
     - Add a route to your subnet's route table that directs internet-bound traffic to the internet gateway
     - Ensure that instances in your subnet have a globally unique IP address (public IPv4 address, Elastic IP address, or IPv6 address)
     - Ensure that your network access control lists and security group rules allow the relevant traffic to flow to and from your instance
 ### [Route Table](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html)
-- A **route table** contains a set of rules, called routes, that are used to determine where network traffic from your subnet or gateway is directed
+- A **route table** contains a set of rules, called routes that are used to determine where network traffic from your subnet or gateway is directed
 - To put it simply, a route table tells network packets which way they need to go to get to their destination. Each route in a table specifies a destination and a target
 - The following are the key concepts for route tables
     - **Main route table** — The route table that automatically comes with your VPC. It controls the routing for all subnets that are not explicitly associated with any other route table
@@ -892,8 +892,8 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
     - A NAT service. You can use it so that instances in a private subnet can connect to services outside your VPC but external services cannot initiate a connection with those instances
     - Requires an IGW so *Private subnet => NATGW => IGW* ![](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws_nat_gateway.png)
     - Replaces the source IP address of the instances with the IP address of the NAT gateway
-        - For a public NAT gateway, this is the elastic IP address of the NAT gateway
-        - For a private NAT gateway, this is the private IP address of the NAT gateway
+        - **For a public NAT gateway, this is the elastic IP address of the NAT gateway**
+        - **For a private NAT gateway, this is the private IP address of the NAT gateway**
     - Scenarios 
         - *Access the internet from a private subnet* - you can use a public NAT gateway to enable instances in a private subnet to send outbound traffic to the internet, but the internet cannot establish connections to the instances
         - *Allow access to your network from allow-listed IP addresses* - instead of assigning each instance a separate IP address from the IP address range that is allowed to access your on-premises network, you can create a subnet in your VPC with the allowed IP address range, create a private NAT gateway in the subnet, and route the traffic from your VPC destined for your on-premises network through the NAT gateway
@@ -910,49 +910,49 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
 - [NAT gateways vs NAT instances](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-comparison.html)
 ### [DNS support](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html)
 - **DNS Resolution** (enableDnsSupport)
-    - Decides if DNS resolution from Route%3 resolved server is suppoerted for the VPC
-    - If `True` (default) then it queries the Amazon Provider DNS server at `169.254.169.253` or the reserved IP address at the base of the **VPC IPv4 network range plus 2 (.2)**
+    - Decides if DNS resolution from Route53's resolved server is suppoerted for the VPC
+    - If `True` (default) then it queries the Amazon Provider's DNS server at `169.254.169.253` or the reserved IP address at the base of the **VPC IPv4 network range plus 2 (.2)**
 - **DNS Hostnames** (enableDnsHostnames)
     - Determines whether the VPC supports assigning public DNS hostnames to instances with public IP addresses
-    - If both DNS attributes are true, instances in the VPC get public DNS hostnames
     - The default for this attribute is false unless the **VPC is a default VPC** or the **VPC was created using the VPC console wizard**
-    - If you use custome DNS domain names in *Private Hosted Zones* in *Route53*, you must set both `enableDnsSupport` and `enableDnsHostnames` to true
+- If both of these DNS attributes are true, instances in the VPC get public DNS hostnames
+- If you use custom DNS domain names in *Private Hosted Zones* in *Route53*, you must set both `enableDnsSupport` and `enableDnsHostnames` to true
 - Example ![](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-dns-resolution-route53.png)
 ### [Security](https://docs.aws.amazon.com/vpc/latest/userguide/security.html)
 - [Security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html)
     - Acts as a virtual firewall for your instance to control inbound and outbound traffic
-    - When you launch an instance in a VPC, you can assign up to five security groups to the instance
-    - Security groups act at the instance level, not the subnet level. Therefore, each instance in a subnet in your VPC can be assigned to a different set of security groups
+    - When you launch an instance in a VPC, you can **assign up to five security groups** to the instance
+    - **Security groups act at the instance level, not at the subnet level. Therefore, each instance in a subnet of your VPC can be assigned to a different set of security groups**
     - For each security group, you add rules that control the inbound traffic to instances, and a separate set of rules that control the outbound traffic
-    - Is stateful: Return traffic is automatically allowed, regardless of any rules
+    - **Is stateful: Return traffic is automatically allowed, regardless of any rules**
     - We evaluate all rules before deciding whether to allow traffic
     - Applies to an instance only if someone specifies the security group when launching the instance, or associates the security group with the instance later on
 - [Network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html)
-    - Is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets 
-    - Your VPC automatically comes with a modifiable default network ACL. By default, it allows all inbound and outbound IPv4 traffic and, if applicable, IPv6 traffic
-    - You can create a custom network ACL and associate it with a subnet. By default, each custom network ACL denies all inbound and outbound traffic until you add rules
-    - Each subnet in your VPC must be associated with a network ACL. If you don't explicitly associate a subnet with a network ACL, the subnet is automatically associated with the default network ACL
-    - Is stateless: Return traffic must be explicitly allowed by rules
+    - Is an **optional** layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets 
+    - **Your VPC automatically comes with a modifiable default network ACL. By default, it allows all inbound and outbound IPv4 traffic and, if applicable, IPv6 traffic**
+    - You can create a custom network ACL and associate it with a subnet. **By default, each custom network ACL denies all inbound and outbound traffic until you add rules**
+    - **Each subnet in your VPC must be associated with a network ACL**. If you don't explicitly associate a subnet with a network ACL, the subnet is automatically associated with the default network ACL
+    - **Is stateless: Return traffic must be explicitly allowed by rules**
     - We process rules in order, starting with the lowest numbered rule, when deciding whether to allow traffic
-        - First rule match will drive the decision
+        - **First rule match will drive the decision**
         - E.g. if you define #100 `ALLOW 10.0.0.10/32` and #200 `DENY ALLOW 10.0.0.10/32`, then IP address will be allowed
         - Last rule is `*` and denies a request in case of no match
         - AWS recommends adding rules by increment of 100
         - Default NACL ![](https://i.stack.imgur.com/W5oQi.png)
     - Automatically applies to all instances in the subnets that it's associated with
-    - **Ephemeral ports**
-        - In client-server processes that use Transmission Control Protocol/Internet Protocol (TCP/IP) or User Datagram Protocol (UDP), the client initiates communication with a server through one of the many well-known ports. However, because the server does not initialize communication, it should not use a well-known port to send replies to the client, just in case a server-type application is running on that client device. Instead, the server to the client uses a new, temporarily assigned port that the client provides as the source port known as Ephemeral ports
-        - So Client connect to a **defined port**, and expect a response from **Ephemeral ports**
-        - The client that initiates the request chooses the ephemeral port range. The range varies depending on the client's operating system
-            - Many Linux kernels (including the Amazon Linux kernel) use ports `32768-61000`
-            - Requests originating from Elastic Load Balancing use ports `1024-65535`
-            - Windows operating systems through Windows Server 2003 use ports `1025-5000`
-            - Windows Server 2008 and later versions use ports `49152-65535`
-            - A NAT gateway uses ports `1024-65535`
-            - AWS Lambda functions use ports `1024-65535`
-        - If a request comes into a web server in your VPC from a Windows 10 client on the internet, your network ACL must have an outbound rule to enable traffic destined for ports `49152-65535`
-        - If an instance in your VPC is the client initiating a request, your network ACL must have an inbound rule to enable traffic destined for the ephemeral ports specific to the type of instance (Amazon Linux, Windows Server 2008, and so on)
-- The following diagram illustrates the layers of security provided by security groups and network ACLs ![](https://docs.aws.amazon.com/vpc/latest/userguide/images/security-diagram.png)
+- **Ephemeral ports**
+    - In client-server processes that use Transmission Control Protocol/Internet Protocol (TCP/IP) or User Datagram Protocol (UDP), the client initiates communication with a server through one of the many well-known ports. However, because the server does not initialize communication, it should not use a well-known port to send replies to the client, just in case a server-type application is running on that client device. Instead, the server to the client uses a new, temporarily assigned port that the client provides as the source port known as Ephemeral ports
+    - So Client connect to a **defined port**, and expect a response from **Ephemeral ports**
+    - The client that initiates the request chooses the ephemeral port range. The range varies depending on the client's operating system
+        - Many Linux kernels (including the Amazon Linux kernel) use ports `32768-61000`
+        - Requests originating from Elastic Load Balancing use ports `1024-65535`
+        - Windows operating systems through Windows Server 2003 use ports `1025-5000`
+        - Windows Server 2008 and later versions use ports `49152-65535`
+        - A NAT gateway uses ports `1024-65535`
+        - AWS Lambda functions use ports `1024-65535`
+    - If a request comes into a web server in your VPC from a Windows 10 client on the internet, your network ACL must have an outbound rule to enable traffic destined for ports `49152-65535`
+    - If an instance in your VPC is the client initiating a request, your network ACL must have an inbound rule to enable traffic destined for the ephemeral ports specific to the type of instance (Amazon Linux, Windows Server 2008, and so on)
+- **The following diagram illustrates the layers of security provided by security groups and network ACLs** ![](https://docs.aws.amazon.com/vpc/latest/userguide/images/security-diagram.png)
     - Traffic from an internet gateway is routed to the appropriate subnet using the routes in the routing table
     - The rules of the network ACL that is associated with the subnet control which traffic is allowed to the subnet
     - The rules of the security group that is associated with an instance control which traffic is allowed to the instance
@@ -970,28 +970,28 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
 - Is a networking connection between two VPCs that enables you to route traffic between them privately
 - Instances in either VPC can communicate with each other as if they are within the same network
 - You can create a VPC peering connection between your own VPCs, with a VPC in another AWS account, or with a VPC in a different AWS Region
-- AWS uses the existing infrastructure of a VPC to create a VPC peering connection; it is neither a gateway nor an AWS Site-to-Site VPN connection, and does not rely on a separate piece of physical hardware. There is no single point of failure for communication or a bandwidth bottleneck
-- For peering to work, 
-    - there must not have overlapping CIDRs
+- AWS uses the **existing infrastructure of a VPC to create a VPC peering connection;** it is neither a gateway nor an AWS Site-to-Site VPN connection, and does not rely on a separate piece of physical hardware. There is no single point of failure for communication or a bandwidth bottleneck
+- **For peering to work:** 
+    - There must not have overlapping CIDRs
     - You must update route tables in **each VPC's subnet** to ensure EC2 instaces can communicate with each other
 - VPC peering connection is NOT TRANSITIVE i.e. if VPC-A peering with VPC-B and VPC-B peering with VPC-C then VPC-A can not communicate with VPC-C
 - Example ![](https://raw.githubusercontent.com/nikxsh/aws/master/diagrams/aws-vpc-peering.png)
 ### VPC Endpoints
 - Enables connections between a VPC and supported services, without requiring that you use an internet gateway, NAT device, VPN connection, or AWS Direct Connect connection
 - Therefore, your VPC is not exposed to the public internet
-- VPC endpoints are virtual devices
+- **VPC endpoints are virtual devices**
 - They are horizontally scaled, redundant, and highly available VPC components
 - The following are the different types of VPC endpoint
     - [Interface endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/vpce-interface.html)
         - Allows you to connect to services powered by AWS PrivateLink
         - Provisions an ENI (elastic network interface, a private IP address from the IP address range of your subnet) as an entry point (must attach a security group)
-        - We create an endpoint network interface in the subnet
+        - **We create an endpoint network interface in the subnet**
         - It serves as an entry point for traffic destined to a service that is owned by AWS or owned by an AWS customer or partner
         - You are billed for hourly usage and data processing charges
     - [Gateway Load Balancer endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/vpce-gateway-load-balancer.html)
         - Is an elastic network interface with a private IP address from the IP address range of your subnet
         - It serves as an entry point to intercept traffic and route it to a network or security service that you've configured using a Gateway Load Balancer
-        - You specify a Gateway Load Balancer endpoint as a target for a route in a route table
+        - **You specify a Gateway Load Balancer endpoint as a target for a route in a route table**
         - Are supported only for endpoint services that are configured using a Gateway Load Balancer
         - You are billed for hourly usage and data processing charges
     - [Gateway endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints.html)
@@ -1002,13 +1002,13 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
     - Check DNS setting esolution in your VPC
     - Check route tables
 - [Endpoint Services (Private Link)](https://docs.aws.amazon.com/vpc/latest/privatelink/endpoint-service.html)
-    - Most secure & scalable way to expose a service to 1000s of VPCs (owned or other accounts)
+    - Most secure & scalable way to expose a service to **1000s of VPCs (owned or other accounts)**
     - Does not require VPC peering, internet gateway, NAT, route tables etc.
-    - Required NLB (Service Provider VPC) and ENI (Service Consumer VPC) or GTLB ![](https://docs.aws.amazon.com/vpc/latest/privatelink/images/vpc-endpoint-service.png)
+    - Required **NLB (Service Provider VPC)** and **ENI (Service Consumer VPC) or GTLB** ![](https://docs.aws.amazon.com/vpc/latest/privatelink/images/vpc-endpoint-service.png)
         - In the following diagram, the account owner of VPC B is a service provider, and has a service running on instances in subnet B
         - The owner of VPC B has a service endpoint (vpce-svc-1234) with an associated Network Load Balancer that points to the instances in subnet B as targets
         - Instances in subnet A of VPC A use an interface endpoint to access the services in subnet B 
-    - If the NLB is in multiple AZ, and the ENIs in multiple AZ, the solution is fault tolerant!
+    - **If the NLB is in multiple AZ, and the ENIs in multiple AZ, the solution is fault tolerant!**
 ### [VPC flow logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html)
 - Capature information about IP traffice going into your interfaces
 - Can capture at
@@ -1046,19 +1046,19 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
 - Provide secure communication between multiple sites, if you have multiple VPN connections
 - Low cost hub-and-spoke model for primary or secondary network connectivity between different locations (VPN only)
 - It's a VPN connection so it goes over the public internet
-- To set it up, connect multiple VPN connections on the same VGW, setup dynamic routing and configure route table
+- To set it up, connect multiple VPN connections on the same VGW, **setup dynamic routing and configure route table**
 - The following figure shows the AWS VPN CloudHub architecture ![](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/images/image12.png)
 ### [Direct Connect (DX)](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html)
 - Provides a dedicated private connection from remote network to your VPC
-- Dedicated connection must be setup between your DC and AWS Direct Connect locations
+- Dedicated connection must be setup between your **Date Centers (DC) and AWS Direct Connect locations**
 - You need to setup a Virtual Private Gateway on your VPC
-- Access public resources (S3) and private (EC2) on same location using Public/Private VIF
-- Use case
+- Access public (S3) and private (EC2) resources on same location using Public/Private VIF
+- Use cases:
     - Increase bandwidth throughput - working with large data set (lower cost) 
     - More consistent network experience - application using real-time data feeds
     - Hybrid enviroments (on-prem + cloud)
 - Support both IPv4 and IPv6
-- The following are the key components that you use for AWS Direct Connec
+- The following are the key components that you use for AWS Direct Connect:
     - Connections 
         - Create a connection in an AWS Direct Connect location to establish a network connection from your premises to an AWS Region
     - Virtual interfaces (VIF)
@@ -1076,7 +1076,7 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
     -  Port hours and outbound data transfer. Port hour pricing is determined by capacity and connection type (dedicated connection or hosted connection)
     -  Data Transfer Out charges for private interfaces and transit virtual interfaces are allocated to the AWS account responsible for the Data Transfer. There are no additional charges to use a multi-account AWS Direct Connect gateway
 ### [Direct Connect Gateway](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-gateways-intro.html)
-- Use If you want to setup a DX to one or more VPC in many different region (same account)
+- Use If you want to setup a **DX to one or more VPC in many different region (same account)**
 - You associate an AWS Direct Connect gateway with either of the following gateways:
     - A transit gateway when you have multiple VPCs in the same Region
     - A virtual private gateway
@@ -1091,7 +1091,7 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
         - Connection requests are made via AWS Direct Connect Partners
         - Capacity can be added or removed on demand
         - 1,2,3,10 gbps available at select AWS Direct Connect Partners
-- **Direct connect are oftne takes longer than 1 month to establish a new connection**
+- **Direct connect are often takes longer than 1 month to establish a new connection**
 - Encryption
     - Data in transit is not encrypted
     - DX + VPN provides a IPsec-encrypted private connection
@@ -1100,14 +1100,14 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
     - High resiliency for critical workloads - one connection at mutliple location
     - Maximum resiliency for critical workloads - by seprate connections terminating on seperate devices in more than one location
 ### [Transit Gateway](https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html)
-- For having transitive peering between thousands of VPC and on-premise, hub-and-spike connection
+- For having **transitive peering** between thousands of VPC and on-premise, hub-and-spike connection
 - Regional resource, can work cross-region
 - Share cross-account using Resource Access Manager (RAM)
-- You can peer transit gatewa across regions
-- Route tables - limit which VPC can talk with other VPC
+- You can peer transit gateway across regions
+- Route tables - limits which VPC can talk with other VPC
 - Works with Direct Connect Gateway and VPN connections
 - **Only Service in AWS which supports IP Multicast**
-- Use cases
+- Use cases:
     - Site-to-site VPN ECMP (Equal-cost multi-path routing) - create multiple Site-to-site VPN connections to increase the bandwidth of your connections to AWS
         - VPN to Virtual Private Gateway has 2 tunnels per VPN connection (1.25 gbps max throughput)
         - VPN to Transit Gateway has one Site-to-site VPN x Many VPC and 2 tunnels per VPN connection
@@ -1115,7 +1115,7 @@ Q: You are running a critical website on a set of EC2 instances with a tightened
 ![](https://d2908q01vomqb2.cloudfront.net/5b384ce32d8cdef02bc3a139d4cac0a22bb029e8/2019/10/01/TransitGateway2.png)
 ### [Egress-only internet gateways](https://docs.aws.amazon.com/vpc/latest/userguide/egress-only-internet-gateway.html)
 - Allows outbound communication over IPv6 from instances in your VPC to the internet, and prevents the internet from initiating an IPv6 connection with your instances
-- An egress-only internet gateway is for use with IPv6 traffic only. To enable outbound-only internet communication over IPv4, use a NAT gateway instead
+- **An egress-only internet gateway is for use with IPv6 traffic only**. To enable outbound-only internet communication **over IPv4, use a NAT gateway instead**
 - An instance in your public subnet can connect to the internet through the internet gateway if it has a public IPv4 address or an IPv6 address. Similarly, resources on the internet can initiate a connection to your instance using its public IPv4 address or its IPv6 address; for example, when you connect to your instance using your local computer
 - If you want your instance to be able to access the internet, but you want to prevent resources on the internet from initiating communication with your instance, you can use an egress-only internet gateway
 - To do this, create an egress-only internet gateway in your VPC, and then add a route to your route table that points all IPv6 traffic (::/0) or a specific range of IPv6 address to the egress-only internet gateway
@@ -1204,9 +1204,7 @@ Q: How can you capture information about IP traffic inside your VPCs?
 > Enable VPC Flow Logs (VPC Flow Logs is a VPC feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC)
 
 Q: If you want a 500 Mbps Direct Connect connection between your corporate datacenter to AWS, you would choose a .................. connection.
-> Hosted 
-> A Dedicated Direct Connect connection supports 1Gbps and 10Gbps
-> Hosted Direct Connect connection supports 50Mbps, 500Mbps, up to 10Gbps
+> Hosted ( A Dedicated Direct Connect connection supports 1Gbps and 10Gbps. Whereas, Hosted Direct Connect connection supports 50Mbps, 500Mbps, up to 10Gbps)
 
 Q: You have an internal web application hosted in a private subnet in your VPC that you want to be used by other customers. You don't want to expose the application to the Internet or open your whole VPC to other customers. What should you do?
 > Use VPC Endpoint Services (AWS PrivateLink) (Allows you to expose a private application to other AWS customers without making the application public to the Internet and without making a VPC Peering connection)
