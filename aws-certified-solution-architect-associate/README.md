@@ -4719,7 +4719,29 @@ Q: Which AWS service helps you protect your sensitive data stored in S3 buckets?
 - **CloudFormation** Infrastructure as Code for AWS. Declarative way to manage, create and update resources.
 - **Step Functions** Orchestrate / Coordinate Lambda functions and ECS containers into a workflow
 - **SWF (Simple Workflow Service)** Old way of orchestrating a big workflow.
-- **EMR (Elastic Map Reduce)** Big Data / Hadoop / Spark clusters on AWS, deployed on EC2 for you
+- **EMR (Elastic Map Reduce)** 
+    - Big Data / Hadoop / Spark clusters on AWS, deployed on EC2 for you
+    - Amazon EMR historically referred to an Amazon EMR cluster (and all processing steps assigned to it) as a "cluster"
+    - Every cluster has a unique identifier that starts with "j-"
+    - The different cluster states of an Amazon EMR cluster are listed below:
+        - STARTING — The cluster provisions, starts, and configures EC2 instances
+        - BOOTSTRAPPING — Bootstrap actions are being executed on the cluster
+        - RUNNING — A step for the cluster is currently being run
+        - WAITING — The cluster is currently active, but has no steps to run
+        - TERMINATING - The cluster is in the process of shutting down
+        - TERMINATED - The cluster was shut down without error
+        - TERMINATED_WITH_ERRORS - The cluster was shut down with errors
+    - You can SSH onto your cluster nodes and execute Hadoop commands directly from there
+    - Bootstrap Actions is a feature in Amazon EMR that provides users a way to run custom set-up prior to the execution of their cluster
+    - Nodes can be of two types: 
+        - **Core nodes**, which both host persistent data using Hadoop Distributed File System (HDFS) and run Hadoop tasks
+        - **Task nodes**, which only run Hadoop tasks
+        - While a cluster is running you may increase the number of core nodes and you may either increase or decrease the number of task node
+    - You may include a predefined step in your workflow that automatically resizes a cluster between steps that are known to have different capacity needs
+    - You can now add EBS volumes to the instances in your Amazon EMR cluster, allowing you to customize the storage on an instance. The feature also allows you to run Amazon EMR clusters on EBS-Only instance families such as the M4 and C4
+    - Amazon EMR will delete volumes once the cluster is terminated. If you want to persist data outside the lifecycle of a cluster, consider using Amazon S3 as your data store
+    - Amazon EMR allows you to use different EBS Volume Types: General Purpose SSD (GP2), Magnetic and Provisioned IOPS (SSD)
+    - The EBS API allows you to Snapshot a cluster. However, Amazon EMR currently does not allow you to restore from a snapshot
 - **OpsWorks** managed Chef & Puppet on AWS
 - **ElasticTranscoder** managed media (video, music) converter service into various optimized formats
 - **Workspaces** Virtual Desktop on Demand in the Cloud. Replaces traditional on-premise VDI infrastructure
