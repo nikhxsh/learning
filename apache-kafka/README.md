@@ -1,4 +1,4 @@
-####Intro
+#### Intro
 * [Apache Kafka](https://kafka.apache.org/documentation/) is a Distributed Event Streaming solution that enables applications to efficiently manage billions of events
 * Kafka was created by LinkedIn, which utilizes it to monitor activity data and operational analytics
 
