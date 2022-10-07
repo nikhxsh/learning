@@ -1,8 +1,8 @@
-####Intro
+#### Intro
 * [Apache Kafka](https://kafka.apache.org/documentation/) is a Distributed Event Streaming solution that enables applications to efficiently manage billions of events
 * Kafka was created by LinkedIn, which utilizes it to monitor activity data and operational analytics
 
-####Key Features
+#### Key Features
 * **High Scalability**
 	* Partitioned log model distributes data over several servers, allowing it to extend beyond the capabilities of a single server. 
 	* Kafka has low latency and great throughput since it separates data streams
@@ -23,7 +23,7 @@
 	* Real time
 	* Latency is less than 10ms
 
-####Use cases
+#### Use cases
 * Messaging system
 * Activity tracking
 * Metrics 
@@ -31,7 +31,7 @@
 * streams processing
 * microservices pub/sub
 
-####Cluster
+#### Cluster
 * **Topics**
 	* Its like table in database without contraint
 	* Can have as many
@@ -67,7 +67,7 @@
 	* So for replication factor of N, you can bare lose to N-1 brokers and recover your data
 * If you want to change datatype of your message then create new topic instead to avoid deserialision problem
 	
-####Producers
+#### Producers
 * writes data to topics
 * knows which partition to write to (and which kafka broker has it)
 * Message Keys
@@ -79,7 +79,7 @@
 	* acks=1 > will wait for leader acknowledgement (limited data loss)
 	* acks=all > will wait for leader + all replica acknowledgement (no data loss)
 	
-####Consumers
+#### Consumers
 * Read data from topic
 * Comsumers know which broker to read from
 * If broker fails, consumer know how to recover
@@ -93,7 +93,7 @@
 	* When consumer in group has processed data retreived from Kafka, it should be periodically committing the offset (broker will write to __consumer_offsets not group itself)
 	  so if consumer dies it can able to read back from where it left off due to commited consumer offset
 		  
-####Kafka Broker
+#### Kafka Broker
 * Cluser is composed of mutliple brokers (Servers)
 * Each broker is identified with its ID 
 * Each broker contain certain topic partitions
@@ -108,7 +108,7 @@
 	* That mean you only need to connect one broker and client will know how to connect to the entire cluster
 	* Each broker knows about all brokers, topics and partitions (metadata)
 
-####Zookeeper
+#### Zookeeper
 * Manages brokers (keeps list of them)
 * Helps in performing leader election in partition
 * Sends notifications to Kafka in case of changes (new topic, broker dies, delete topics)
@@ -119,11 +119,11 @@
 * Less secure than kafka
 * Never use Zookeeper as a configuration in your Kafka clients
 	
-####KRaft
+#### KRaft
 * Zookeeper removed in 2020, due to scaling issues when cluster has > 100,000 partition
 * Kafka 3.x now implements the Raft protocol in order to replace Zookeeper
 
-####Links
+#### Links
 * https://www.confluent.io/blog/5-things-every-kafka-developer-should-know/ 
 * https://developer.confluent.io/get-started/dotnet/#configuration
 * https://thecloudblog.net/post/building-reliable-kafka-producers-and-consumers-in-net/
