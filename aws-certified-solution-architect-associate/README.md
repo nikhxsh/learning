@@ -4711,7 +4711,10 @@ Q: Which AWS service helps you protect your sensitive data stored in S3 buckets?
 	- Environment name
 - Rollback feature to previous version
 - Full control over lifecycle of environments
-### Services
+### [Deployment Strategies](https://docs.aws.amazon.com/whitepapers/latest/overview-deployment-options/deployment-strategies.html)
+- [Blue/Green Deployments on AWS](https://docs.aws.amazon.com/whitepapers/latest/blue-green-deployments/introduction.html)
+- [Rolling Updates](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html)
+### [Deployment Services](https://docs.aws.amazon.com/whitepapers/latest/overview-deployment-options/aws-deployment-services.html)
 - **CodeCommit** service where you can store your code. Similar service is GitHub
 - **CodeBuild** build and testing service in your CICD pipelines
 - **CodeDeploy** deploy the packaged code onto EC2 and AWS Lambda
@@ -4783,6 +4786,19 @@ Q: Your developers are creating a mobile application and would like to have a ma
 
 Q: You need recommendations for the types of reserved EC2 instances you should buy to optimize your AWS costs. You also want to have access to a report detailing how utilized your reserved EC2 instances are. What do you recommend?
 > AWS Cost Explorer enables you to view and analyze your costs and usage. You can view data for up to the last 12 months, forecast how much you are likely to spend for the next 12 months, and get recommendations for what EC2 reserved instances to purchase
+
+## AWS Well-Architected and the Six Pillars
+- [Operational excellence](https://docs.aws.amazon.com/wellarchitected/latest/operational-excellence-pillar/welcome.html)
+- [Security](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html)
+- [Reliability](https://docs.aws.amazon.com/wellarchitected/latest/framework/reliability.html)
+- [Performance efficiency](https://docs.aws.amazon.com/wellarchitected/latest/performance-efficiency-pillar/welcome.html)
+- [Cost optimization](https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/welcome.html)
+- [Sustainability](https://docs.aws.amazon.com/wellarchitected/latest/sustainability-pillar/sustainability-pillar.html)
+
+## [Disaster recovery architecture](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/introduction.html)
+- [Disaster Recovery (DR) Architecture](https://aws.amazon.com/blogs/architecture/disaster-recovery-dr-architecture-on-aws-part-i-strategies-for-recovery-in-the-cloud/)
+- [Multi-Region Fundamentals](https://docs.aws.amazon.com/whitepapers/latest/aws-multi-region-fundamentals/aws-multi-region-fundamentals.html)
+- [Disaster Recovery Options](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html)
 
 ## Solution Architecture Discussions
 ### Classic
