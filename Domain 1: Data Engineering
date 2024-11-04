@@ -1,0 +1,610 @@
+# Data Engineering
+Extract data from multiple source, store in storage pool using managed data pipelines. Also ensure data present in data warehouse is in the analysis ready form
+1. Create/Indetify data repositories for machine learning
+   - Determinde storage mediums (DB, Data Lake, S3, EFS, EBS)
+2. Identify and implement data ingestion
+   1. Data job style (batch load/ streaming)
+		- Ingetion pipeline (batch based ML workloads and streaming based ML workloads)
+			- Kinesis
+			- Kinesis analytics
+			- Kinesis firehose
+			- EMR
+			- Glue
+		- Job scheduling
+3. Identify and implement data tranformation 
+   - Tranforming data tansit (ETL:Glue, EMR, AWS Batch)
+   - Handle ML-Specific data using map reduce (Hadoop, Spark, Hive)
+4. Tools
+   - Data Ingestion (Collect data from multiple source)
+   	- Kinesis Firehose
+	- Snowball
+	- Storage Gateway
+   - Data Storage
+     - S3 (Highly scalable)
+   - Integration (Combine data from multiple source into one format i.e. ETL)
+     - Glue (Build catalgoue)
+   - Warehouse (Repository of structured and filtered data)
+     - Redshift (Transfer S3 data to redshift with the help of glue)
+   - Visualization
+     - QuickSight (Machine learning insights via dashboards)
+
+
+### AWS Services
+1. S3
+2. Kinesis (Data firehose, data analytics)
+3. Redshift
+4. Glue
+5. Quicksight
+
+### AWS Glue
+- Is serverless data integration service, to discover, prepare, move and integrate data from multiple source
+- You can discover and connect to more than 70 diverse data sources and manage your data in centralized data catalogue
+- Consolidate major data integration capabities into a single service
+
+#### Features
+
+- **Discover and organize data:** 
+  - Unify and search across multiple data stores i.e. store index, and search across multiple data sources and sinks by cataloging all your data in AWS
+  - Automatically discover dataset i.e. Use crawlers to automatically infer schema information and integrate it into your AWS glue data catalog
+  - Manage schema and permissions i.e. validate and control access to your database and tables
+  - Connect to wide variety of data sources i.e. both in premise and on AWS to build you data lake
+- **Tranform, prepare, and clean data for analysis**
+  - Visually transfor data with a drag-and-drop interface i.e. define your ETL process in the drag and drop job editor and automatically generate the code to extract, transform, and load your data
+  - Build complex ETL pipeline with simple job scheduling i.e. invoke Glue job on a schedule, on demand and based on an event
+  - Clean and transform streaming data in transit i.e. enable continuous data consumption, and clean and transform it in transit
+  - Deduplicate and cleans data with built in machine learning i.e. clean and prepare data for analysis without becoming machine learning expert by using **FindMatches** feature
+  -  Built in job notebook i.e. severless notebooks with minimal setup in AWS glue studio so you can get started quickly
+  -  Edit, debug and test ETL code i.e. with AWS glue interactive sessions, we can interactively explore and prepare data
+-  **Build and monitor data pipelines**
+   -  Auto scaling based on workload i.e. ability to scale dyanmically for resources based on workload
+   -  Automatic job with event based triggers i.e. start crawlers or dependent job based on event triggers
+   -  Run and monitor jobs with tools i.e. Apache Spark UI, Glue job run insights and cloudtrail
+   -  Define workflows for ETL and integration activities for crawlers, jobs and triggers
+
+#### How it works?
+- Used ETL jobs to extract data from other services offered by AWS and incorporate it into data lakes and warehouses
+- Automatically find an structured and non-structured data within data lake in s3 and warehouses in RedShift
+- Profiles data in the data catalog which is a metadata repo for all data assets that contain details such as definition, location and other attributes
+
+
+#### Use cases
+1. Data extraction
+2. Data tranformation
+3. Data integration
+   1. Glue can integrate with Snowflake
+   2. AWS data lake can integrte with Glue
+   3. Glue can integrate with Athena to create schemas
+   4. ETL code can be used for GLue on Github as well
+
+#### Achitecture
+1. For data store sources, define crawler to populate your AWS glue data catalogue with metadata table defination
+2. In addition to table definitions, Glue caontains other metadata that is required to define ETL jobs
+3. Glue generate scripts to tranform your data
+4. You can run this jobs on demand or based on specific trigger
+5. When job runsm scrips extract data from source, transform and load into your target 
+
+#### Component
+- **Data Catalog** 
+  - Persistent metadata store
+  - Contains table definations, and other control information
+  - Each AWS account has one Glue data catalogue per region
+- **Classifier**
+  - Provides classifier for file types, such as CSV, Json, Avro, XML etc.
+  - Provides classifier relational database
+  - Can write your own classifier by using grok pattern or by specifying a row tag in an xml document
+- **Connection**
+  - A data catalogue object that contain the properties required to connect to perticular data store
+- **Crawler**
+  - A program that connect to data store, progress through a prioritized list of classifiers to determine the schema for your data, and then create metadata tables in data catalogue
+- **Database**
+  - Data catalogue table definitions  organized into a logical group
+- **Data Store** persistent storage for your data
+  - Amazon S3, RDS, Redshift, DyanmoDB, JDBC
+- **Data Source** input toa process or tranform
+- **Data target** is a data store that a process or transform writes to
+
+#### Cost
+- Only pay for time your ETL job takes to run
+- Charged on hourly rate based on the number pf data processing units used to run your ETL job
+- It has 3 worker types to help you select the configuration that meets your job latency and cost requirement
+- Monthly fee to store and access metadata in Glue data catalogue
+- Per second charge with min 10 mins or 1 min for ETL job and crawler execution
+- per second charge to connect to a development endpoint
+
+#### DataBrew
+- AWS Glue DataBrew essentially allows you to clean up your data with minimal code, helping you prepare it quickly for analysis, which can save hours compared to doing this work manually in SQL or Python scripts
+- Imagine you're a data analyst at an e-commerce company, and you have raw data on customer orders stored in Amazon S3. This data is messy—it has missing values, inconsistent formats (dates, currency), and some columns with obvious errors, like incorrect zip codes or typos in product categories. Here’s how AWS Glue DataBrew could help you clean and prepare this data in a practical, hands-on way:
+  - **Connect to Data:** You start by connecting DataBrew to your Amazon S3 bucket where the raw order data is stored. DataBrew will scan this dataset and show you a quick preview.
+  - **Profile the Data:** With a few clicks, you can generate a profile of your dataset. This profile will give you stats on data quality: how many missing values are in each column, the range of dates, distributions of values, outliers, and duplicate rows. This helps you identify where the biggest issues lie, so you know what transformations to prioritize.
+  - **Apply Transformations (Using a Recipe):**
+    - Standardize Date Formats: Suppose the dataset has dates in multiple formats. You create a step in your recipe to convert all dates into a single, consistent format (e.g., YYYY-MM-DD).
+    - Remove Duplicates: You can add another recipe step to detect and remove duplicate rows based on order ID, customer ID, or a combination of fields.
+    - Clean Up Text Fields: Some product categories might have typos or inconsistent capitalization. You can add transformations to standardize text to lowercase and replace common typos or abbreviations.
+    - Fix Missing Values: If there are missing values in important fields, like customer email or address, you can choose to fill these with default values or discard rows with critical missing information.
+    - Validate and Correct Zip Codes: For U.S.-based customers, you can add a transformation to ensure that zip codes are in a valid format, correcting or flagging ones that aren’t.
+  - **Preview Changes:** DataBrew lets you see a real-time preview of your dataset with these transformations applied, so you can validate each change before you apply it to the entire dataset. This is especially useful to make sure your changes are actually improving the data quality.
+  - **Run and Save the Cleaned Data:** Once you’re satisfied, you run the DataBrew job to apply the full recipe to your dataset. The cleaned data is then saved to Amazon S3 or another target location like Amazon Redshift, ready for reporting or analysis.
+  - **Schedule Automation:** If you get new data daily or weekly, you can schedule DataBrew to run this same cleaning recipe automatically whenever new data lands in your S3 bucket. This way, you always have clean, ready-to-use data without needing to repeat these steps manually.
+
+#### Glue ETL
+- The Glue job reads data from S3, transforms it as per your script, and loads it into Amazon Redshift, all on a scheduled basis with minimal maintenance
+- ETL pipeline using AWS Glue with Python scripts and the Glue Data Catalog for a real-time example:
+- Scenario: Imagine you have customer transaction data in Amazon S3 in CSV format. You need to clean and transform it, then load it into Amazon Redshift using AWS Glue.
+- Steps
+  - Set Up the Data Catalog (Extract): 
+    - Create an AWS Glue Crawler to scan the S3 bucket where your CSV files are stored. This will create a table in the Glue Data Catalog with the schema of the data.
+    - Run the crawler once to get the initial schema, and schedule it to run periodically if new files are added to S3.
+  - Create an ETL Job with Python Script (Transform & Load):
+    - In AWS Glue, create a new ETL Job and use Python (PySpark) as the language.
+    - The job script will:
+      - Read data from the Glue Data Catalog table linked to your S3 files.
+      - Transform the data using PySpark operations:
+      - Remove duplicates with dropDuplicates().
+      - Handle null values with fillna() or by removing rows with missing critical fields.
+      - Standardize date formats or currency symbols.
+    - Write the cleaned data to Amazon Redshift, specifying the target table
+  - Schedule and Automate:
+    - Schedule the job to run daily or as needed so the latest data is processed and loaded into Redshift.
+    - AWS Glue will handle the Spark cluster setup and tear-down, making this process fully managed.
+
+#### AWS Athena
+- AWS Athena is a powerful tool for querying data in S3 with SQL, perfect for analytics on data lakes and logs, with minimal setup and pay-as-you-go pricing
+- AWS Athena is a fully managed, serverless, interactive query service by Amazon Web Services that allows you to analyze data stored in Amazon S3 using standard SQL. 
+- It's ideal for running ad-hoc queries on large datasets without needing to manage infrastructure
+
+##### Key Features
+- Serverless: No servers to provision or manage. You only pay for the queries you run (per terabyte of data scanned).
+- Data Source Flexibility: Supports various file formats like CSV, JSON, Parquet, ORC, and Avro, and works well with structured, semi-structured, or unstructured data.
+- Integration with Glue: Use AWS Glue Data Catalog to manage Athena’s table metadata and schema. Glue crawlers can automate schema creation.
+- Built-in Security: Integrates with AWS IAM for permissions and with Amazon S3 Access Control for data-level security
+
+##### Use Cases
+- Ad-Hoc Data Analysis: Quickly run SQL queries on data in S3 without needing to set up a database or ETL pipeline.
+- Log Analysis: Analyze logs (like web, application, or AWS CloudTrail logs) stored in S3 by setting up schemas and querying directly.
+- Data Exploration: Check and understand the structure and content of large datasets without moving them into a database.
+- Data Lake Queries: Use Athena as part of a data lake solution, querying across structured and unstructured data in S3
+
+##### Vs Redshift
+- In short, Athena is for S3-based, on-demand analytics, while Redshift is a full-featured, managed data warehouse for high-performance analysis on structured data
+
+- Purpose and Use Case
+  - AWS Athena:
+    - Best for ad-hoc querying directly on raw data stored in Amazon S3.
+    - Ideal for data lake querying and log analysis without moving data into a database.
+    - Suitable for serverless, on-demand data exploration, especially when data formats vary (e.g., JSON, Parquet, CSV).
+  - Amazon Redshift:
+    - A managed data warehouse designed for structured, relational data and OLAP (Online Analytical Processing) queries.
+    - Ideal for complex, high-performance analytical queries across massive datasets, with structured schemas and optimized data models.
+    - Suited for workloads needing consistent, fast performance for frequent reporting or dashboarding.
+- Infrastructure and Management
+  - Athena:
+    - Serverless: No infrastructure to manage or provision.
+    - You only pay per query (charged per TB of data scanned).
+    - Highly flexible with no need for ETL to load data—Athena can query data directly from S3.
+  - Redshift:
+    - Managed data warehouse requiring setup of clusters with storage and compute resources.
+    - You pay for the provisioned cluster, so costs are fixed (e.g., hourly or reserved instance pricing).
+    - Requires ETL to load and format data in Redshift, often through Redshift Spectrum (for querying S3 data), AWS Glue, or third-party ETL tools.
+- Data Storage and Formats
+  - Athena:
+    - Works directly with data in S3, supporting a variety of formats like CSV, JSON, Parquet, and ORC.
+    - Works well with semi-structured and unstructured data.
+    - Great for quick exploration of raw data in various formats, especially without ETL.
+  - Redshift:
+    - Stores data internally in a columnar format within Redshift tables.
+    - Requires data to be loaded into Redshift tables for optimal querying. 
+    - Redshift Spectrum can be used to query S3 data alongside internal data, but it is less performant than querying directly from Redshift tables.
+    - Best suited for structured data and data that can be pre-processed and loaded into a consistent format.
+- Performance and Query Speed
+  - Athena:
+    - Performance depends on data size and file format. Columnar formats (e.g., Parquet) and partitioning reduce scan costs and improve performance.
+    - Generally slower than Redshift for complex, relational queries because it’s querying raw data directly from S3.
+  - Redshift:
+    - Optimized for complex, high-performance analytical queries with massive datasets.
+    - Faster performance for frequent queries thanks to stored, structured data and Redshift’s columnar storage.
+    - Allows for complex joins, aggregations, and indexing, making it highly efficient for reporting and dashboards.
+- Cost Structure
+  - Athena:
+    - Pay per query: $5 per TB of data scanned. Optimize costs by using partitioned data and columnar formats to reduce data scanned.
+    - Ideal for sporadic querying, data exploration, and cases where you want minimal fixed costs.
+  - Redshift:
+    - Provisioned clusters: Charges are based on instance types and cluster size (with both on-demand and reserved pricing).
+    - Ideal for sustained, high-volume querying where consistent performance and faster query times are crucial.
+- Integration with Other AWS Services
+  - Athena:
+    - Integrates well with Amazon S3 and AWS Glue (for data cataloging), and Amazon QuickSight (for visualization).
+    - Used frequently with data lakes on S3, thanks to its seamless S3 integration.
+  - Redshift:
+    - Integrates well with Amazon S3 (via Redshift Spectrum) for data lake queries and with QuickSight for dashboarding.
+    - Works with AWS Glue for ETL and also supports integration with data loading tools like AWS Data Pipeline and AWS DMS.
+- When to Use Which?
+  - Use Athena if:
+    - You need quick, cost-effective, ad-hoc analysis directly on data in S3.
+    - You’re working with semi-structured or raw data in various formats and don’t want to manage infrastructure.
+    - You want a pay-per-query pricing model and serverless architecture.
+  - Use Redshift if:
+    - You have structured data, need frequent or complex analytics, and need consistent performance.
+    - You require a dedicated data warehouse with faster performance for frequent reporting, BI, or dashboarding.
+    - You’re looking for a fixed-cost model and want optimized query speed for large-scale relational data
+
+### AWS Batch
+- AWS Batch is a fully managed service for running large-scale batch computing jobs on AWS. It dynamically provisions and manages the underlying compute resources (EC2 or Spot Instances) to run batch jobs efficiently
+
+#### Key Features
+- Job Management: Define and submit batch jobs (containerized or script-based) with dependencies, priorities, and retry policies.
+ - Compute Resource Management: Automatically provisions and scales compute resources based on job requirements, using EC2 or Spot Instances to optimize costs.
+ - Flexible Job Queues: Allows you to set up job queues with different priorities, directing jobs to specific compute environments based on needs.
+ - Containerized Workloads: Supports Docker containers, making it easy to run diverse workloads in a consistent environment.
+#### Use Cases
+- Data Processing: Large data transformations, ETL jobs, or media transcoding.
+Simulations and Modeling: Scientific computations, financial modeling, or machine learning training.
+- Batch Automation: Run scheduled or event-driven batch processing workloads without managing infrastructure.
+#### Benefits
+- Cost-Effective: Supports Spot Instances for cost savings, and automatically scales resources up and down as needed.
+- Managed Environment: Handles all infrastructure management, making it easier to run and scale batch jobs.
+- Flexible and Scalable: Supports various instance types and configurations for optimized batch processing
+
+#### Scenario
+Imagine you have large amounts of log files in Amazon S3, and you want to process these logs (e.g., extract metrics, aggregate data) using AWS Batch.
+
+##### Steps
+- Create a Compute Environment
+   - Go to the AWS Batch console and create a Compute Environment. This is where your batch jobs will run.
+   - Choose between Managed (AWS automatically manages scaling) or Unmanaged (you define specific EC2 resources).
+   - Configure instance types: Select types that fit your workload (e.g., m5.large for balanced compute and memory).
+   - Choose On-Demand or Spot Instances based on cost needs. Spot Instances are cheaper but can be interrupted.
+- Create a Job Queue
+  - Create a Job Queue in the AWS Batch console. The job queue holds jobs until there’s capacity in the compute environment to process them.
+  - Set priorities if you have multiple queues. Higher priority queues get resources allocated first.
+  - Assign the compute environment to the job queue.
+- Create a Job Definition
+  - Create a Job Definition, which describes how to run your batch job, including settings like:
+    - Docker Image: Specify a Docker container image (stored in Amazon ECR or Docker Hub) that contains your processing code.
+    - vCPUs and Memory: Define the resources each job requires. AWS Batch will allocate resources accordingly.
+    - Environment Variables: Pass any necessary variables (e.g., S3 bucket names, file paths).
+    - If you’re processing log files, your Docker image might contain a Python script that reads from S3, processes logs, and writes output back to S3
+- Submit a Job
+  - Go to the Jobs section in AWS Batch and submit a job.
+  - Specify the Job Queue and Job Definition created earlier.
+  - You can also specify job dependencies if one job needs to wait for another to finish.
+  - AWS Batch will automatically place the job in the queue and start it when resources are available.
+- Monitor and Manage Jobs
+  - In the AWS Batch console, monitor job status (e.g., RUNNING, SUCCEEDED, FAILED).
+  - You can view logs and metrics in Amazon CloudWatch to troubleshoot issues or monitor performance.
+  - AWS Batch also supports retries for failed jobs based on your job definition settings.
+- Automate Job Submissions (Optional)
+  - If you need regular processing (e.g., daily log analysis), set up an AWS Lambda function or use EventBridge to trigger job submissions on a schedule.
+
+### AWS Step Functions
+- Is a serverless orchestration service that lets you coordinate multiple AWS services into serverless workflows, enabling you to build complex applications
+- It simplifies the process of building and managing workflows by providing a visual interface and powerful tools for error handling, retries, and parallel execution
+#### Key Features
+- **State Machines:** Workflows are defined as state machines, which consist of a series of states (tasks, choices, parallel executions, etc.) that determine the flow of execution.
+- **Integration with AWS Services:** Step Functions easily integrates with a variety of AWS services, such as AWS Lambda, AWS Batch, Amazon S3, Amazon SNS, and more.
+- **Error Handling and Retries:** Built-in error handling and retry mechanisms allow you to manage failures gracefully without complex code.
+- **Visual Workflow:** A visual interface for designing and monitoring workflows makes it easy to see the state of each task and the overall workflow.
+- **Serverless:** No infrastructure management required; you only pay for the transitions between states.
+
+#### Use Cases
+- **Data Processing Pipelines:** Coordinate data extraction, transformation, and loading (ETL) tasks.
+- **Microservices Orchestration:** Manage interactions between multiple microservices in a cohesive workflow.
+- **Machine Learning Workflows:** Automate model training, evaluation, and deployment steps.
+- **Long-Running Processes:** Handle long-running tasks by breaking them into smaller, manageable steps
+
+#### Practical Example
+- Let’s consider a practical example of a workflow that processes an image uploaded to Amazon S3, applies some transformations using AWS Lambda, and stores the processed image back in S3.
+- Workflow Steps
+  1. Image Upload: An image is uploaded to an S3 bucket.
+  2. Start Step Function: Trigger a Step Functions workflow upon the upload event.
+  3. Process Image: Use a Lambda function to process the image (e.g., resize or convert format).
+  4. Store Processed Image: Save the processed image back to another S3 bucket.
+  5. Notify Completion: Send a notification (e.g., via SNS) when processing is complete.
+- Step Functions State Machine Definition
+You can define this workflow in AWS Step Functions using Amazon States Language (ASL)
+  ```json
+  {
+    "Comment": "An example of a simple image processing workflow",
+    "StartAt": "ProcessImage",
+    "States": {
+      "ProcessImage": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-west-2:123456789012:function:ProcessImageFunction",
+        "Next": "StoreProcessedImage"
+      },
+      "StoreProcessedImage": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-west-2:123456789012:function:StoreImageFunction",
+        "Next": "NotifyCompletion"
+      },
+      "NotifyCompletion": {
+        "Type": "Task",
+        "Resource": "arn:aws:sns:us-west-2:123456789012:NotifyFunction",
+        "End": true
+      }
+    }
+  }
+  ```
+- Steps to Implement
+  - Create the Lambda Functions:
+    - ProcessImageFunction: This function reads the image from S3, processes it (e.g., resizing), and returns the processed image.
+    - StoreImageFunction: This function takes the processed image and stores it in a specified S3 bucket.
+    - NotifyFunction: This function sends a notification to an SNS topic upon completion.
+  - Create the Step Function:
+    - Go to the AWS Step Functions console and create a new state machine using the ASL definition provided above.
+    - Set the IAM role permissions to allow the Step Function to invoke the Lambda functions.
+  - Trigger the Workflow:
+    - Use an S3 event notification to trigger the Step Functions workflow when an image is uploaded to the source bucket.
+  - Monitor the Workflow:
+    - Use the Step Functions console to monitor the execution of the workflow, view logs, and debug any issues.
+  
+#### Workflow types
+##### Standard Workflows
+- Best suited for long-running, durable workflows that require high reliability, execution history, and complex state transitions
+- Specifications
+  - **Duration:** Can run for up to 1 year.
+  - **Execution History:** Provides detailed execution history, with every state transition logged.
+  - **Retry Mechanism:** Built-in support for retries and error handling.
+  - **Maximum Concurrent Executions:** Higher limits compared to Express Workflows; suitable for complex applications with multiple concurrent executions.
+  - **Costs:** Billed based on state transitions (each state transition incurs a cost).
+  - **State Machine Definition:** Supports all state types (Task, Choice, Parallel, Map, etc.).
+  - **Long-running Processes:** Ideal for workflows that require human interactions or approval steps
+- Example Use Cases
+  - Batch processing jobs (e.g. ETL processes).
+  - Approval workflows (e.g., multi-step approval processes).
+  - Data processing pipelines requiring durability and reliability
+##### Express Workflows
+- Best suited for high-throughput, short-lived workflows that require lower latency and quick execution
+- Specifications
+  - **Duration:** Can run for up to 5 minutes (with some limits for wait states).
+  - **Execution History:** Limited history retention (only retains execution history for 90 days).
+  - **Retry Mechanism:** Built-in support for retries, similar to Standard Workflows.
+  - **Maximum Concurrent Executions:** Designed to handle thousands of concurrent executions; ideal for high-volume workloads.
+  - **Costs:** Billed based on the number of requests (invocations) rather than state transitions, making it potentially more cost-effective for high-throughput applications.
+  - **State Machine Definition:** Supports Task and Parallel states primarily; may not have as extensive state type support as Standard Workflows.
+  - **Short-lived Processes:** Ideal for workflows that require immediate responses or processing.
+- Example Use Cases
+  - Real-time data processing (e.g., processing streaming data).
+  - Event-driven applications (e.g., serverless workflows triggered by S3 uploads).
+  - API orchestration (e.g., microservices coordination)
+##### Key Differences Summary
+| Feature	          |     Standard Workflows	  |       Express Workflows     |
+|-------------------|---------------------------|-----------------------------|
+| Duration	        |       Up to 1 year	      |       Up to 5 minutes       |
+| Execution History	| Detailed history retained	| Limited history retention (90 days)
+| Concurrent Executions|	Higher limits for complex applications	| Thousands of concurrent executions |
+|Cost Structure|	Based on state transitions	|Based on requests/invocations|
+|Ideal Use Cases|	Long-running, durable workflows	|High-throughput, short-lived workflows|
+|State Types Supported|	All state types (Task, Choice, Parallel, Map)	|Primarily Task and Parallel states|
+##### Workflow Examples
+###### Standard Workflow Example
+- **Use Case:** 
+  - Extract data from a source (e.g., an S3 bucket) 
+  - Transforms it using AWS Glue jobs
+  - loads it into a target (e.g., another S3 bucket or a data warehouse)
+- State Machine Definition
+  ```json
+  {
+    "Comment": "Standard ETL Workflow",
+    "StartAt": "ExtractData",
+    "States": {
+      "ExtractData": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-west-2:123456789012:function:ExtractDataFunction",
+        "Next": "TransformData",
+        "Retry": [
+          {
+            "ErrorEquals": ["States.ALL"],
+            "IntervalSeconds": 2,
+            "MaxAttempts": 3,
+            "BackoffRate": 2.0
+          }
+        ],
+        "Catch": [
+          {
+            "ErrorEquals": ["States.ALL"],
+            "Next": "HandleError"
+          }
+        ]
+      },
+      "TransformData": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-west-2:123456789012:function:TransformDataFunction",
+        "Next": "LoadData",
+        "Retry": [
+          {
+            "ErrorEquals": ["States.ALL"],
+            "IntervalSeconds": 2,
+            "MaxAttempts": 3,
+            "BackoffRate": 2.0
+          }
+        ],
+        "Catch": [
+          {
+            "ErrorEquals": ["States.ALL"],
+            "Next": "HandleError"
+          }
+        ]
+      },
+      "LoadData": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-west-2:123456789012:function:LoadDataFunction",
+        "End": true
+      },
+      "HandleError": {
+        "Type": "Fail",
+        "Error": "ETLProcessingFailed",
+        "Cause": "An error occurred during the ETL process."
+      }
+    }
+  }
+  ```
+###### Standard Workflow Example
+- **Use Case:** 
+  - Extract data from a source (e.g., an S3 bucket) 
+  - Transforms it using AWS Glue jobs
+  - loads it into a target (e.g., another S3 bucket or a data warehouse)
+- This workflow is suitable for high-throughput ETL processes that are quick and responsive
+- State Machine Definition
+```json
+{
+  "Comment": "Express ETL Workflow",
+  "StartAt": "ExtractData",
+  "States": {
+    "ExtractData": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-west-2:123456789012:function:ExtractDataFunction",
+      "Next": "TransformData"
+    },
+    "TransformData": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-west-2:123456789012:function:TransformDataFunction",
+      "Next": "LoadData"
+    },
+    "LoadData": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-west-2:123456789012:function:LoadDataFunction",
+      "End": true
+    }
+  }
+}
+```
+###### Triggering the Workflow
+To trigger the ETL workflow, you can set up an S3 event notification to start the Step Function whenever a new file is uploaded to the source S3 bucket
+###### Monitoring and Logs
+- Monitoring: Use the AWS Step Functions console to monitor the execution of your ETL workflow.
+- CloudWatch Logs: Enable logging for each Lambda function to capture details about the execution process, including errors and performance metrics
+##### AWS Glue Example
+This workflow extracts data from a source (e.g., an S3 bucket), transforms it using AWS Glue jobs, and loads it into a target (e.g., another S3 bucket or a data warehouse)
+###### Step 1 : AWS Glue Setup
+Before setting up the Step Function, you need to configure AWS Glue components
+- Create a Glue Data Catalog
+   - AWS Glue automatically creates a data catalog for you when you create a new database.
+   - You can use Glue Crawlers to crawl your data in S3 and populate the Data Catalog.
+- Create Glue Jobs
+  - Define Glue jobs to perform the ETL process. You can use Python (PySpark) scripts to transform the data
+  - Example
+    ```json
+    import sys
+    from awsglue.transforms import *
+    from awsglue.utils import getResolvedOptions
+    from pyspark.context import SparkContext
+    from awsglue.context import GlueContext
+    from awsglue.job import Job
+
+    args = getResolvedOptions(sys.argv, ['JOB_NAME'])
+    glueContext = GlueContext(SparkContext.getOrCreate())
+    spark = glueContext.spark_session
+    job = Job(glueContext)
+    job.init(args['JOB_NAME'], args)
+
+    # Extract: Read data from S3
+    datasource = glueContext.create_dynamic_frame.from_catalog(database = "source_database", table_name = "source_table")
+
+    # Transform: Example transformation (filtering)
+    transformed_data = Filter.apply(frame=datasource, f=lambda x: x["column_name"] > 100)
+
+    # Load: Write data back to S3
+    glueContext.write_dynamic_frame.from_options(transformed_data, connection_type = "s3", connection_options = {"path": "s3://target-bucket/transformed_data/"}, format = "csv")
+
+    job.commit()
+    ```
+###### Step 2 : AWS Step Functions Definition
+  - You can use AWS Step Functions to orchestrate the Glue jobs and handle error management
+    ```json
+      {
+      "Comment": "ETL Workflow with AWS Glue",
+      "StartAt": "RunGlueJob",
+      "States": {
+        "RunGlueJob": {
+          "Type": "Task",
+          "Resource": "arn:aws:glue:us-west-2:123456789012:job/your_glue_job_name",
+          "Next": "CheckJobStatus",
+          "Retry": [
+            {
+              "ErrorEquals": ["States.ALL"],
+              "IntervalSeconds": 2,
+              "MaxAttempts": 3,
+              "BackoffRate": 2.0
+            }
+          ],
+          "Catch": [
+            {
+              "ErrorEquals": ["States.ALL"],
+              "Next": "HandleError"
+            }
+          ]
+        },
+        "CheckJobStatus": {
+          "Type": "Task",
+          "Resource": "arn:aws:states:us-west-2:123456789012:activity:CheckGlueJobStatus",
+          "Next": "NotifyCompletion",
+          "Catch": [
+            {
+              "ErrorEquals": ["States.ALL"],
+              "Next": "HandleError"
+            }
+          ]
+        },
+        "NotifyCompletion": {
+          "Type": "Task",
+          "Resource": "arn:aws:sns:us-west-2:123456789012:NotifyFunction",
+          "End": true
+        },
+        "HandleError": {
+          "Type": "Fail",
+          "Error": "ETLJobFailed",
+          "Cause": "An error occurred during the ETL process."
+        }
+      }
+    }
+    ```
+    - Explanation of States
+      - RunGlueJob:
+        - Type: Task - This state starts the Glue job.
+        - Resource: Specify the ARN of your Glue job.
+        - Retry: Configured to handle retries in case of failure.
+        - Catch: On failure, it transitions to the HandleError state.
+      - CheckJobStatus:
+        - This state checks the status of the Glue job (you might need to implement a Lambda function that checks the job status).
+        - If successful, it moves to NotifyCompletion, otherwise it transitions to HandleError.
+      - NotifyCompletion:
+        - This state can notify via SNS (Simple Notification Service) that the ETL process has completed.
+      - HandleError:
+        - This state handles any errors that occur during the ETL process
+###### Step 3 : Triggering the Step Function
+- You can trigger the Step Function based on an event, such as uploading a new file to the source S3 bucket. 
+- You could create an S3 event notification that triggers a Lambda function to start the Step Function
+- Example
+  ```json
+  import json
+  import boto3
+  import os
+
+  def lambda_handler(event, context):
+      step_functions_client = boto3.client('stepfunctions')
+      state_machine_arn = os.getenv('STATE_MACHINE_ARN')
+      
+      # Extract bucket and key from the S3 event
+      bucket = event['Records'][0]['s3']['bucket']['name']
+      key = event['Records'][0]['s3']['object']['key']
+      
+      # Start the Step Function execution
+      response = step_functions_client.start_execution(
+          stateMachineArn=state_machine_arn,
+          input=json.dumps({"bucket": bucket, "key": key})
+      )
+      
+      return {
+          'statusCode': 200,
+          'body': json.dumps('Step Function started successfully!')
+      }
+  ```
+###### Step 4 : Monitoring and Logs
+- AWS Glue Monitoring: You can monitor AWS Glue jobs and view logs in CloudWatch Logs to debug issues and check performance.
+- Step Functions Monitoring: Use the AWS Step Functions console to visualize and monitor the execution of your workflow
+
+
+
+### Blogs
+- [Machine Learning pipelines on Step Functions](https://aws.amazon.com/blogs/machine-learning/define-and-run-machine-learning-pipelines-on-step-functions-using-python-workflow-studio-or-states-language/)
+- [AWS Step Functions and AWS Glue DataBrew](https://aws.amazon.com/blogs/big-data/centralize-feature-engineering-with-aws-step-functions-and-aws-glue-databrew/)
