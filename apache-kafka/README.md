@@ -123,6 +123,12 @@
 * Zookeeper removed in 2020, due to scaling issues when cluster has > 100,000 partition
 * Kafka 3.x now implements the Raft protocol in order to replace Zookeeper
 
+#### Confluent Certified Developer for Apache Kafka
+* https://html.cdn.contentraven.com/crcloud/uploads/confluent_11192/encryptedfile/195391/v1.0/module-3.html
+* https://html.cdn.contentraven.com/crcloud/uploads/confluent_11192/encryptedfile/197831/v1.0/module-3.html
+* https://www.confluent.io/blog/how-real-time-materialized-views-work-with-ksqldb/
+* https://html.cdn.contentraven.com/crcloud/uploads/confluent_11192/encryptedfile/195390/v1.0/module-4.html
+  
 #### Links
 * https://www.confluent.io/blog/5-things-every-kafka-developer-should-know/ 
 * https://developer.confluent.io/get-started/dotnet/#configuration
