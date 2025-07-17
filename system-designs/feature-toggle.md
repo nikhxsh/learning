@@ -261,9 +261,17 @@ id, toggle_id, action, actor, timestamp
 
 ## 11. References & Best Practices
 
-* [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)
-* Martin Fowler – [Feature Toggles](https://martinfowler.com/articles/feature-toggles.html)
-* LaunchDarkly & Unleash OSS
-* Tech Interview Handbook
-* Grokking System Design
-* Principles of Event-Driven Architecture
+- **[AWS Well‑Architected Framework](https://aws.amazon.com/architecture/well-architected/)**  
+  AWS's guide for architecting secure, high‑performant, resilient, and efficient infrastructure.
+- **Martin Fowler – [Feature Toggles](https://martinfowler.com/articles/feature-toggles.html)**  
+  Comprehensive overview of feature toggle patterns and best practices in software development.
+- **LaunchDarkly**  
+  Feature flagging and experimentation platform—[official site](https://launchdarkly.com/)
+- **Unleash (OSS)**  
+  Open‑source feature management platform—[GitHub repo](https://github.com/Unleash/unleash)
+- **Tech Interview Handbook**  
+  Comprehensive resources for coding interviews—[Tech Interview Handbook Portal](https://app.techinterviewhandbook.org/)
+- **Grokking the System Design Interview**  
+  Popular course for system design prep—[Educative: Grokking the System Design Interview](https://www.educative.io/courses/grokking-the-system-design-interview)
+- **Principles of Event‑Driven Architecture**  
+  In‑depth exploration of EDA concepts—[Martin Fowler: What do you mean by “event‑driven”?](https://martinfowler.com/articles/201701-event-driven.html)
