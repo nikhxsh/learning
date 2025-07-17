@@ -326,12 +326,13 @@ Client A         WebSocket Gateway     Chat Service       Redis     MongoDB     
 
 ---
 
-## 14. References & Best Practices
+## 📚 References & Best Practices
 
-- **Tech Interview Handbook** – Scalable chat systems
-- **Grokking System Design** – Slack-like app
-- **AWS Well-Architected Framework**
-- **Martin Fowler – Event-Driven & CQRS**
-- **Kafka: The Definitive Guide**
-- **Slack Engineering Blog** – WebSocket at scale
-- **MongoDB Schema Design for Messaging**
+1. [Tech Interview Handbook – System Design](https://www.techinterviewhandbook.org/system-design/overview/)
+2. [Grokking the System Design Interview – Educative.io](https://www.educative.io/courses/grokking-the-system-design-interview)
+3. [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)
+4. [Martin Fowler – Event-Driven Architecture](https://martinfowler.com/articles/201701-event-driven.html)
+5. [Martin Fowler – CQRS](https://martinfowler.com/bliki/CQRS.html)
+6. [Kafka: The Definitive Guide – Confluent](https://developer.confluent.io/learn/kafka-definitive-guide/)
+7. [Slack Engineering Blog – WebSocket at Scale](https://slack.engineering/realtime-messaging-architecture/)
+8. [MongoDB Schema Design Best Practices](https://www.mongodb.com/basics/schema-design)
