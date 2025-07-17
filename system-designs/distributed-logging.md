@@ -1,8 +1,6 @@
 
 # Distributed Logging System – System Design for Principal/Architect Role
 
----
-
 ## 1. Functional & Non-Functional Requirements
 
 ### 🔹 Functional Requirements
@@ -264,9 +262,26 @@ CREATE TABLE alert_rules (
 
 ## 11. References & Best Practices
 
-- **Tech Interview Handbook**
-- **Grokking the System Design Interview**
-- **AWS Well-Architected Framework**
-- **Martin Fowler – Event-Driven & CQRS Patterns**
-- **OpenSearch & Kafka Best Practices**
-- **Datadog & New Relic Dashboards**
+### 📘 Tech Interview Handbook
+- [Tech Interview Handbook Portal](https://app.techinterviewhandbook.org/)
+- [GitHub Repository – yangshun/tech-interview-handbook](https://github.com/yangshun/tech-interview-handbook)
+
+### 📘 Grokking the System Design Interview
+- [Educative Course – Grokking the System Design Interview](https://www.educative.io/courses/grokking-the-system-design-interview)
+- [Design Gurus Site](https://www.designgurus.io/course/grokking-the-system-design-interview)
+
+### ☁️ AWS Well-Architected Framework
+- [AWS Documentation](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html)
+- [AWS Architecture Center](https://aws.amazon.com/architecture/well-architected/)
+
+### 🧠 Martin Fowler – Event-Driven & CQRS Patterns
+- [What do you mean by “Event-Driven”?](https://martinfowler.com/articles/201701-event-driven.html)
+- [CQRS – Command Query Responsibility Segregation](https://martinfowler.com/bliki/CQRS.html)
+
+### 🔍 OpenSearch & Kafka Best Practices
+- [Kafka Source in OpenSearch Data Prepper](https://docs.opensearch.org/docs/latest/data-prepper/pipelines/configuration/sources/kafka/)
+- [AWS OpenSearch Best Practices](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/bp.html)
+
+### 📊 Datadog & New Relic Dashboards
+- [Datadog – Maintain Relevant Dashboards](https://docs.datadoghq.com/dashboards/guide/maintain-relevant-dashboards/)
+- [New Relic – Introduction to Dashboards](https://docs.newrelic.com/docs/query-your-data/explore-query-data/dashboards/introduction-dashboards/)
