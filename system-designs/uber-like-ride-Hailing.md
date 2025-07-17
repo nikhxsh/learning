@@ -1,7 +1,5 @@
 ## Uber-like Application System Design
 
----
-
 ### 1. Functional & Non-Functional Requirements
 
 #### 🔹 Functional Requirements
