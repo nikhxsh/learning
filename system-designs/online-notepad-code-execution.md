@@ -1,7 +1,5 @@
 ## Online Notepad with Code Execution Platform (Like LeetCode) – System Design
 
----
-
 ## 1. Functional & Non-Functional Requirements
 
 ### 🔹 Functional Requirements
@@ -222,11 +220,28 @@ Client → API → Kafka(topic: exec-req) → Execution Worker → Kafka(topic: 
 
 ## 11. References & Best Practices
 
-* **Tech Interview Handbook**: [https://techinterviewhandbook.org/](https://techinterviewhandbook.org/)
-* **Grokking System Design**: LeetCode-like code execution walkthrough
-* **AWS Well-Architected**: High availability, fault tolerance
-* **Martin Fowler**: Hexagonal architecture
-* **Best Practices**:
-  * Idempotent APIs
-  * Secure secrets storage
-  * Canary deployments
+- **Tech Interview Handbook**: [https://techinterviewhandbook.org/](https://techinterviewhandbook.org/)  
+  A comprehensive resource for algorithm questions, system design prep, interview strategy, resume review, and more.
+- **Grokking System Design**  
+  An interactive, LeetCode-style walkthrough of real-world system design scenarios—builds intuition through practical examples and guided exercises.
+- **AWS Well‑Architected Framework**  
+  Covers cloud best practices including high availability, fault tolerance, cost optimization, performance efficiency, security, and operational excellence. A must-read for scalable and resilient architecture.
+- **Martin Fowler – Hexagonal Architecture**  
+  A deep dive into the Hexagonal (Ports & Adapters) pattern for designing maintainable, decoupled software. See Martin's explanations in his writings or blog for guidance.
+
+
+## 🔧 Best Practices (with Links)
+
+### ✅ Idempotent APIs
+- [Idempotent REST APIs – restfulapi.net](https://restfulapi.net/idempotent-rest-apis/)
+- [Understanding Idempotency in APIs – JSON Server](https://json-server.dev/idempotency-in-apis/)
+- [Designing Idempotent APIs in Spring Boot – dev.to](https://dev.to/devcorner/designing-idempotent-apis-in-spring-boot-2fhi)
+
+### 🔐 Secure Secrets Storage
+- [Azure Key Vault Secrets Best Practices – Microsoft](https://learn.microsoft.com/en-us/azure/key-vault/secrets/secrets-best-practices)
+- [Secrets Management Cheat Sheet – OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html)
+- [Secrets Management in CI/CD Pipelines – Devtron](https://devtron.ai/blog/secrets-management-in-ci-cd-pipeline/)
+
+### 🐤 Canary Deployments
+- [Canary Deployments for Secret Rotation – UmaTechnology](https://umatechnology.org/stateful-upgrade-strategies-for-in-cluster-secrets-rotation-integrated-in-canary-rollout-policies/)
+- [Canary Deployments in IaC and CI/CD – UmaTechnology](https://umatechnology.org/how-canary-deployments-work-in-infrastructure-as-code-for-secure-ci-cd/)
