@@ -1,5 +1,5 @@
 
-# 📊 Real-Time Metrics Dashboard – System Design (Principal/Architect Level)
+# 📊 Real-Time Metrics Dashboard
 
 Designing a scalable, resilient, real-time metrics dashboard with stream processing and time-windowed analytics.
 
