@@ -1,4 +1,3 @@
-
 # System Design – Rate Limiter
 
 ## 1. Functional & Non-Functional Requirements
@@ -221,8 +220,16 @@ Producer → Kafka Broker → Consumer (Analytics Engine)
 
 ## 11. References & Best Practices
 
-- [Grokking Modern System Design](https://designgurus.io)
-- AWS Well-Architected Framework
-- Martin Fowler’s Event-Driven Architectures
-- Redis Rate Limiting Recipes
-- Kafka Streams & Schema Registry – Confluent.io
+- **[Grokking Modern System Design](https://designgurus.io)**  
+  In-depth, interactive course for real-world system design interview prep.
+- **[AWS Well‑Architected Framework](https://aws.amazon.com/architecture/well‑architected/)**  
+  Official AWS guide covering pillars like high availability, fault tolerance, security, cost efficiency, and performance.
+- **Martin Fowler’s Event‑Driven Architectures**  
+  Explore patterns and principles:  
+  - *What do you mean by “Event‑Driven”?* — insight into EDA  [oai_citation:0‡dev.to](https://dev.to/redis/rate-limiting-with-redis-an-essential-guide-4jll?utm_source=chatgpt.com) [oai_citation:1‡developer.confluent.io](https://developer.confluent.io/courses/governing-data-streams/hands-on-use-the-schema-registry/?utm_source=chatgpt.com) [oai_citation:2‡springcloud.io](https://www.springcloud.io/post/2021-12/spring-cloud-stream-with-schema-registry-and-kafka/?utm_source=chatgpt.com) [oai_citation:3‡hackernoon.com](https://hackernoon.com/kafka-schema-evolution-a-guide-to-the-confluent-schema-registry?utm_source=chatgpt.com).
+- **Redis Rate Limiting Recipes**  
+  Official Redis HowTos — "*How to build a Rate Limiter using Redis*"  [oai_citation:4‡redis.io](https://redis.io/learn/howtos/ratelimiting?utm_source=chatgpt.com).  
+  Plus, practical tutorials like “Rate Limiting in Redis Explained”  [oai_citation:5‡collabnix.com](https://collabnix.com/rate-limiting-in-redis-explained/?utm_source=chatgpt.com) or “Distributed Rate Limiting with Redis”  [oai_citation:6‡baundev.com](https://baundev.com/posts/distributed-rate-limit/?utm_source=chatgpt.com).
+- **Kafka Streams & Schema Registry – Confluent.io**  
+  - *Kafka Streams API in a Nutshell* for real-time stream processing  [oai_citation:7‡docs.confluent.io](https://docs.confluent.io/platform/current/streams/introduction.html?utm_source=chatgpt.com).  
+  - Schema Registry docs provide centralized schema versioning, compatibility enforcement, and serializers/deserializers for Avro/Protobuf/JSON  [oai_citation:8‡docs.confluent.io](https://docs.confluent.io/platform/current/schema-registry/index.html?utm_source=chatgpt.com).
