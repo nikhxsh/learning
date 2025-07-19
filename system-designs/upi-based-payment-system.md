@@ -1,4 +1,4 @@
-# Scalable UPI System Design for PhonePe / GPay / BHIM
+# Scalable UPI System Design like PhonePe / GPay / BHIM
 
 ## Functional & Non-Functional Requirements
 
