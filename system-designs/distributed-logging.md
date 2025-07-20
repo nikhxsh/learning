@@ -425,7 +425,7 @@ Data is tiered using **S3 Lifecycle Rules** and **Object Expiration Policies**.
 
 
 ## 4.5 Reference Architecture Diagram
-        +------------------------+
+        +-----------------------+
         |      Client/Agent     |
         +----------+------------+
                    |
@@ -474,53 +474,57 @@ The Distributed Logging System ingests logs from distributed clients, processes 
 | **UI/API Gateway**  | Unified access to APIs and frontend                    |
 
 ## 5.3 Data Flow (Ingestion to Storage)
-                     [Log Producer]
-                            |
-                            v
-                    [API Gateway / ALB]
-                            |
-                            v
-                    [Ingestion Service]
-                            |
-                            v
-                    [Kafka/Kinesis Stream]
-                            |
-                            v
-                [Log Processor (Lambda/Fargate)]
-                            |
-                 +––––––––––+––––––––––+
-                 |                     |
-                 v                     v
-   [OpenSearch (hot storage)]    [S3 (Parquet)(warm/cold)]
-            
- 
+```
+         [Log Producer]
+                |
+                v
+        [API Gateway / ALB]
+                |
+                v
+        [Ingestion Service]
+                |
+                v
+      [Kafka/Kinesis Stream]
+                |
+                v
+ [Log Processor (Lambda/Fargate)]
+                |
+       +––––––––+––––––––+
+       |                 |
+       v                 v
+[OpenSearch (hot)]   [S3 (Parquet) (warm/cold)]
+```
+
 ## 5.4 Query Flow
-                [User/UI/API]
-                      |
-                      v
-                [API Gateway]
-                      |
-                      v
-                [Query Service]
-                      |
-          +—————————––+—————————––+
-          |                       |
-          v                       v
-    [OpenSearch]             [Athena (S3)]
-  [(0–7d fast search)]     [(8d+ archive search)]
+```
+        [User/UI/API]
+              |
+              v
+        [API Gateway]
+              |
+              v
+        [Query Service]
+              |
+     +———————+———————+
+     |               |
+     v               v
+[OpenSearch]     [Athena (S3)]
+(0–7d fast search)  (8d+ archive search)
+```
 
 ## 5.5 Alerting Flow
-
-            [Log Processor]
-                    |
-                    v
-        [Alert Evaluation Engine (Lambda)]
-                    |
-                    v
-              [EventBridge]
-                    |
-                    v
-      [SNS → Slack / Email / PagerDuty]
+```
+    [Log Processor]
+           |
+           v
+[Alert Evaluation Engine (Lambda)]
+           |
+           v
+     [EventBridge]
+           |
+           v
+[SNS → Slack / Email / PagerDuty]
+```
 
 ## 5.6 Component Deployment Mapping
 
