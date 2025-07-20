@@ -474,52 +474,53 @@ The Distributed Logging System ingests logs from distributed clients, processes 
 | **UI/API Gateway**  | Unified access to APIs and frontend                    |
 
 ## 5.3 Data Flow (Ingestion to Storage)
-         [Log Producer]
-                |
-                v
-        [API Gateway / ALB]
-                |
-                v
-        [Ingestion Service]
-                |
-                v
-        [Kafka/Kinesis Stream]
-                |
-                v
-    [Log Processor (Lambda/Fargate)]
-                |
-     +––––––––––+––––––––––+
-     |                     |
-     v                     v
- [OpenSearch]         [S3 (Parquet)]
- (hot storage)         (warm/cold)
-
+           [Log Producer]
+                  |
+                  v
+          [API Gateway / ALB]
+                  |
+                  v
+          [Ingestion Service]
+                  |
+                  v
+          [Kafka/Kinesis Stream]
+                  |
+                  v
+      [Log Processor (Lambda/Fargate)]
+                  |
+       +––––––––––+––––––––––+
+       |                     |
+       v                     v
+   [OpenSearch]         [S3 (Parquet)]
+   (hot storage)         (warm/cold)
+ 
 ## 5.4 Query Flow
-              [User/UI/API]
-                    |
-                    v
-              [API Gateway]
-                    |
-                    v
-              [Query Service]
-                    |
-        +—————————––+—————————––+
-        |                       |
-        v                       v
-  [OpenSearch]             [Athena (S3)]
-(0–7d fast search)     (8d+ archive search)
+                [User/UI/API]
+                      |
+                      v
+                [API Gateway]
+                      |
+                      v
+                [Query Service]
+                      |
+          +—————————––+—————————––+
+          |                       |
+          v                       v
+    [OpenSearch]             [Athena (S3)]
+  (0–7d fast search)     (8d+ archive search)
 
 ## 5.5 Alerting Flow
-          [Log Processor]
-                  |
-                  v
-      [Alert Evaluation Engine (Lambda)]
-                  |
-                  v
-            [EventBridge]
-                  |
-                  v
-    [SNS → Slack / Email / PagerDuty]
+
+            [Log Processor]
+                    |
+                    v
+        [Alert Evaluation Engine (Lambda)]
+                    |
+                    v
+              [EventBridge]
+                    |
+                    v
+      [SNS → Slack / Email / PagerDuty]
 
 ## 5.6 Component Deployment Mapping
 
@@ -537,44 +538,44 @@ The Distributed Logging System ingests logs from distributed clients, processes 
 | UI / Admin API         | S3 + CloudFront + API GW | Global Access Edge       |
 
 ## 5.7 HLD Summary Diagram
-    +———————————+———————————+
-    |    Clients/Agents     |
-    +———————————+———————————+
-              |
-      +—––—–––▼–––––––+     +—————–+—————––+
-      | API Gateway   | <–> | Cognito Auth |
-      +—––––––+–––––––+     +—————–+—————––+
-              |
-      +—————––▼—————––+
-      | Ingestion Svc |
-      +—————––+—————––+
-              |
-      +—————––▼—————–––+
-      | Kinesis / Kafka|
-      +—————–––+—————––+
-              |
-      +—––––––▼––––––––+
-      | Log Processor  |
-      +––———–––+———––––+
-          |         |
-          ▼         ▼
-  +———––+–––––––+  +——————––+–––––––––+
-  | OpenSearch  |  | S3 + Athena      |
-  | (Hot 0-7d)  |  | (Warm/Cold logs) |
-  +———––+–––––––+  +——————––+–––––––––+
-          |
-          ▼
-  +———————+–––––––+
-  | Query Service |
-  +———————+–––––––+
-          |
-          ▼
-  +——————–+–––––––––+
-  | Grafana/UI API  |
-  +——————–+–––––––––+
-
-(Alerts)
-[Processor] → [Lambda Rule Engine] → [SNS/EventBridge] → [Slack, Email]
+      +———————————+———————————+
+      |    Clients/Agents     |
+      +———————————+———————————+
+                |
+        +—––—–––▼–––––––+     +—————–+—————––+
+        | API Gateway   | <–> | Cognito Auth |
+        +—––––––+–––––––+     +—————–+—————––+
+                |
+        +—————––▼—————––+
+        | Ingestion Svc |
+        +—————––+—————––+
+                |
+        +—————––▼—————–––+
+        | Kinesis / Kafka|
+        +—————–––+—————––+
+                |
+        +—––––––▼––––––––+
+        | Log Processor  |
+        +––———–––+———––––+
+            |         |
+            ▼         ▼
+    +———––+–––––––+  +——————––+–––––––––+
+    | OpenSearch  |  | S3 + Athena      |
+    | (Hot 0-7d)  |  | (Warm/Cold logs) |
+    +———––+–––––––+  +——————––+–––––––––+
+            |
+            ▼
+    +———————+–––––––+
+    | Query Service |
+    +———————+–––––––+
+            |
+            ▼
+    +——————–+–––––––––+
+    | Grafana/UI API  |
+    +——————–+–––––––––+
+  
+  (Alerts)
+  [Processor] → [Lambda Rule Engine] → [SNS/EventBridge] → [Slack, Email]
 
 # 6. Low-Level Design (LLD)
 
