@@ -474,25 +474,25 @@ The Distributed Logging System ingests logs from distributed clients, processes 
 | **UI/API Gateway**  | Unified access to APIs and frontend                    |
 
 ## 5.3 Data Flow (Ingestion to Storage)
-           [Log Producer]
-                  |
-                  v
-          [API Gateway / ALB]
-                  |
-                  v
-          [Ingestion Service]
-                  |
-                  v
-          [Kafka/Kinesis Stream]
-                  |
-                  v
-      [Log Processor (Lambda/Fargate)]
-                  |
-       +––––––––––+––––––––––+
-       |                     |
-       v                     v
-   [OpenSearch]         [S3 (Parquet)]
-   (hot storage)         (warm/cold)
+                     [Log Producer]
+                            |
+                            v
+                    [API Gateway / ALB]
+                            |
+                            v
+                    [Ingestion Service]
+                            |
+                            v
+                    [Kafka/Kinesis Stream]
+                            |
+                            v
+                [Log Processor (Lambda/Fargate)]
+                            |
+                 +––––––––––+––––––––––+
+                 |                     |
+                 v                     v
+   [OpenSearch (hot storage)]    [S3 (Parquet)(warm/cold)]
+            
  
 ## 5.4 Query Flow
                 [User/UI/API]
@@ -507,7 +507,7 @@ The Distributed Logging System ingests logs from distributed clients, processes 
           |                       |
           v                       v
     [OpenSearch]             [Athena (S3)]
-  (0–7d fast search)     (8d+ archive search)
+  [(0–7d fast search)]     [(8d+ archive search)]
 
 ## 5.5 Alerting Flow
 
@@ -538,9 +538,9 @@ The Distributed Logging System ingests logs from distributed clients, processes 
 | UI / Admin API         | S3 + CloudFront + API GW | Global Access Edge       |
 
 ## 5.7 HLD Summary Diagram
-      +———————————+———————————+
-      |    Clients/Agents     |
-      +———————————+———————————+
+    +———————————+———————————+
+    |    Clients/Agents     |
+    +———————————+———————————+
                 |
         +—––—–––▼–––––––+     +—————–+—————––+
         | API Gateway   | <–> | Cognito Auth |
